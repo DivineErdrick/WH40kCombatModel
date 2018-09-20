@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Start.unity
+    guid: 66ebc26cffced414b80a85b9819d20b6
+  - enabled: 1
+    path: Assets/Profile UI/Profile UI.unity
+    guid: bcb3a565fa455254fa9fcae351975c19
+  - enabled: 1
+    path: Assets/Rule UI/Rule UI.unity
+    guid: 124d5b17111734a44bcc1545a179794d
+  - enabled: 1
+    path: Assets/Rule UI/Move UI.unity
+    guid: 0ffde3206edbe394cad32acea8c419e9
+  - enabled: 1
+    path: Assets/Rule UI/Shoot UI.unity
+    guid: 5fb7c106a301d634f980bad5f3ad173c
+  - enabled: 1
+    path: Assets/Rule UI/Charge UI.unity
+    guid: f07e2c82f9caa8a41addeba2ede1f774
+  - enabled: 1
+    path: Assets/Rule UI/Fight UI.unity
+    guid: c7dc52099239e964baebf2076d01ec25
+  m_configObjects: {}
