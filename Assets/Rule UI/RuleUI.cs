@@ -20,15 +20,33 @@ public class RuleUI : MonoBehaviour {
     public Toggle useToggleNone;
     public Toggle[] useToggles;
     public GameObject panelRuleUse;
-    public GameObject panelTriggerTypes;
-    public GameObject panelMoveTriggers;
-    public GameObject panelPsychicTriggers;
-    public GameObject panelShootingTriggers;
-    public GameObject panelChargeTriggers;
-    public GameObject panelOverwatchTriggers;
-    public GameObject panelFightTriggers;
-    public GameObject panelMeleeTriggers;
-    public GameObject panelMoraleTriggers;
+    public GameObject panelActivation;
+    public GameObject panelTriggers;
+    public Dropdown dropdownMove;
+    public Dropdown dropdownPsychic;
+    public Dropdown dropdownShooting;
+    public Dropdown dropdownCharge;
+    public Dropdown dropdownFight;
+    public Dropdown dropdownMorale;
+    public GameObject panelSpecificTriggers;
+    public Text textAttacks;
+    public Dropdown dropdownAttackTriggers;
+    public Dropdown dropdownWoundTriggers;
+    public Dropdown dropdownPowerTriggers;
+    public Dropdown dropdownDenyTriggers;
+    public Dropdown dropdownChargeTriggers;
+    public Dropdown dropdownFightsTriggers;
+    public Text textRollOf;
+    public Dropdown dropdownRollTrigger;
+
+    //public GameObject panelPsychicTriggers;
+    //public GameObject panelShootingTriggers;
+    //public GameObject panelChargeTriggers;
+    //public GameObject panelOverwatchTriggers;
+    //public GameObject panelFightTriggers;
+    //public GameObject panelMeleeTriggers;
+    //public GameObject panelMoraleTriggers;
+
     public GameObject panelNameCheck;
 
     public GameObject panelRuleTarget;
@@ -64,99 +82,121 @@ public class RuleUI : MonoBehaviour {
     public bool UseFight { get; set; }
     public bool UseMorale { get; set; }
     public bool UseEndOfTurn { get; set; }
+    public bool UseEndOfGame { get; set; }
 
-    //Use type flags
-    public bool TriggerAlways { get; set; }
-    public bool TriggerPlayer { get; set; }
-    public bool Triggered { get; set; }
+    //Activation
+    public int ActivationType { get; set; }
 
-    //Move Triggers
-    public bool StartOfMove { get; set; }
-    public bool Moves { get; set; }
-    public bool Advances { get; set; }
-    public bool EndOfMove { get; set; }
+    //Triggers
+    public int MoveTriggers { get; set; }
+    public int PsychicTriggers { get; set; }
+    public int ShootingTriggers { get; set; }
+    public int ChargeTriggers { get; set; }
+    public int FightTriggers { get; set; }
+    public int MoraleTriggers { get; set; }
 
-    //Psychic Triggers
-    public bool StartOfPyschic { get; set; }
-    public bool PsykerChosen { get; set; }
-    public bool PowerChosen { get; set; }
-    public bool TargetChosen { get; set; }
-    public bool PsychicTest { get; set; }
-    public bool TestFailed { get; set; }
-    public bool DenyTheWitch { get; set; }
-    public bool DenyRolls { get; set; }
-    public bool PowerDenied { get; set; }
-    public bool DenyFailed { get; set; }
-    public bool Manifests { get; set; }
-    public bool Perils { get; set; }
-    public bool EndOfPsychic { get; set; }
+    //Specific Triggers
+    public int AttackTriggers { get; set; }
+    public int WoundTriggers { get; set; }
+    public int PowerTriggers { get; set; }
+    public int DenyTriggers { get; set; }
+    public int SpecificChargeTriggers { get; set; }
+    public int SpecificFightsTriggers { get; set; }
+    public int RollTrigger { get; set; }
 
-    //Shooting Triggers
-    public bool StartOfShooting { get; set; }
-    public bool UnitChosenToShoot { get; set; }
-    public bool TargetsChosenForShooting { get; set; }
-    public bool ShootingRolls { get; set; }
-    public bool ShootingMisses { get; set; }
-    public bool ShootingHits { get; set; }
-    public bool ShootingWoundRolls { get; set; }
-    public bool ShootingFailedWounds { get; set; }
-    public bool ShootingWounds { get; set; }
-    public bool ModelKilledInShooting { get; set; }
-    public bool UnitKilledInShooting { get; set; }
-    public bool EndOfShooting { get; set; }
+    ////Move Triggers
+    //public int MoveTriggers { get; set; }
+    //public bool StartOfMove { get; set; }
+    //public bool Moves { get; set; }
+    //public bool Advances { get; set; }
+    //public bool EndOfMove { get; set; }
+    ////Psychic Triggers
+    //public int PsychicTriggers { get; set; }
+    //public bool StartOfPyschic { get; set; }
+    //public bool PsykerChosen { get; set; }
+    //public bool PowerChosen { get; set; }
+    //public bool TargetChosen { get; set; }
+    //public bool PsychicTest { get; set; }
+    //public bool TestFailed { get; set; }
+    //public bool DenyTheWitch { get; set; }
+    //public bool DenyRolls { get; set; }
+    //public bool PowerDenied { get; set; }
+    //public bool DenyFailed { get; set; }
+    //public bool Manifests { get; set; }
+    //public bool Perils { get; set; }
+    //public bool EndOfPsychic { get; set; }
 
-    //Charge Triggers
-    public bool StartOfCharge { get; set; }
-    public bool UnitChosenToCharge { get; set; }
-    public bool TargetsChosenForCharging { get; set; }
-    public bool ChargeRolls { get; set; }
-    public bool FailedCharge { get; set; }
-    public bool ChargeMove { get; set; }
-    public bool EndOfCharge { get; set; }
+    ////Shooting Triggers
+    //public int ShootingTriggers { get; set; }
+    //public bool StartOfShooting { get; set; }
+    //public bool UnitChosenToShoot { get; set; }
+    //public bool TargetsChosenForShooting { get; set; }
+    //public bool ShootingRolls { get; set; }
+    //public bool ShootingMisses { get; set; }
+    //public bool ShootingHits { get; set; }
+    //public bool ShootingWoundRolls { get; set; }
+    //public bool ShootingFailedWounds { get; set; }
+    //public bool ShootingWounds { get; set; }
+    //public bool ModelKilledInShooting { get; set; }
+    //public bool UnitKilledInShooting { get; set; }
+    //public bool EndOfShooting { get; set; }
 
-    //Overwatch Triggers
-    public bool Overwatch { get; set; }
-    public bool OverwatchRolls { get; set; }
-    public bool OverwatchMisses { get; set; }
-    public bool OverwatchHits { get; set; }
-    public bool OverwatchWoundRolls { get; set; }
-    public bool OverwatchFailedWounds { get; set; }
-    public bool OverwatchWounds { get; set; }
-    public bool ModelKilledInOverwatch { get; set; }
-    public bool UnitKilledInOverwatch { get; set; }
+    ////Charge Triggers
+    //public int ChargeTriggers { get; set; }
+    //public bool StartOfCharge { get; set; }
+    //public bool UnitChosenToCharge { get; set; }
+    //public bool TargetsChosenForCharging { get; set; }
+    //public bool ChargeRolls { get; set; }
+    //public bool FailedCharge { get; set; }
+    //public bool ChargeMove { get; set; }
+    //public bool EndOfCharge { get; set; }
 
-    //Fight Triggers
-    public bool StartOfFight { get; set; }
-    public bool FirstFights { get; set; }
-    public bool ChosenFights { get; set; }
-    public bool LastFights { get; set; }
-    public bool UnitChosenToFight { get; set; }
-    public bool PileIn { get; set; }
-    public bool TargetsChosenToFight { get; set; }
-    public bool EndOfFight { get; set; }
+    ////Overwatch Triggers
+    //public bool Overwatch { get; set; }
+    //public bool OverwatchRolls { get; set; }
+    //public bool OverwatchMisses { get; set; }
+    //public bool OverwatchHits { get; set; }
+    //public bool OverwatchWoundRolls { get; set; }
+    //public bool OverwatchFailedWounds { get; set; }
+    //public bool OverwatchWounds { get; set; }
+    //public bool ModelKilledInOverwatch { get; set; }
+    //public bool UnitKilledInOverwatch { get; set; }
 
-    //Melee Triggers
-    public bool MeleeHitRolls { get; set; }
-    public bool MeleeMisses { get; set; }
-    public bool MeleeHits { get; set; }
-    public bool MeleeWoundRolls { get; set; }
-    public bool MeleeFailedWounds { get; set; }
-    public bool MeleeWounds { get; set; }
-    public bool ModelKilledInMelee { get; set; }
-    public bool UnitKilledInMelee { get; set; }
-    public bool Consolidates { get; set; }
+    ////Fight Triggers
+    //public int FightTriggers { get; set; }
+    //public bool StartOfFight { get; set; }
+    //public bool FirstFights { get; set; }
+    //public bool ChosenFights { get; set; }
+    //public bool LastFights { get; set; }
+    //public bool UnitChosenToFight { get; set; }
+    //public bool PileIn { get; set; }
+    //public bool TargetsChosenToFight { get; set; }
+    //public bool EndOfFight { get; set; }
 
-    //Morale Triggers
-    public bool StartOfMorale { get; set; }
-    public bool UnitChosenForMorale { get; set; }
-    public bool MoraleRolled { get; set; }
-    public bool MoralePassed { get; set; }
-    public bool MoraleFailed { get; set; }
-    public bool ModelFlees { get; set; }
-    public bool UnitDestroyedInMorale { get; set; }
-    public bool EndOfMorale { get; set; }
+    ////Melee Triggers
+    //public bool MeleeHitRolls { get; set; }
+    //public bool MeleeMisses { get; set; }
+    //public bool MeleeHits { get; set; }
+    //public bool MeleeWoundRolls { get; set; }
+    //public bool MeleeFailedWounds { get; set; }
+    //public bool MeleeWounds { get; set; }
+    //public bool ModelKilledInMelee { get; set; }
+    //public bool UnitKilledInMelee { get; set; }
+    //public bool Consolidates { get; set; }
+
+    ////Morale Triggers
+    //public int MoraleTriggers { get; set; }
+    //public bool StartOfMorale { get; set; }
+    //public bool UnitChosenForMorale { get; set; }
+    //public bool MoraleRolled { get; set; }
+    //public bool MoralePassed { get; set; }
+    //public bool MoraleFailed { get; set; }
+    //public bool ModelFlees { get; set; }
+    //public bool UnitDestroyedInMorale { get; set; }
+    //public bool EndOfMorale { get; set; }
 
     //Target
+    
     public int RuleTarget { get; set; }
     public string InputKeyword { get; set; }
     public int KeywordTarget { get; set; }
@@ -207,15 +247,32 @@ public class RuleUI : MonoBehaviour {
         Assert.IsNotNull(useToggleAll, "The All use toggle has not been added to the Rule UI.");
         Assert.IsNotNull(useToggleNone, "The None use toggle has not been added to the Rule UI.");
         Assert.IsNotNull(panelRuleUse, "The Rule Use panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelTriggerTypes, "The Trigger Types panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelMoveTriggers, "The Move Triggers panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelPsychicTriggers, "The Psychic Triggers panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelShootingTriggers, "The Shooting Triggers panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelChargeTriggers, "The Charge Triggers panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelOverwatchTriggers, "The Overwatch Triggers panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelFightTriggers, "The Fight Triggers panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelMeleeTriggers, "The Melee Triggers panel has not been added to the Rule UI.");
-        Assert.IsNotNull(panelMoraleTriggers, "The Morale Triggers panel has not been added to the Rule UI.");
+        Assert.IsNotNull(panelActivation, "The Trigger Types panel has not been added to the Rule UI.");
+        Assert.IsNotNull(panelTriggers, "The Triggers panel has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownMove, "The Move dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownPsychic, "The Psychic dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownShooting, "The Shooting dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownCharge, "The Charge dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownFight, "The Fight dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownMorale, "The Morale dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(textAttacks, "The Attacks text has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownAttackTriggers, "The Morale dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownWoundTriggers, "The Morale dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownPowerTriggers, "The Morale dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownDenyTriggers, "The Morale dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownChargeTriggers, "The Morale dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownFightsTriggers, "The Morale dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(textRollOf, "The Roll of text has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownRollTrigger, "The Morale dropdown has not been added to the Rule UI.");
+
+        //Assert.IsNotNull(panelPsychicTriggers, "The Psychic Triggers panel has not been added to the Rule UI.");
+        //Assert.IsNotNull(panelShootingTriggers, "The Shooting Triggers panel has not been added to the Rule UI.");
+        //Assert.IsNotNull(panelChargeTriggers, "The Charge Triggers panel has not been added to the Rule UI.");
+        //Assert.IsNotNull(panelOverwatchTriggers, "The Overwatch Triggers panel has not been added to the Rule UI.");
+        //Assert.IsNotNull(panelFightTriggers, "The Fight Triggers panel has not been added to the Rule UI.");
+        //Assert.IsNotNull(panelMeleeTriggers, "The Melee Triggers panel has not been added to the Rule UI.");
+        //Assert.IsNotNull(panelMoraleTriggers, "The Morale Triggers panel has not been added to the Rule UI.");
+
         Assert.IsNotNull(panelNameCheck, "The Name Check panel has not been added to the Rule UI.");
         Assert.IsTrue((useToggles.Length > 0), "The Use Toggles have not been added to the Rule UI.");
         Assert.IsNotNull(panelRuleTarget, "The Rule Target panel has not been added to the Rule UI.");
@@ -289,7 +346,7 @@ public class RuleUI : MonoBehaviour {
         } else if (nTemp == 0) {
             Debug.Log("All use toggles are off.");
             useToggleNone.isOn = true;
-            panelTriggerTypes.SetActive(false);
+            panelActivation.SetActive(false);
 
         } else {
             useToggleAll.isOn = false;
@@ -297,47 +354,221 @@ public class RuleUI : MonoBehaviour {
         }
 
         if (nTemp > 0) {
-            panelTriggerTypes.SetActive(true);
+            panelActivation.SetActive(true);
         }
         //Debug.Log("Deployment: " + UseDeployment + " Start of Game: " + UseStartOfGame + " Your Turn: " + UseYourTurn + " Opponent's Turn: " + UseOpponentsTurn + " Start of Turn: " + UseStartOfTurn + " Move: " + UseMove +
         //" Psychic: " + UsePsychic + " Shoot: " + UseShoot + " Charge: " + UseCharge + " Fight: " + UseFight + " Morale: " + UseMorale + " End of Turn: " + UseEndOfTurn);
     }
 
-    public void ToggleTriggerTables () {
+    public void ToggleActivationPanel () {
 
-        if (UseMove && Triggered) {
-            panelMoveTriggers.SetActive(true);
+        if (UseDeployment || UseStartOfGame || UseYourTurn || UseOpponentsTurn || UseStartOfTurn || UseMove || UsePsychic || UseShooting || UseCharge || UseFight || UseMorale || UseEndOfTurn || UseEndOfGame) {
+            panelActivation.SetActive(true);
         } else {
-            panelMoveTriggers.SetActive(false);
+            panelActivation.SetActive(false);
         }
-        if (UsePsychic && Triggered) {
-            panelPsychicTriggers.SetActive(true);
+    }
+
+    public void ToggleTriggerDropdowns () {
+
+        if (ActivationType == 2 && (UseMove || UsePsychic || UseShooting || UseCharge || UseFight || UseMorale)) {
+
+            panelTriggers.SetActive(true);
+
+            if (UseMove) {
+                dropdownMove.gameObject.SetActive(true);
+            } else {
+                dropdownMove.gameObject.SetActive(false);
+            }
+            if (UsePsychic) {
+                dropdownPsychic.gameObject.SetActive(true);
+            } else {
+                dropdownPsychic.gameObject.SetActive(false);
+            }
+            if (UseShooting) {
+                dropdownShooting.gameObject.SetActive(true);
+            } else {
+                dropdownShooting.gameObject.SetActive(false);
+            }
+            if (UseCharge) {
+                dropdownCharge.gameObject.SetActive(true);
+            } else {
+                dropdownCharge.gameObject.SetActive(false);
+            }
+            if (UseFight) {
+                dropdownFight.gameObject.SetActive(true);
+            } else {
+                dropdownFight.gameObject.SetActive(false);
+            }
+            if (UseMorale) {
+                dropdownMorale.gameObject.SetActive(true);
+            } else {
+                dropdownMorale.gameObject.SetActive(false);
+            }
         } else {
-            panelPsychicTriggers.SetActive(false);
+            panelTriggers.SetActive(false);
+            dropdownMove.gameObject.SetActive(false);
+            dropdownPsychic.gameObject.SetActive(false);
+            dropdownShooting.gameObject.SetActive(false);
+            dropdownCharge.gameObject.SetActive(false);
+            dropdownFight.gameObject.SetActive(false);
+            dropdownMorale.gameObject.SetActive(false);
         }
-        if (UseShooting && Triggered) {
-            panelShootingTriggers.SetActive(true);
+        //if (UseMove && Triggered) {
+        //    panelMoveTriggers.SetActive(true);
+        //} else {
+        //    panelMoveTriggers.SetActive(false);
+        //}
+        //if (UsePsychic && Triggered) {
+        //    panelPsychicTriggers.SetActive(true);
+        //} else {
+        //    panelPsychicTriggers.SetActive(false);
+        //}
+        //if (UseShooting && Triggered) {
+        //    panelShootingTriggers.SetActive(true);
+        //} else {
+        //    panelShootingTriggers.SetActive(false);
+        //}
+        //if (UseCharge && Triggered) {
+        //    panelChargeTriggers.SetActive(true);
+        //    panelOverwatchTriggers.SetActive(true);
+        //} else {
+        //    panelChargeTriggers.SetActive(false);
+        //    panelOverwatchTriggers.SetActive(false);
+        //}
+        //if (UseFight && Triggered) {
+        //    panelFightTriggers.SetActive(true);
+        //    panelMeleeTriggers.SetActive(true);
+        //} else {
+        //    panelFightTriggers.SetActive(false);
+        //    panelMeleeTriggers.SetActive(false);
+        //}
+        //if (UseMorale && Triggered) {
+        //    panelMoraleTriggers.SetActive(true);
+        //} else {
+        //    panelMoraleTriggers.SetActive(false);
+        //}
+    }
+
+    public void ToggleSpecificTriggers () {
+
+        if (MoraleTriggers == 3 ||
+            PsychicTriggers == 1 || PsychicTriggers == 2 ||
+            ShootingTriggers == 1 || ShootingTriggers == 2 ||
+            (ChargeTriggers != 0 && ChargeTriggers != 4) ||
+            (FightTriggers != 0 && FightTriggers != 6)) {
+
+            panelSpecificTriggers.SetActive(true);
+
+            switch (PsychicTriggers) {
+                case 1:
+                    dropdownPowerTriggers.gameObject.SetActive(true);
+                    dropdownDenyTriggers.gameObject.SetActive(false);
+                    break;
+                case 2:
+                    dropdownPowerTriggers.gameObject.SetActive(false);
+                    dropdownDenyTriggers.gameObject.SetActive(true);
+                    break;
+                default:
+                    dropdownPowerTriggers.gameObject.SetActive(false);
+                    dropdownDenyTriggers.gameObject.SetActive(false);
+                    break;
+            }
+            switch (ShootingTriggers) {
+                case 1:
+                    textAttacks.gameObject.SetActive(true);
+                    dropdownAttackTriggers.gameObject.SetActive(true);
+                    break;
+                case 2:
+                    textAttacks.gameObject.SetActive(true);
+                    dropdownWoundTriggers.gameObject.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
+            switch (ChargeTriggers) {
+                case 1:
+                    dropdownChargeTriggers.gameObject.SetActive(true);
+                    break;
+                case 2:
+                    textAttacks.gameObject.SetActive(true);
+                    dropdownAttackTriggers.gameObject.SetActive(true);
+                    dropdownChargeTriggers.gameObject.SetActive(false);
+                    break;
+                case 3:
+                    textAttacks.gameObject.SetActive(true);
+                    dropdownWoundTriggers.gameObject.SetActive(true);
+                    dropdownChargeTriggers.gameObject.SetActive(false);
+                    break;
+                default:
+                    dropdownChargeTriggers.gameObject.SetActive(false);
+                    break;
+            }
+            switch (FightTriggers) {
+                case 1:
+                case 2:
+                case 3:
+                    dropdownFightsTriggers.gameObject.SetActive(true);
+                    break;
+                case 4:
+                    textAttacks.gameObject.SetActive(true);
+                    dropdownAttackTriggers.gameObject.SetActive(true);
+                    dropdownFightsTriggers.gameObject.SetActive(false);
+                    break;
+                case 5:
+                    textAttacks.gameObject.SetActive(true);
+                    dropdownWoundTriggers.gameObject.SetActive(true);
+                    dropdownFightsTriggers.gameObject.SetActive(false);
+                    break;
+                default:
+                    dropdownFightsTriggers.gameObject.SetActive(false);
+                    break;
+            }
+            if (ShootingTriggers != 1 && 
+                ChargeTriggers != 2 &&
+                FightTriggers != 4) 
+            {
+                dropdownAttackTriggers.gameObject.SetActive(false);
+            }
+            if (ShootingTriggers != 2 &&
+                ChargeTriggers != 3 &&
+                FightTriggers != 5) 
+            {
+                dropdownWoundTriggers.gameObject.SetActive(false);
+            }
+            if (ShootingTriggers != 1 &&
+                ChargeTriggers != 2 &&
+                FightTriggers != 4 &&
+                ShootingTriggers != 2 &&
+                ChargeTriggers != 3 &&
+                FightTriggers != 5) 
+            {
+                textAttacks.gameObject.SetActive(false);
+            }
+            if ((dropdownMorale.IsActive() && MoraleTriggers == 3) || 
+                (dropdownAttackTriggers.IsActive() && AttackTriggers == 3) || 
+                (dropdownWoundTriggers.IsActive() && WoundTriggers == 1) || 
+                (dropdownPowerTriggers.IsActive() && PowerTriggers == 3) ||
+                (dropdownDenyTriggers.IsActive() && DenyTriggers == 1) ||
+                (dropdownChargeTriggers.IsActive() && SpecificChargeTriggers == 3)) 
+            {
+                textRollOf.gameObject.SetActive(true);
+                dropdownRollTrigger.gameObject.SetActive(true);
+            } else {
+                textRollOf.gameObject.SetActive(false);
+                dropdownRollTrigger.gameObject.SetActive(false);
+            }
         } else {
-            panelShootingTriggers.SetActive(false);
-        }
-        if (UseCharge && Triggered) {
-            panelChargeTriggers.SetActive(true);
-            panelOverwatchTriggers.SetActive(true);
-        } else {
-            panelChargeTriggers.SetActive(false);
-            panelOverwatchTriggers.SetActive(false);
-        }
-        if (UseFight && Triggered) {
-            panelFightTriggers.SetActive(true);
-            panelMeleeTriggers.SetActive(true);
-        } else {
-            panelFightTriggers.SetActive(false);
-            panelMeleeTriggers.SetActive(false);
-        }
-        if (UseMorale && Triggered) {
-            panelMoraleTriggers.SetActive(true);
-        } else {
-            panelMoraleTriggers.SetActive(false);
+            dropdownPowerTriggers.gameObject.SetActive(false);
+            dropdownDenyTriggers.gameObject.SetActive(false);
+            textAttacks.gameObject.SetActive(false);
+            dropdownAttackTriggers.gameObject.SetActive(false);
+            dropdownWoundTriggers.gameObject.SetActive(false);
+            dropdownChargeTriggers.gameObject.SetActive(false);
+            dropdownFightsTriggers.gameObject.SetActive(false);
+            textRollOf.gameObject.SetActive(false);
+            dropdownRollTrigger.gameObject.SetActive(false);
+            panelSpecificTriggers.SetActive(false);
         }
     }
 
@@ -571,17 +802,21 @@ public class RuleUI : MonoBehaviour {
 
     public void Continue () {
 
-        panelChargeTriggers.SetActive(false);
-        panelFightTriggers.SetActive(false);
-        panelMeleeTriggers.SetActive(false);
-        panelMoraleTriggers.SetActive(false);
-        panelMoveTriggers.SetActive(false);
-        panelOverwatchTriggers.SetActive(false);
-        panelPsychicTriggers.SetActive(false);
-        panelRuleUse.SetActive(false);
-        panelShootingTriggers.SetActive(false);
-        panelTriggerTypes.SetActive(false);
+        //panelChargeTriggers.SetActive(false);
+        //panelFightTriggers.SetActive(false);
+        //panelMeleeTriggers.SetActive(false);
+        //panelMoraleTriggers.SetActive(false);
 
+        panelTriggers.SetActive(false);
+
+        //panelOverwatchTriggers.SetActive(false);
+        //panelPsychicTriggers.SetActive(false);
+
+        panelRuleUse.SetActive(false);
+
+        //panelShootingTriggers.SetActive(false);
+
+        panelActivation.SetActive(false);
         panelRuleUse.SetActive(true);
 
         triggersSet = true;
@@ -619,16 +854,16 @@ public class RuleUI : MonoBehaviour {
 
         if (triggersSet) {
 
-            panelChargeTriggers.SetActive(true);
-            panelFightTriggers.SetActive(true);
-            panelMeleeTriggers.SetActive(true);
-            panelMoraleTriggers.SetActive(true);
-            panelMoveTriggers.SetActive(true);
-            panelOverwatchTriggers.SetActive(true);
-            panelPsychicTriggers.SetActive(true);
+            //panelChargeTriggers.SetActive(true);
+            //panelFightTriggers.SetActive(true);
+            //panelMeleeTriggers.SetActive(true);
+            //panelMoraleTriggers.SetActive(true);
+            panelTriggers.SetActive(true);
+            //panelOverwatchTriggers.SetActive(true);
+            //panelPsychicTriggers.SetActive(true);
             panelRuleUse.SetActive(true);
-            panelShootingTriggers.SetActive(true);
-            panelTriggerTypes.SetActive(true);
+            //panelShootingTriggers.SetActive(true);
+            panelActivation.SetActive(true);
 
             panelRuleUse.SetActive(false);
 
