@@ -47,11 +47,10 @@ public class RuleUI : MonoBehaviour {
     //public GameObject panelMeleeTriggers;
     //public GameObject panelMoraleTriggers;
 
-    public GameObject panelNameCheck;
-
     public GameObject panelRuleTarget;
-    public InputField keyword;
-    public Dropdown target;
+    public InputField inputKeyword;
+    public Dropdown dropdownTarget;
+    public GameObject panelProperties;
     public Text textRange;
     public InputField inputRange;
     public Text textDamage;
@@ -68,6 +67,8 @@ public class RuleUI : MonoBehaviour {
     public GameObject panelIgnore;
     public GameObject panelAdditionalAttacks;
     public GameObject panelMortalWounds;
+
+    public GameObject panelNameCheck;
 
     //Use flags
     public bool UseDeployment { get; set; }
@@ -237,6 +238,8 @@ public class RuleUI : MonoBehaviour {
     bool triggersSet = false;
     int ruleToLoad;
     Color defaultColor;
+    Color panelColor1;
+    Color panelColor2;
 
     void Awake () {
 
@@ -276,8 +279,8 @@ public class RuleUI : MonoBehaviour {
         Assert.IsNotNull(panelNameCheck, "The Name Check panel has not been added to the Rule UI.");
         Assert.IsTrue((useToggles.Length > 0), "The Use Toggles have not been added to the Rule UI.");
         Assert.IsNotNull(panelRuleTarget, "The Rule Target panel has not been added to the Rule UI.");
-        Assert.IsNotNull(keyword, "The Keyword input has not been added to the Rule UI.");
-        Assert.IsNotNull(target, "The Target dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(inputKeyword, "The Keyword input has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownTarget, "The Target dropdown has not been added to the Rule UI.");
         Assert.IsNotNull(textRange, "The Range default text has not been added to the Rule UI.");
         Assert.IsNotNull(inputRange, "The Range input field has not been added to the Rule UI.");
         Assert.IsNotNull(textDamage, "The Damage text has not been added to the Rule UI.");
@@ -301,7 +304,9 @@ public class RuleUI : MonoBehaviour {
 
         instance = GameManager.instance;
         defaultColor = textRange.color;
-	}
+        panelColor1 = panelRuleUse.GetComponent<Image>().color;
+        panelColor2 = panelActivation.GetComponent<Image>().color;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -360,6 +365,61 @@ public class RuleUI : MonoBehaviour {
         //" Psychic: " + UsePsychic + " Shoot: " + UseShoot + " Charge: " + UseCharge + " Fight: " + UseFight + " Morale: " + UseMorale + " End of Turn: " + UseEndOfTurn);
     }
 
+    void AdjustPanels () {
+
+        float panelOffset = 0f;
+
+        if (panelTriggers.activeInHierarchy) {
+            panelOffset++;
+        }
+        if (panelSpecificTriggers.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelSpecificTriggers);
+        }
+        if (panelRuleTarget.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelRuleTarget);
+        }
+        if (panelRuleType.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelRuleType);
+        }
+        if (panelProperties.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelProperties);
+        }
+        if (panelReserve.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelReserve);
+        }
+        if (panelProfile.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelProfile);
+        }
+        if (panelIgnore.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelIgnore);
+        }
+        if (panelAdditionalAttacks.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelAdditionalAttacks);
+        }
+        if (panelMortalWounds.activeInHierarchy) {
+            panelOffset = AdjustAnchors(panelOffset, panelMortalWounds);
+        }
+    }
+
+    float AdjustAnchors (float offset, GameObject panel) {
+        Vector2 min = new Vector2(0.01f, 0.75f);
+        Vector2 max = new Vector2(0.99f, 0.8f);
+
+        min.y = min.y - 0.05f * offset;
+        max.y = max.y - 0.05f * offset;
+        panel.GetComponent<RectTransform>().anchorMin = min;
+        panel.GetComponent<RectTransform>().anchorMax = max;
+        offset++;
+
+        if (offset % 2 != 0) {
+            panel.GetComponent<Image>().color = panelColor1;
+        } else {
+            panel.GetComponent<Image>().color = panelColor2;
+        }
+
+        return offset;
+    }
+
     public void ToggleActivationPanel () {
 
         if (UseDeployment || UseStartOfGame || UseYourTurn || UseOpponentsTurn || UseStartOfTurn || UseMove || UsePsychic || UseShooting || UseCharge || UseFight || UseMorale || UseEndOfTurn || UseEndOfGame) {
@@ -371,9 +431,10 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleTriggerDropdowns () {
 
-        if (ActivationType == 2 && (UseMove || UsePsychic || UseShooting || UseCharge || UseFight || UseMorale)) {
+        if (ActivationType == 3 && (UseMove || UsePsychic || UseShooting || UseCharge || UseFight || UseMorale)) {
 
             panelTriggers.SetActive(true);
+            AdjustPanels();
 
             if (UseMove) {
                 dropdownMove.gameObject.SetActive(true);
@@ -407,6 +468,7 @@ public class RuleUI : MonoBehaviour {
             }
         } else {
             panelTriggers.SetActive(false);
+            AdjustPanels();
             dropdownMove.gameObject.SetActive(false);
             dropdownPsychic.gameObject.SetActive(false);
             dropdownShooting.gameObject.SetActive(false);
@@ -459,6 +521,7 @@ public class RuleUI : MonoBehaviour {
             (FightTriggers != 0 && FightTriggers != 6)) {
 
             panelSpecificTriggers.SetActive(true);
+            AdjustPanels();
 
             switch (PsychicTriggers) {
                 case 1:
@@ -569,32 +632,29 @@ public class RuleUI : MonoBehaviour {
             textRollOf.gameObject.SetActive(false);
             dropdownRollTrigger.gameObject.SetActive(false);
             panelSpecificTriggers.SetActive(false);
+            AdjustPanels();
         }
     }
 
-    public void ToggleRange () {
+    public void ToggleRuleTarget () {
 
-        if ((RuleTarget != 0 &&
-            RuleTarget != 9 &&
-            RuleTarget != 10) ||
-            RuleType == 1) {
-            Debug.Log("Enabling range entry");
-
-            textRange.gameObject.SetActive(true);
-            inputRange.gameObject.SetActive(true);
+        if (ActivationType != 0) {
+            panelRuleTarget.SetActive(true);
+            AdjustPanels();
         } else {
-            Debug.Log("Disabling range entry.");
-            textRange.gameObject.SetActive(false);
-            inputRange.gameObject.SetActive(false);
+            panelRuleTarget.SetActive(false);
+            AdjustPanels();
         }
     }
 
     public void ToggleRuleType () {
 
-        if (RuleTarget != 0) { 
+        if (RuleTarget != 0) {
             panelRuleType.SetActive(true);
+            AdjustPanels();
         } else {
             panelRuleType.SetActive(false);
+            AdjustPanels();
         }
     }
 
@@ -602,41 +662,105 @@ public class RuleUI : MonoBehaviour {
 
         if (RuleTarget == 11) {
 
-            keyword.gameObject.SetActive(true);
-            target.gameObject.SetActive(true);
+            inputKeyword.gameObject.SetActive(true);
+            dropdownTarget.gameObject.SetActive(true);
             
         } else {
 
-            keyword.gameObject.SetActive(false);
-            target.gameObject.SetActive(false);
+            inputKeyword.gameObject.SetActive(false);
+            dropdownTarget.gameObject.SetActive(false);
         }
     }
 
-    public void ToggleDamage () {
+    public void ToggleProperties () {
 
-        if ((RuleType == 1 && ReserveDealsMortal)||
-            RuleType == 10) {
-            textDamage.gameObject.SetActive(true);
-            dropdownDamage.gameObject.SetActive(true);
+        if ((RuleTarget != 0 && RuleTarget != 9 && RuleTarget != 10) ||
+            RuleType == 1 || RuleType == 2 || RuleType == 3 || RuleType == 10) {
+
+            panelProperties.SetActive(true);
+            AdjustPanels();
+
+            if ((RuleTarget != 0 &&
+                 RuleTarget != 9 &&
+                 RuleTarget != 10) ||
+                 RuleType == 1) {
+
+                panelProperties.SetActive(true);
+                textRange.gameObject.SetActive(true);
+                inputRange.gameObject.SetActive(true);
+            } else {
+                textRange.gameObject.SetActive(false);
+                inputRange.gameObject.SetActive(false);
+            }
+
+            if ((RuleType == 1 && ReserveDealsMortal) ||
+                RuleType == 10) {
+                textDamage.gameObject.SetActive(true);
+                dropdownDamage.gameObject.SetActive(true);
+            } else {
+                textDamage.gameObject.SetActive(false);
+                dropdownDamage.gameObject.SetActive(false);
+            }
+
+            if (RuleType == 2 ||
+                RuleType == 3 ||
+                RuleType == 10 ||
+                ReserveDealsMortal) {
+
+                textRoll.gameObject.SetActive(true);
+                dropdownRoll.gameObject.SetActive(true);
+            } else {
+                textRoll.gameObject.SetActive(false);
+                dropdownRoll.gameObject.SetActive(false);
+            }
+
         } else {
-            textDamage.gameObject.SetActive(false);
-            dropdownDamage.gameObject.SetActive(false);
+            panelProperties.SetActive(false);
+            AdjustPanels();
         }
     }
 
-    public void ToggleRoll () {
+    //public void ToggleRange() {
 
-        if (RuleType == 2 ||
-            RuleType == 3 ||
-            RuleType == 10) {
+    //    if ((RuleTarget != 0 &&
+    //        RuleTarget != 9 &&
+    //        RuleTarget != 10) ||
+    //        RuleType == 1) {
 
-            textRoll.gameObject.SetActive(true);
-            dropdownRoll.gameObject.SetActive(true);
-        } else {
-            textRoll.gameObject.SetActive(false);
-            dropdownRoll.gameObject.SetActive(false);
-        }
-    }
+    //        panelProperties.SetActive(true);
+    //        textRange.gameObject.SetActive(true);
+    //        inputRange.gameObject.SetActive(true);
+    //    } else {
+    //        textRange.gameObject.SetActive(false);
+    //        inputRange.gameObject.SetActive(false);
+    //    }
+    //}
+
+    //public void ToggleDamage () {
+
+    //    if ((RuleType == 1 && ReserveDealsMortal)||
+    //        RuleType == 10) {
+    //        textDamage.gameObject.SetActive(true);
+    //        dropdownDamage.gameObject.SetActive(true);
+    //    } else {
+    //        textDamage.gameObject.SetActive(false);
+    //        dropdownDamage.gameObject.SetActive(false);
+    //    }
+    //}
+
+    //public void ToggleRoll () {
+
+    //    if (RuleType == 2 ||
+    //        RuleType == 3 ||
+    //        RuleType == 10) {
+
+    //        textRoll.gameObject.SetActive(true);
+    //        dropdownRoll.gameObject.SetActive(true);
+    //    } else {
+    //        textRoll.gameObject.SetActive(false);
+    //        dropdownRoll.gameObject.SetActive(false);
+    //    }
+    //}
 
     public void ToggleReserveRange () {
 
@@ -665,16 +789,21 @@ public class RuleUI : MonoBehaviour {
 
         switch (ruleType) {
             case 1:
-                textRoll.gameObject.SetActive(true);
-                dropdownRoll.gameObject.SetActive(true);
+                if (ReserveDealsMortal) {
+                    textRoll.gameObject.SetActive(true);
+                    dropdownRoll.gameObject.SetActive(true);
+                }
                 panelReserve.SetActive(true);
                 panelProfile.SetActive(false);
                 panelRoll.SetActive(false);
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
+                AdjustPanels();
                 break;
             case 2:
+                textDamage.gameObject.SetActive(false);
+                dropdownDamage.gameObject.SetActive(false);
                 textRoll.gameObject.SetActive(true);
                 dropdownRoll.gameObject.SetActive(true);
                 panelReserve.SetActive(false);
@@ -683,8 +812,11 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
+                AdjustPanels();
                 break;
             case 3:
+                textDamage.gameObject.SetActive(false);
+                dropdownDamage.gameObject.SetActive(false);
                 textRoll.gameObject.SetActive(true);
                 dropdownRoll.gameObject.SetActive(true);
                 panelReserve.SetActive(false);
@@ -693,8 +825,11 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
+                AdjustPanels();
                 break;
             case 4:
+                textDamage.gameObject.SetActive(false);
+                dropdownDamage.gameObject.SetActive(false);
                 textRoll.gameObject.SetActive(false);
                 dropdownRoll.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -703,8 +838,11 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
+                AdjustPanels();
                 break;
             case 5:
+                textDamage.gameObject.SetActive(false);
+                dropdownDamage.gameObject.SetActive(false);
                 textRoll.gameObject.SetActive(false);
                 dropdownRoll.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -713,8 +851,11 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
+                AdjustPanels();
                 break;
             case 6:
+                textDamage.gameObject.SetActive(false);
+                dropdownDamage.gameObject.SetActive(false);
                 textRoll.gameObject.SetActive(false);
                 dropdownRoll.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -723,8 +864,11 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(true);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
+                AdjustPanels();
                 break;
             case 9:
+                textDamage.gameObject.SetActive(false);
+                dropdownDamage.gameObject.SetActive(false);
                 textRoll.gameObject.SetActive(false);
                 dropdownRoll.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -733,18 +877,24 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(true);
                 panelMortalWounds.SetActive(false);
+                AdjustPanels();
                 break;
             case 10:
-                textRoll.gameObject.SetActive(false);
-                dropdownRoll.gameObject.SetActive(false);
+                textDamage.gameObject.SetActive(true);
+                dropdownDamage.gameObject.SetActive(true);
+                textRoll.gameObject.SetActive(true);
+                dropdownRoll.gameObject.SetActive(true);
                 panelReserve.SetActive(false);
                 panelProfile.SetActive(false);
                 panelRoll.SetActive(false);
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(true);
+                AdjustPanels();
                 break;
             default:
+                textDamage.gameObject.SetActive(false);
+                dropdownDamage.gameObject.SetActive(false);
                 textRoll.gameObject.SetActive(false);
                 dropdownRoll.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -753,6 +903,7 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
+                AdjustPanels();
                 break;
         }
     }
