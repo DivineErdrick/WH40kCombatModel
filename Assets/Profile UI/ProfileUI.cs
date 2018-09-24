@@ -196,6 +196,7 @@ public class ProfileUI : MonoBehaviour {
             } else if (overwrite) {
                 instance.Profiles[profileToLoad] = profile;
                 overwritePanel.SetActive(false);
+                instance.Save();
             } else {
                 overwritePanel.SetActive(true);
             }

@@ -615,7 +615,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1640677332}
+      - m_Target: {fileID: 1640677333}
         m_MethodName: Load
         m_Mode: 1
         m_Arguments:
@@ -10248,7 +10248,7 @@ GameObject:
   - component: {fileID: 324212441}
   - component: {fileID: 324212440}
   m_Layer: 5
-  m_Name: Text Find Profile Place
+  m_Name: Text Find Rule Place
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10304,7 +10304,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter Profile Name
+  m_Text: Enter Rule Name
 --- !u!222 &324212441
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10793,7 +10793,7 @@ GameObject:
   - component: {fileID: 337031256}
   - component: {fileID: 337031255}
   m_Layer: 5
-  m_Name: Dropdown Modifier
+  m_Name: Dropdown Profile Modifier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14643,7 +14643,7 @@ GameObject:
   - component: {fileID: 470784292}
   - component: {fileID: 470784291}
   m_Layer: 5
-  m_Name: Dropdown Change
+  m_Name: Dropdown Profile Change
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17234,7 +17234,7 @@ GameObject:
   - component: {fileID: 557515583}
   - component: {fileID: 557515582}
   m_Layer: 5
-  m_Name: Input Find Profile
+  m_Name: Input Find Rule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20163,7 +20163,7 @@ GameObject:
   - component: {fileID: 674708546}
   - component: {fileID: 674708545}
   m_Layer: 5
-  m_Name: Dropdown Roll
+  m_Name: Dropdown Modified Roll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21705,7 +21705,7 @@ GameObject:
   - component: {fileID: 712044885}
   - component: {fileID: 712044884}
   m_Layer: 5
-  m_Name: Text Find Profile Input
+  m_Name: Text Find Rule Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23412,6 +23412,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 769044896}
         m_MethodName: CheckValue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1640677333}
+        m_MethodName: set_InputName
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25716,8 +25727,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: LoadSavedProfile
+      - m_Target: {fileID: 1640677333}
+        m_MethodName: LoadSavedRule
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -27751,8 +27762,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetCombatProfile
+      - m_Target: {fileID: 1640677333}
+        m_MethodName: Save
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -28547,7 +28558,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1640677333}
         m_MethodName: Close
         m_Mode: 6
         m_Arguments:
@@ -42916,7 +42927,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Load Profile
+  m_Text: Load Rule
 --- !u!222 &1463945785
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45842,7 +45853,7 @@ RectTransform:
   m_GameObject: {fileID: 1546404782}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99985707, y: 0.99985707, z: 0.99985707}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1463945783}
   - {fileID: 2056625752}
@@ -46372,7 +46383,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1640677333}
         m_MethodName: Close
         m_Mode: 6
         m_Arguments:
@@ -48425,8 +48436,9 @@ MonoBehaviour:
   textRollOf: {fileID: 1721255207}
   dropdownRollTrigger: {fileID: 1973880433}
   panelRuleTarget: {fileID: 1004529738}
+  dropdownTarget: {fileID: 550793121}
   inputKeyword: {fileID: 1242124681}
-  dropdownTarget: {fileID: 353463838}
+  dropdownKeywordTarget: {fileID: 353463838}
   panelProperties: {fileID: 948147268}
   textRange: {fileID: 443946333}
   inputRange: {fileID: 1029196279}
@@ -48436,15 +48448,30 @@ MonoBehaviour:
   dropdownRoll: {fileID: 1114532430}
   panelRuleType: {fileID: 1871820048}
   panelReserve: {fileID: 996844079}
+  toggleOutsideEnemy: {fileID: 199670315}
+  toggleFromObject: {fileID: 391039193}
+  toggleRerollCharges: {fileID: 1674809911}
+  toggleReserveMortal: {fileID: 66472034}
   inputReserveRange: {fileID: 1142212357}
   panelProfile: {fileID: 588565286}
+  dropdownProfile: {fileID: 1035308690}
+  dropdownProfileModifier: {fileID: 337031255}
+  dropdownProfileChange: {fileID: 470784291}
   panelRoll: {fileID: 1823582848}
   textModifier: {fileID: 1090612573}
+  dropdownModifiedRoll: {fileID: 674708545}
+  dropdownModifiedBy: {fileID: 873112644}
   dropdownModifier: {fileID: 674708545}
   panelIgnore: {fileID: 811250013}
   panelAdditionalAttacks: {fileID: 271786412}
+  toggleOnlyAttack: {fileID: 787831246}
+  toggleCanExplode: {fileID: 1314518359}
   panelMortalWounds: {fileID: 1271416140}
   panelNameCheck: {fileID: 862555521}
+  panelLoad: {fileID: 1546404782}
+  contentLoad: {fileID: 1113553058}
+  buttonRule: {fileID: 1817488522707276, guid: bf06f31061f477347b40162d96e8f1ff, type: 2}
+  searchField: {fileID: 557515583}
 --- !u!4 &1640677334
 Transform:
   m_ObjectHideFlags: 0
@@ -60442,7 +60469,7 @@ GameObject:
   - component: {fileID: 2056625754}
   - component: {fileID: 2056625753}
   m_Layer: 5
-  m_Name: Text Find Profile
+  m_Name: Text Find Rule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

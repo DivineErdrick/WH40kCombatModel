@@ -340,6 +340,7 @@ public class GameManager : MonoBehaviour {
 
         TesterData data = new TesterData();
         data.Profiles = Profiles;
+        data.Rules = Rules;
         //data.FileData.Add("This");
         //data.FileData.Add(" is ");
         //data.FileData.Add("data.");
@@ -359,6 +360,7 @@ public class GameManager : MonoBehaviour {
             //set desired data to be loaded
             //Debug.Log(data.FileData[0] + data.FileData[1] + data.FileData[2]);
             Profiles = data.Profiles;
+            Rules = data.Rules;
 
             file.Close();
         }
@@ -375,8 +377,10 @@ public class GameManager : MonoBehaviour {
 class TesterData {
     //desired save data
     public List<Profile> Profiles { get; set; }
+    public List<Rule> Rules { get; set; }
 
     public TesterData (){
         Profiles = new List<Profile>();
+        Rules = new List<Rule>();
     }
 }

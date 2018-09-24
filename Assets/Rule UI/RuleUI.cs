@@ -48,8 +48,9 @@ public class RuleUI : MonoBehaviour {
     //public GameObject panelMoraleTriggers;
 
     public GameObject panelRuleTarget;
-    public InputField inputKeyword;
     public Dropdown dropdownTarget;
+    public InputField inputKeyword;
+    public Dropdown dropdownKeywordTarget;
     public GameObject panelProperties;
     public Text textRange;
     public InputField inputRange;
@@ -59,16 +60,33 @@ public class RuleUI : MonoBehaviour {
     public Dropdown dropdownRoll;
     public GameObject panelRuleType;
     public GameObject panelReserve;
+    public Toggle toggleOutsideEnemy;
+    public Toggle toggleFromObject;
+    public Toggle toggleRerollCharges;
+    public Toggle toggleReserveMortal;
     public InputField inputReserveRange;
     public GameObject panelProfile;
+    public Dropdown dropdownProfile;
+    public Dropdown dropdownProfileModifier;
+    public Dropdown dropdownProfileChange;
     public GameObject panelRoll;
     public Text textModifier;
+    public Dropdown dropdownModifiedRoll;
+    public Dropdown dropdownModifiedBy;
     public Dropdown dropdownModifier;
     public GameObject panelIgnore;
     public GameObject panelAdditionalAttacks;
+    public Toggle toggleOnlyAttack;
+    public Toggle toggleCanExplode;
     public GameObject panelMortalWounds;
 
     public GameObject panelNameCheck;
+    public GameObject panelLoad;
+    public GameObject contentLoad;
+    public GameObject buttonRule;
+    public InputField searchField;
+
+    public string InputName { get; set; }
 
     //Use flags
     public bool UseDeployment { get; set; }
@@ -241,6 +259,7 @@ public class RuleUI : MonoBehaviour {
     Color defaultColor;
     Color panelColor1;
     Color panelColor2;
+    ButtonRule[] buttonRules;
 
     void Awake () {
 
@@ -277,11 +296,11 @@ public class RuleUI : MonoBehaviour {
         //Assert.IsNotNull(panelMeleeTriggers, "The Melee Triggers panel has not been added to the Rule UI.");
         //Assert.IsNotNull(panelMoraleTriggers, "The Morale Triggers panel has not been added to the Rule UI.");
 
-        Assert.IsNotNull(panelNameCheck, "The Name Check panel has not been added to the Rule UI.");
         Assert.IsTrue((useToggles.Length > 0), "The Use Toggles have not been added to the Rule UI.");
         Assert.IsNotNull(panelRuleTarget, "The Rule Target panel has not been added to the Rule UI.");
-        Assert.IsNotNull(inputKeyword, "The Keyword input has not been added to the Rule UI.");
         Assert.IsNotNull(dropdownTarget, "The Target dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(inputKeyword, "The Keyword input has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownKeywordTarget, "The Keyword Target dropdown has not been added to the Rule UI.");
         Assert.IsNotNull(textRange, "The Range default text has not been added to the Rule UI.");
         Assert.IsNotNull(inputRange, "The Range input field has not been added to the Rule UI.");
         Assert.IsNotNull(textDamage, "The Damage text has not been added to the Rule UI.");
@@ -291,14 +310,27 @@ public class RuleUI : MonoBehaviour {
         Assert.IsNotNull(inputReserveRange, "The Range input field has not been added to the Rule UI.");
         Assert.IsNotNull(panelRuleType, "The Rule Type panel has not been added to the Rule UI.");
         Assert.IsNotNull(panelReserve, "The Reserve panel has not been added to the Rule UI.");
+        Assert.IsNotNull(toggleOutsideEnemy, "The Reserve Outside Enemy toggle has not been added to the Rule UI.");
+        Assert.IsNotNull(toggleFromObject, "The Reserve From Object toggle has not been added to the Rule UI.");
+        Assert.IsNotNull(toggleRerollCharges, "The Reserve Re-roll Charges toggle has not been added to the Rule UI.");
+        Assert.IsNotNull(toggleReserveMortal, "The Reserve Mortal Wounds toggle has not been added to the Rule UI.");
         Assert.IsNotNull(panelProfile, "The Profile panel has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownProfile, "The Profile dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownProfileModifier, "The Profile Modifier dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownProfileChange, "The Profile Change dropdown has not been added to the Rule UI.");
         Assert.IsNotNull(panelRoll, "The Pass Roll panel has not been added to the Rule UI.");
-        Assert.IsNotNull(textModifier, "The Roll text has not been added to the Rule UI.");
-        Assert.IsNotNull(dropdownModifier, "The Roll dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownModifiedRoll, "The Modified Roll dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownModifiedBy, "The Modified By dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(textModifier, "The Modifier text has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownModifier, "The Modifier dropdown has not been added to the Rule UI.");
         Assert.IsNotNull(panelIgnore, "The Ignore panel has not been added to the Rule UI.");
         Assert.IsNotNull(panelAdditionalAttacks, "The Aditional Attack panel has not been added to the Rule UI.");
-
+        Assert.IsNotNull(toggleOnlyAttack, "The Only Attack toggle has not been added to the Rule UI.");
+        Assert.IsNotNull(toggleCanExplode, "The Can Explode toggle has not been added to the Rule UI.");
         Assert.IsNotNull(panelRuleUse, "The Rule Use panel has not been added to the Rule UI.");
+
+        Assert.IsNotNull(panelNameCheck, "The Name Check panel has not been added to the Rule UI.");
+        Assert.IsNotNull(panelLoad, "The Load panel has not been added to the Rule UI.");
     }
     // Use this for initialization
     void Start () {
@@ -307,6 +339,10 @@ public class RuleUI : MonoBehaviour {
         defaultColor = textRange.color;
         panelColor1 = panelRuleUse.GetComponent<Image>().color;
         panelColor2 = panelActivation.GetComponent<Image>().color;
+
+        if (instance.Rules.Count > 0) {
+            buttonLoad.interactable = true;
+        }
     }
 	
 	// Update is called once per frame
@@ -668,12 +704,12 @@ public class RuleUI : MonoBehaviour {
         if (RuleTarget == 11) {
 
             inputKeyword.gameObject.SetActive(true);
-            dropdownTarget.gameObject.SetActive(true);
+            dropdownKeywordTarget.gameObject.SetActive(true);
             
         } else {
 
             inputKeyword.gameObject.SetActive(false);
-            dropdownTarget.gameObject.SetActive(false);
+            dropdownKeywordTarget.gameObject.SetActive(false);
         }
     }
 
@@ -972,12 +1008,12 @@ public class RuleUI : MonoBehaviour {
         if (datacheckPassed) {
             instance.ActiveRule = rule;
             bool nameCheck = true;
-            //for (int i = 0; i < instance.Rules.Count; i++) {
-            //    if (rule.Name == instance.Rules[i].Name) {
-            //        nameCheck = false;
-            //        ruleToLoad = i;
-            //    }
-            //}
+            for (int i = 0; i < instance.Rules.Count; i++) {
+                if (rule.Name == instance.Rules[i].Name) {
+                    nameCheck = false;
+                    ruleToLoad = i;
+                }
+            }
 
             if (nameCheck) {
                 instance.Rules.Add(rule);
@@ -991,6 +1027,7 @@ public class RuleUI : MonoBehaviour {
             }
 
             Debug.Log("New Rule name is " + rule.Name + ". It has been added to the rule data as " + instance.Rules.Last().Name + ".");
+            buttonLoad.interactable = true;
         }
     }
 
@@ -1239,6 +1276,7 @@ public class RuleUI : MonoBehaviour {
             } else {
                 rule.Keyword = InputKeyword;
                 Debug.Log("The rule targets the keyword " + rule.Keyword);
+                rule.KeywordTarget = (Rule.KeywordTargets)KeywordTarget;
             }
         }
 
@@ -1260,7 +1298,7 @@ public class RuleUI : MonoBehaviour {
                         Debug.Log("Rule Damage is " + rule.Range);
                     } else {
                         rule.DamageDice = new Rule.Dice();
-                        rule.DamageDice = (Rule.Dice)(Damage - 6);
+                        rule.DamageDice = (Rule.Dice)(Damage - 7);
                         Debug.Log("Rule Damage is " + rule.DamageDice);
                     }
                 } else {
@@ -1306,7 +1344,7 @@ public class RuleUI : MonoBehaviour {
                         Debug.Log("And modified by " + rule.ProfileChange);
                     } else {
                         rule.ChangeDice = new Rule.Dice();
-                        rule.ChangeDice = (Rule.Dice)(Change - 6);
+                        rule.ChangeDice = (Rule.Dice)(Change - 7);
                         Debug.Log("And modified by " + rule.ChangeDice);
                     }
                 } else {
@@ -1349,6 +1387,248 @@ public class RuleUI : MonoBehaviour {
         }
 
         return dataPassed;
+    }
+
+    public void Close(bool overwrite) {
+        if ( ! overwrite) {
+            Button[] buttons = contentLoad.GetComponentsInChildren<Button>();
+            for (int i = 0; i < buttons.Length; i++) {
+                Destroy(buttons[i].gameObject);
+            }
+
+            buttonSave.interactable = true;
+            buttonLoad.interactable = true;
+            searchField = null;
+            panelLoad.SetActive(false);
+        } else {
+            panelNameCheck.SetActive(false);
+        }
+    }
+
+    public void LoadSavedRule() {
+        ResetLoad(instance.Rules[ruleToLoad]);
+        panelNameCheck.SetActive(false);
+    }
+
+    public void Load() {
+        buttonSave.interactable = false;
+        buttonLoad.interactable = false;
+
+        panelLoad.SetActive(true);
+        if (instance.Rules.Count > 6) {
+            contentLoad.GetComponent<RectTransform>().offsetMin = new Vector2(0, -48 * (instance.Rules.Count - 6));
+        }
+        for (int i = 0; i < instance.Rules.Count; i++) {
+            string ruleName = instance.Rules[i].Name;
+            GameObject ruleButton = Instantiate(buttonRule);
+            ruleButton.transform.SetParent(contentLoad.transform);
+            ruleButton.GetComponent<ButtonRule>().Rule = instance.Rules[i];
+            ruleButton.GetComponent<RectTransform>().localScale = Vector3.one;
+            ruleButton.GetComponentInChildren<Text>().text = ruleName;
+        }
+
+        buttonRules = FindObjectsOfType<ButtonRule>();
+        searchField = panelLoad.GetComponentInChildren<InputField>();
+    }
+
+    public void ResetLoad(Rule rule) {
+
+        InputName = rule.Name;
+        inputName.text = InputName;
+
+        for (int i = 0; i < rule.UseTimes.Count; i++) {
+            if (rule.UseTimes[i] == Rule.Uses.Deployment) {
+                UseDeployment = true;
+                useToggles[0].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.StartOfGame) {
+                UseStartOfGame = true;
+                useToggles[1].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.YourTurn) {
+                UseYourTurn = true;
+                useToggles[2].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.OpponentsTurn) {
+                UseOpponentsTurn = true;
+                useToggles[3].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.StartOfTurn) {
+                UseStartOfTurn = true;
+                useToggles[4].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.Move) {
+                UseMove = true;
+                useToggles[5].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.Psychic) {
+                UsePsychic = true;
+                useToggles[6].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.Shooting) {
+                UseShooting = true;
+                useToggles[7].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.Charge) {
+                UseCharge = true;
+                useToggles[8].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.Fight) {
+                UseFight = true;
+                useToggles[9].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.Morale) {
+                UseMorale = true;
+                useToggles[10].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.EndOfTurn) {
+                UseEndOfTurn = true;
+                useToggles[11].isOn = true;
+            }
+            if (rule.UseTimes[i] == Rule.Uses.EndOfGame) {
+                UseEndOfGame = true;
+                useToggles[12].isOn = true;
+            }
+        }
+
+        ActivationType = (int)rule.ActivationType;
+        panelActivation.GetComponentInChildren<Dropdown>().value = ActivationType;
+
+        if (ActivationType == 3) {
+            if (rule.MoveTrigger != 0) {
+                MoveTriggers = (int)rule.MoveTrigger;
+                dropdownMove.value = MoveTriggers;
+            }
+            if (rule.PsychicTrigger != 0) {
+                PsychicTriggers = (int)rule.PsychicTrigger;
+                dropdownPsychic.value = PsychicTriggers;
+            }
+            if (rule.ShootingTrigger != 0) {
+                ShootingTriggers = (int)rule.ShootingTrigger;
+                dropdownShooting.value = ShootingTriggers;
+            }
+            if (rule.ChargeTrigger != 0) {
+                ChargeTriggers = (int)rule.ChargeTrigger;
+                dropdownCharge.value = ChargeTriggers;
+            }
+            if (rule.FightTrigger != 0) {
+                FightTriggers = (int)rule.FightTrigger;
+                dropdownFightsTriggers.value = FightTriggers;
+            }
+            if (rule.MoraleTrigger != 0) {
+                MoraleTriggers = (int)rule.MoraleTrigger;
+                dropdownMorale.value = MoraleTriggers;
+            }
+            if (rule.AttackTrigger != 0) {
+                AttackTriggers = (int)rule.AttackTrigger;
+                dropdownAttackTriggers.value = AttackTriggers;
+            }
+            if (rule.WoundTrigger != 0) {
+                WoundTriggers = (int)rule.WoundTrigger;
+                dropdownWoundTriggers.value = WoundTriggers;
+            }
+            if (rule.PowerTrigger != 0) {
+                PowerTriggers = (int)rule.PowerTrigger;
+                dropdownPowerTriggers.value = PowerTriggers;
+            }
+            if (rule.DenyTrigger != 0) {
+                DenyTriggers = (int)rule.DenyTrigger;
+                dropdownDenyTriggers.value = DenyTriggers;
+            }
+            if (rule.ChargeTrigger != 0) {
+                ChargeTriggers = (int)rule.ChargeTrigger;
+                dropdownChargeTriggers.value = ChargeTriggers;
+            }
+            if (rule.SpecificFightsTrigger != 0) {
+                SpecificFightsTriggers = (int)rule.SpecificFightsTrigger;
+                dropdownFightsTriggers.value = SpecificFightsTriggers;
+            }
+        }
+
+        RuleTarget = (int)rule.Target;
+        dropdownTarget.value = RuleTarget;
+        if (RuleTarget != 9 &&
+            RuleTarget != 10) {
+
+            Range = rule.Range;
+            inputRange.text = Range.ToString();
+
+            if (RuleTarget == 11) {
+                InputKeyword = rule.Keyword;
+                inputKeyword.text = InputKeyword;
+                KeywordTarget = (int)rule.KeywordTarget;
+                dropdownKeywordTarget.value = KeywordTarget;
+            }
+        }
+
+        RuleType = (int)rule.RuleType;
+        panelRuleType.GetComponentInChildren<Dropdown>().value = RuleType;
+        switch (RuleType) {
+            case 1: 
+                ReserveOutsideEnemy = rule.ReserveOutsideEnemy;
+                toggleOutsideEnemy.isOn = ReserveOutsideEnemy;
+                ReserveFromObject = rule.ReserveFromObject;
+                toggleFromObject.isOn = ReserveFromObject;
+                ReserveRerollCharges = rule.RerollCharges;
+                toggleRerollCharges.isOn = ReserveRerollCharges;
+                ReserveDealsMortal = rule.ReserveMortalWounds;
+                toggleReserveMortal.isOn = ReserveDealsMortal;
+
+                if (ReserveDealsMortal) {
+                    ReserveDamageRange = rule.ReserveRange;
+                    inputReserveRange.text = ReserveDamageRange.ToString();
+                    if (rule.Damage == 0) {
+                        Damage = (int)rule.DamageDice + 7;
+                    }
+                    dropdownDamage.value = Damage;
+                }
+                break;
+            case 2:
+            case 3:
+                Roll = rule.Roll;
+                dropdownRoll.value = Roll;
+                break;
+            case 4:
+                Profile = (int)rule.Profile;
+                dropdownProfile.value = Profile;
+                Modifier = (int)rule.Modify;
+                dropdownProfileModifier.value = Modifier;
+                if (rule.ProfileChange == 0) {
+                    Change = (int)rule.ChangeDice + 7;
+                } else {
+                    Change = rule.ProfileChange;
+                }
+                dropdownProfileChange.value = Change;
+                break;
+            case 5:
+                RollModified = (int)rule.RollModified;
+                dropdownModifiedRoll.value = RollModified;
+                ModifiedBy = (int)rule.RollModifiedBy;
+                dropdownModifiedBy.value = ModifiedBy;
+                RollModifier = (int)rule.RollModifierAmount;
+                dropdownModifier.value = RollModifier;
+                break;
+            case 6:
+                PenaltyIgnored = (int)rule.IgnoreProfile;
+                panelIgnore.GetComponentInChildren<Dropdown>().value = PenaltyIgnored;
+                break;
+            case 9:
+                OnlyAdditionalAttack = rule.AdditionalAttackOnly;
+                toggleOnlyAttack.isOn = OnlyAdditionalAttack;
+                CanExplode = rule.AdditionalAttacksCanExplode;
+                toggleCanExplode.isOn = CanExplode;
+                break;
+            case 10:
+                if (rule.Damage == 0) {
+                    Damage = (int)rule.DamageDice + 7;
+                }
+                dropdownDamage.value = Damage;
+                Roll = rule.Roll;
+                dropdownRoll.value = Roll;
+                SlayTheModel = rule.SlayTheModel;
+                panelMortalWounds.GetComponentInChildren<Toggle>().isOn = SlayTheModel;
+                break;
+        }
     }
 
     public void Back() {

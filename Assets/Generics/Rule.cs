@@ -27,6 +27,7 @@ public class Rule {
     public enum SpecificFightsTriggers { UnitChosen, PileIn, Consolidate }
 
     public enum Targets { NotChosen, All, AllAllies, AllEnemies, TargetUnit, TargetAlly, TargetEnemy, NearestAlly, NearestEnemy, Unit, Model, Keyword }
+    public enum KeywordTargets { All, AllAllies, AllEnemies, TargetUnit, TargetAlly, TargetEnemy, NearestAlly, NearestEnemy }
 
     public enum RuleTypes { NotChosen, Reserves, Invuln, IgnoreWounds, ChangeProfile, Roll, IgnorePenaly, AllowShooting, AllowCharge, AdditionalAttack, MortalWounds }
 
@@ -63,6 +64,7 @@ public class Rule {
 
     public Targets Target { get; set; }
     public string Keyword { get; set; }
+    public KeywordTargets KeywordTarget { get; set; }
 
     public RuleTypes RuleType { get; set; }
 
