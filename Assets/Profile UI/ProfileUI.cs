@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class ProfileUI : MonoBehaviour {
 
+    public Text textMessage;
     public GameObject[] unitCard;
     public Text textDamage;
     public Dropdown dropdownDamage;
@@ -42,6 +43,7 @@ public class ProfileUI : MonoBehaviour {
     Color defaultText;
         
     void Awake () {
+        Assert.IsNotNull(textMessage, "The Message text has not been assigned to the UI manager.");
         Assert.IsTrue(unitCard.Length > 0, "Unit card panels have not been assigned to the UI Manager.");
         Assert.IsNotNull(textDamage, "Text Damage has not been assigned to the UI Manager.");
         Assert.IsNotNull(dropdownDamage, "Dropdown Damage has not bee assinged to the UI Manager.");
@@ -179,6 +181,7 @@ public class ProfileUI : MonoBehaviour {
                 Debug.Log("Damage Chart " + i + "- M:" + profile.Move[i] + " WS: " + profile.WeaponSkill[i] + " BS: " + profile.BallisticSkill[i] + " S: " + profile.Strength[i] +
                           " T: " + profile.Toughness[i] + " W: " + profile.Wounds[i] + " A: " + profile.Attacks[i] + " Ld: " + profile.Leadership[i] + " Sv: " + profile.Save[i]);
             }
+            textMessage.text = "";
 
             instance.ActiveProfile = profile;
             bool nameCheck = true;
@@ -202,8 +205,7 @@ public class ProfileUI : MonoBehaviour {
             }
                        
         } else {
-
-            Debug.Log("Unit Profile is not complete. Please finish the card for all rows of the damage chart.");
+            textMessage.text = "Unit Profile is not complete. Please finish the card for all rows of the damage chart.";
         }
     }
 
@@ -392,6 +394,7 @@ public class ProfileUI : MonoBehaviour {
                 currentProfileCorrect = false;
             }
         }
+        textMessage.text = "";
         return currentProfileCorrect;
     }
 
@@ -474,10 +477,12 @@ public class ProfileUI : MonoBehaviour {
         foreach (Text text in temp) {
             text.color = Color.red;
         }
+        textMessage.text = "Profile contains illegal values.";
         Debug.Log("Value of " + name + " is not legal.");
     }
     
     public void ResetLoad(Profile profile) {
+        textMessage.text = "";
 
         PointsValue = profile.PointsValue;
         GameObject inputPointsValue = GameObject.Find("Input Points Value");

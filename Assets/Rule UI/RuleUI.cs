@@ -347,8 +347,31 @@ public class RuleUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+        if (searchField) {
+
+            string searchTerm = searchField.GetComponent<InputField>().text;
+
+            for (int i = 0; i < buttonRules.Length; i++) {
+                buttonRules[i].gameObject.SetActive(true);
+            }
+
+            if (searchTerm.Length > 0) {
+
+                for (int i = 0; i < searchTerm.Length; i++) {
+
+                    for (int n = 0; n < buttonRules.Length; n++) {
+
+                        string sTemp = buttonRules[n].Rule.Name;
+                        if (searchTerm[i] != sTemp[i]) {
+
+                            buttonRules[n].gameObject.SetActive(false);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     public void CheckAllUseToggles (bool turnTogglesOn) {
 
