@@ -462,8 +462,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 21350164}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -607,6 +607,46 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 22592585}
   m_CullTransparentMesh: 0
+--- !u!1 &23092364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 23092366}
+  - component: {fileID: 23092365}
+  m_Layer: 0
+  m_Name: Value Checker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &23092365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 23092364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8578ab768f7fde24cb2f56102fcfb54f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &23092366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 23092364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &23799489
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,8 +885,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 90163578}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1003,8 +1043,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 93629246}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1161,8 +1201,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 97765994}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1469,8 +1509,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 128341401}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1696,8 +1736,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 142322916}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2079,8 +2119,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 156858569}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2432,8 +2472,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 168978022}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2965,8 +3005,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 209286701}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3348,8 +3388,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 297300487}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3506,8 +3546,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 315143838}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3664,8 +3704,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 318396461}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4122,8 +4162,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 369704949}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4368,7 +4408,7 @@ RectTransform:
   - {fileID: 1500914768}
   - {fileID: 814613417}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4984,8 +5024,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 530056561}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5862,19 +5902,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 668920488}
   m_TextComponent: {fileID: 23799491}
   m_Placeholder: {fileID: 1441686038}
-  m_ContentType: 4
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 1
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 3
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 668920490}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNoEmptyStrings
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6106,8 +6146,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 696466079}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7246,8 +7286,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 843646476}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7841,8 +7881,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 869186273}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7999,8 +8039,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 886915063}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8457,8 +8497,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 916539359}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8684,8 +8724,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 936344578}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9142,8 +9182,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 994017164}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9300,8 +9340,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 168978022}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9458,8 +9498,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 999688676}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9616,8 +9656,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1012502621}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9774,8 +9814,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1012692081}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10007,8 +10047,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1042997989}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10240,8 +10280,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1058441957}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10660,8 +10700,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1115082518}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10893,8 +10933,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1138147045}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11712,7 +11752,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1277058311
 GameObject:
@@ -12027,8 +12067,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1285304154}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12408,8 +12448,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1313075080}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12566,8 +12606,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1322242618}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12952,8 +12992,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1376732417}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13110,8 +13150,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1378883549}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13851,8 +13891,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1456061347}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14009,8 +14049,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1464115409}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14590,8 +14630,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1516125870}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14748,8 +14788,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1528797945}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueD6
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15656,8 +15696,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1621508905}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17534,8 +17574,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1855650522}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17842,8 +17882,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1924250250}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18267,8 +18307,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1972652673}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValueNotNegative
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18575,8 +18615,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1988433621}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18891,8 +18931,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2015484459}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19274,8 +19314,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2045895018}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19988,8 +20028,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2133007229}
-        m_MethodName: CheckValue
+      - m_Target: {fileID: 23092365}
+        m_MethodName: CheckValuePositive
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
