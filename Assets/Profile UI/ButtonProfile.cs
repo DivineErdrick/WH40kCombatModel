@@ -29,7 +29,7 @@ public class ButtonProfile : MonoBehaviour {
 
             profileUI = FindObjectOfType<ProfileUI>();
             instance.ActiveProfile = Profile;
-            profileUI.ResetLoad(Profile);
+            //profileUI.ResetLoad(Profile);
         }
     }
 }

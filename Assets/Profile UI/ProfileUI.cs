@@ -15,41 +15,50 @@ public class ProfileUI : MonoBehaviour {
     public Button buttonLoad;
     public GameObject panelLoad;
     public GameObject contentLoad;
-    public GameObject overwritePanel;
+    public GameObject panelNameCheck;
     public GameObject buttonProfile;
     public Button save;
     public Button load;
 
-    public int PointsValue { get; set; }
-    public string Name { get; set; }
-    public int[] M { get; set; }
-    public int[] WS { get; set; }
-    public int[] BS { get; set; }
-    public int[] S { get; set; }
-    public int[] T { get; set; }
-    public int[] W { get; set; }
-    public int[] A { get; set; }
-    public int[] Ld { get; set; }
-    public int[] Sv { get; set; }
+    //public int PointsValue { get; set; }
+    //public string Name { get; set; }
+    //public int[] M { get; set; }
+    //public int[] WS { get; set; }
+    //public int[] BS { get; set; }
+    //public int[] S { get; set; }
+    //public int[] T { get; set; }
+    //public int[] W { get; set; }
+    //public int[] A { get; set; }
+    //public int[] Ld { get; set; }
+    //public int[] Sv { get; set; }
 
-    public int DamageCharts { get; set; }
+    //public int DamageCharts { get; set; }
 
     ButtonProfile[] buttonProfiles;
 
     GameManager instance;
+    ProfileValueChecker valueChecker;
+    ProfileSetter profileSetter;
     InputField searchField;
+    Color defaultColor;
+
     int profileToLoad;
 
-    Color defaultText;
-        
     void Awake () {
         Assert.IsNotNull(textMessage, "The Message text has not been assigned to the UI manager.");
         Assert.IsTrue(unitCard.Length > 0, "Unit card panels have not been assigned to the UI Manager.");
         Assert.IsNotNull(textDamage, "Text Damage has not been assigned to the UI Manager.");
         Assert.IsNotNull(dropdownDamage, "Dropdown Damage has not bee assinged to the UI Manager.");
+        Assert.IsNotNull(buttonLoad, "Load Button has not been assigned to the UI Manager.");
+        Assert.IsNotNull(panelLoad, "Load Panel has not been assigned to the UI Manager.");
+        Assert.IsNotNull(contentLoad, "Load Content object has not been assigned to the UI Manager.");
+        Assert.IsNotNull(panelNameCheck, "Overwrite Name Check has not been assigned to the UI Manager.");
+        Assert.IsNotNull(buttonProfile, "Profile Button has not been assigned to the UI Manager.");
+        Assert.IsNotNull(save, "Save button has not been assigned to the UI Manager.");
+        Assert.IsNotNull(load, "Load button has not been assigned to the UI Manager.");
 
-        M = new int[unitCard.Length]; WS = new int[unitCard.Length]; BS = new int[unitCard.Length]; S = new int[unitCard.Length]; T = new int[unitCard.Length]; W = new int[unitCard.Length]; A = new int[unitCard.Length];
-        Ld = new int[unitCard.Length]; Sv = new int[unitCard.Length];
+        //M = new int[unitCard.Length]; WS = new int[unitCard.Length]; BS = new int[unitCard.Length]; S = new int[unitCard.Length]; T = new int[unitCard.Length]; W = new int[unitCard.Length]; A = new int[unitCard.Length];
+        //Ld = new int[unitCard.Length]; Sv = new int[unitCard.Length];
 
         buttonProfiles = new ButtonProfile[0];
     }
@@ -58,18 +67,23 @@ public class ProfileUI : MonoBehaviour {
 	void Start () {
 
         instance = GameManager.instance;
+        Assert.IsNotNull(instance, "Can not find Game Manager.");
+        valueChecker = GetComponent<ProfileValueChecker>();
+        Assert.IsNotNull(valueChecker, "Can not find Value Checker.");
+        profileSetter = GetComponent<ProfileSetter>();
+        Assert.IsNotNull(valueChecker, "Can not find Profile Setter.");
 
-        defaultText = dropdownDamage.gameObject.GetComponentInChildren<Text>().color;
-        if ( ! instance.InitialLoad) {
-            Profile profile = instance.ActiveProfile;
-            ResetLoad(profile);
-            //DamageCharts = profile.DamageCharts;
-            //dropdownDamage.value = DamageCharts;
-            //for (int i = 1; i <= DamageCharts; i++) {
-            //    unitCard[i].SetActive(true);
-            //}
-            //UpdateProfiles(profile.DamageCharts);
-        }
+        defaultColor = unitCard[1].GetComponentInChildren<Text>().color;
+        //if ( ! instance.InitialLoad) {
+        //    Profile profile = instance.ActiveProfile;
+        //    //ResetLoad(profile);
+        //    //DamageCharts = profile.DamageCharts;
+        //    //dropdownDamage.value = DamageCharts;
+        //    //for (int i = 1; i <= DamageCharts; i++) {
+        //    //    unitCard[i].SetActive(true);
+        //    //}
+        //    //UpdateProfiles(profile.DamageCharts);
+        //}
 
         if (instance.Profiles.Count > 0) {
             buttonLoad.interactable = true;
@@ -110,11 +124,12 @@ public class ProfileUI : MonoBehaviour {
 
             unitCard[i].SetActive(false);
         }
-        for (int i = 1; i <= DamageCharts; i++) {
+        for (int i = 1; i <= profileSetter.CurrentProfile.DamageCharts; i++) {
 
             unitCard[i].SetActive(true);
         }
-        UpdateProfiles(DamageCharts);
+        ReadProfile();
+        //UpdateProfiles(profileSetter.CurrentProfile.DamageCharts);
         //Vector2 vMin = new Vector2(textDamage.rectTransform.anchorMin.x, 0.75f - 0.05f * (float)damageCharts);
         //Vector2 vMax = new Vector2(textDamage.rectTransform.anchorMax.x, 0.8f - 0.05f * (float)damageCharts);
         //textDamage.rectTransform.anchorMin = vMin;
@@ -129,421 +144,713 @@ public class ProfileUI : MonoBehaviour {
         //dropdownDamage.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
     }
 
-    public void SetCombatProfile (bool overwrite) {
+    public void SetColor (string profileName, bool correctEntry) {
 
-        if (ProfileCorrectlySet()) { //Include damage charts
+        foreach (GameObject card in unitCard) {
 
-            Profile profile = new Profile(DamageCharts);
-            {
-                profile.PointsValue = PointsValue;
-                profile.Name = Name;
+            if (card.activeInHierarchy) {
 
-                //M
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.Move[i] = M[i];
-                }
-                //WS
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.WeaponSkill[i] = WS[i];
-                }
-                //BS
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.BallisticSkill[i] = BS[i];
-                }
-                //S
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.Strength[i] = S[i];
-                }
-                //T
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.Toughness[i] = T[i];
-                }
-                //W
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.Wounds[i] = W[i];
-                }
-                //A
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.Attacks[i] = A[i];
-                }
-                //Ld
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.Leadership[i] = Ld[i];
-                }
-                //Sv
-                for (int i = 0; i <= DamageCharts; i++) {
-                    profile.Save[i] = Sv[i];
-                }
-            }
-            Debug.Log("Combat profile for " + profile.Name + ", " + profile.PointsValue + " points.");
+                InputField[] inputs = card.GetComponentsInChildren<InputField>();
+                foreach (InputField input in inputs) {
 
-            for (int i = 0; i <= profile.DamageCharts; i++) {
-                Debug.Log("Damage Chart " + i + "- M:" + profile.Move[i] + " WS: " + profile.WeaponSkill[i] + " BS: " + profile.BallisticSkill[i] + " S: " + profile.Strength[i] +
-                          " T: " + profile.Toughness[i] + " W: " + profile.Wounds[i] + " A: " + profile.Attacks[i] + " Ld: " + profile.Leadership[i] + " Sv: " + profile.Save[i]);
-            }
-            textMessage.text = "";
+                    if (input.gameObject.name.Contains(profileName)) {
 
-            instance.ActiveProfile = profile;
-            bool nameCheck = true;
-            for (int i = 0; i < instance.Profiles.Count; i++) {
-                if (Name == instance.Profiles[i].Name) {
-                    nameCheck = false;
-                    profileToLoad = i;
-                }
-            }
+                        Text[] texts = input.GetComponentsInChildren<Text>();
+                        foreach (Text text in texts) {
 
-            if (nameCheck) {
-                instance.Profiles.Add(profile);
-                instance.Save();
-                buttonLoad.interactable = true;
-            } else if (overwrite) {
-                instance.Profiles[profileToLoad] = profile;
-                overwritePanel.SetActive(false);
-                instance.Save();
-            } else {
-                overwritePanel.SetActive(true);
-            }
-                       
-        } else {
-            textMessage.text = "Unit Profile is not complete. Please finish the card for all rows of the damage chart.";
-        }
-    }
-
-    public void UpdateProfiles (int damageCharts) {
-
-        int nTemp;
-
-        //M
-        nTemp = Mathf.Min(damageCharts+1, M.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input M" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = M[i].ToString();
-        }
-        //WS
-        nTemp = Mathf.Min(damageCharts+1, WS.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input WS" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = WS[i].ToString();
-        }
-        //BS
-        nTemp = Mathf.Min(damageCharts+1, BS.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input BS" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = BS[i].ToString();
-        }
-        //S
-        nTemp = Mathf.Min(damageCharts+1, S.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input S" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = S[i].ToString();
-        }
-        //T
-        nTemp = Mathf.Min(damageCharts+1, T.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input T" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = T[i].ToString();
-        }
-        //W
-        nTemp = Mathf.Min(damageCharts+1, W.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input W" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = W[i].ToString();
-        }
-        //A
-        nTemp = Mathf.Min(damageCharts+1, A.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input A" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = A[i].ToString();
-        }
-        //Ld
-        nTemp = Mathf.Min(damageCharts+1, Ld.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input Ld" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = Ld[i].ToString();
-        }
-        //Sv
-        nTemp = Mathf.Min(damageCharts+1, Sv.Count(i => i != 0));
-        for (int i = 0; i < nTemp; i++) {
-            string sTemp = "Input Sv" + i;
-            GameObject.Find(sTemp).GetComponent<InputField>().text = Sv[i].ToString();
-        }
-    }
-
-    bool ProfileCorrectlySet () {
-
-        bool currentProfileCorrect = true;
-        InputField inputTemp = GameObject.Find("Input Points Value").GetComponent<InputField>();
-        Text[] tTemp = inputTemp.gameObject.GetComponentsInChildren<Text>();
-        int nTemp;
-        if (int.TryParse(inputTemp.text, out nTemp)) {
-
-            if (nTemp >= 0) {
-                PointsValue = nTemp;
-                foreach (Text text in tTemp) {
-                    text.color = defaultText;
-                }
-            } else {
-                OutputError(tTemp);
-                currentProfileCorrect = false;
-            }
-        } else {
-            OutputError(tTemp);
-            currentProfileCorrect = false;
-        }
-
-        inputTemp = GameObject.Find("Input Name").GetComponent<InputField>();
-        Name = inputTemp.text;
-        if (Name.Length == 0) {
-            Text[] taTemp = inputTemp.GetComponentsInChildren<Text>();
-            OutputError(taTemp);
-            currentProfileCorrect = false;
-        }
-
-        for (int i = 0; i <= DamageCharts; i++) {
-
-            if (unitCard[i].activeSelf) {
-
-                //M
-                if (ValueCheckNotNegative("Input M", i, out nTemp)) {
-                    M[i] = nTemp;
-                    Debug.Log("M" + i + ": " + M[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-
-                //WS
-                if (ValueCheckDice("Input WS", i, out nTemp)) {
-                    WS[i] = nTemp;
-                    Debug.Log("WS" + i + ": " + WS[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-
-                //BS
-                if (ValueCheckDice("Input BS", i, out nTemp)) {
-                    BS[i] = nTemp;
-                    Debug.Log("BS" + i + ": " + BS[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-
-                //S
-                if (ValueCheckPositive("Input S", i, out nTemp)) {
-                    S[i] = nTemp;
-                    Debug.Log("S" + i + ": " + S[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-
-                //T
-                if (ValueCheckPositive("Input T", i, out nTemp)) {
-                    T[i] = nTemp;
-                    Debug.Log("T" + i + ": " + T[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-
-                //W
-                if (ValueCheckPositive("Input W", i, out nTemp)) {
-                    W[i] = nTemp;
-                    Debug.Log("W" + i + ": " + W[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-                if (i > 0) {
-                    if (W[i] >= W[i-1]) {
-                        Debug.Log("W" + i + " is not less than W" + (i - 1) + ". Please check that wound chart values are correct.");
-                        string sTemp = "Input W" + i;
-                        Text[] textTemp = GameObject.Find(sTemp).GetComponentsInChildren<Text>();
-                        for (int n = 0; n < textTemp.Length; n++) {
-                            textTemp[n].color = Color.red;
+                            text.color = (correctEntry) ? defaultColor : Color.red;
+                            if (text.gameObject.name.Contains("Place")) {
+                                
+                                if (profileName == "Name") {
+                                    text.text = (correctEntry) ? "Name" : "Error";
+                                } else {
+                                    text.text = (correctEntry) ? "" : "E";
+                                }
+                            }
                         }
-                        currentProfileCorrect = false;
                     }
                 }
-
-                //A
-                if (ValueCheckPositive("Input A", i, out nTemp)) {
-                    A[i] = nTemp;
-                    Debug.Log("A" + i + ": " + A[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-
-                //Ld
-                if (ValueCheckPositive("Input Ld", i, out nTemp)) {
-                    Ld[i] = nTemp;
-                    Debug.Log("Ld" + i + ": " + Ld[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-
-                //Sv
-                if (ValueCheckDice("Input Sv", i, out nTemp)) {
-                    Sv[i] = nTemp;
-                    Debug.Log("Sv" + i + ": " + Sv[i]);
-                } else {
-                    currentProfileCorrect = false;
-                }
-
-                //if (! includeDamageCharts) {
-                //    break;
-                //}
-
-            } else if (i == 0) {
-                currentProfileCorrect = false;
             }
         }
-        textMessage.text = "";
-        return currentProfileCorrect;
     }
 
-    bool ValueCheckDice (string name, int i, out int value) {
-        int nTemp;
-        string sTemp = name + i;
-        InputField inputTemp = GameObject.Find(sTemp).GetComponent<InputField>();
-        Text[] tTemp = inputTemp.gameObject.GetComponentsInChildren<Text>();
-        if (int.TryParse(inputTemp.text, out nTemp)) {
+    public void ReadProfile () {
 
-            if (0 < nTemp && nTemp < 7) {
-                value = nTemp;
-                foreach (Text text in tTemp) {
-                    text.color = defaultText;
+        if (profileSetter.CurrentProfile != null) {
+
+            foreach (GameObject card in unitCard) {
+
+                if (card.activeInHierarchy) {
+
+                    InputField[] inputs = GetComponentsInChildren<InputField>();
+                    foreach (InputField input in inputs) {
+
+                        switch (input.gameObject.name) {
+
+                            case "Input Points Value":
+                                input.text = profileSetter.CurrentProfile.PointsValue.ToString();
+                                break;
+                            case "Input Name":
+                                input.text = profileSetter.CurrentProfile.Name;
+                                break;
+                            case "Input M0":
+                                if (profileSetter.CurrentProfile.Move.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.Move[0].ToString();
+                                }
+                                break;
+                            case "Input M1":
+                                if (profileSetter.CurrentProfile.Move.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.Move[1].ToString();
+                                }
+                                break;
+                            case "Input M2":
+                                if (profileSetter.CurrentProfile.Move.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.Move[2].ToString();
+                                }
+                                break;
+                            case "Input M3":
+                                if (profileSetter.CurrentProfile.Move.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.Move[3].ToString();
+                                }
+                                break;
+                            case "Input M4":
+                                if (profileSetter.CurrentProfile.Move.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.Move[4].ToString();
+                                }
+                                break;
+                            case "Input WS0":
+                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.WeaponSkill[0].ToString();
+                                }
+                                break;
+                            case "Input WS1":
+                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.WeaponSkill[1].ToString();
+                                }
+                                break;
+                            case "Input WS2":
+                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.WeaponSkill[2].ToString();
+                                }
+                                break;
+                            case "Input WS3":
+                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.WeaponSkill[3].ToString();
+                                }
+                                break;
+                            case "Input WS4":
+                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.WeaponSkill[4].ToString();
+                                }
+                                break;
+                            case "Input BS0":
+                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.BallisticSkill[0].ToString();
+                                }
+                                break;
+                            case "Input BS1":
+                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.BallisticSkill[1].ToString();
+                                }
+                                break;
+                            case "Input BS2":
+                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.BallisticSkill[2].ToString();
+                                }
+                                break;
+                            case "Input BS3":
+                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.BallisticSkill[3].ToString();
+                                }
+                                break;
+                            case "Input BS4":
+                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.BallisticSkill[4].ToString();
+                                }
+                                break;
+                            case "Input S0":
+                                if (profileSetter.CurrentProfile.Strength.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.Strength[0].ToString();
+                                }
+                                break;
+                            case "Input S1":
+                                if (profileSetter.CurrentProfile.Strength.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.Strength[1].ToString();
+                                }
+                                break;
+                            case "Input S2":
+                                if (profileSetter.CurrentProfile.Strength.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.Strength[2].ToString();
+                                }
+                                break;
+                            case "Input S3":
+                                if (profileSetter.CurrentProfile.Strength.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.Strength[3].ToString();
+                                }
+                                break;
+                            case "Input S4":
+                                if (profileSetter.CurrentProfile.Strength.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.Strength[4].ToString();
+                                }
+                                break;
+                            case "Input T0":
+                                if (profileSetter.CurrentProfile.Toughness.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.Toughness[0].ToString();
+                                }
+                                break;
+                            case "Input T1":
+                                if (profileSetter.CurrentProfile.Toughness.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.Toughness[1].ToString();
+                                }
+                                break;
+                            case "Input T2":
+                                if (profileSetter.CurrentProfile.Toughness.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.Toughness[2].ToString();
+                                }
+                                break;
+                            case "Input T3":
+                                if (profileSetter.CurrentProfile.Toughness.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.Toughness[3].ToString();
+                                }
+                                break;
+                            case "Input T4":
+                                if (profileSetter.CurrentProfile.Toughness.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.Toughness[4].ToString();
+                                }
+                                break;
+                            case "Input W0":
+                                if (profileSetter.CurrentProfile.Wounds.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.Wounds[0].ToString();
+                                }
+                                break;
+                            case "Input W1":
+                                if (profileSetter.CurrentProfile.Wounds.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.Wounds[1].ToString();
+                                }
+                                break;
+                            case "Input W2":
+                                if (profileSetter.CurrentProfile.Wounds.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.Wounds[2].ToString();
+                                }
+                                break;
+                            case "Input W3":
+                                if (profileSetter.CurrentProfile.Wounds.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.Wounds[3].ToString();
+                                }
+                                break;
+                            case "Input W4":
+                                if (profileSetter.CurrentProfile.Wounds.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.Wounds[4].ToString();
+                                }
+                                break;
+                            case "Input A0":
+                                if (profileSetter.CurrentProfile.Attacks.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.Attacks[0].ToString();
+                                }
+                                break;
+                            case "Input A1":
+                                if (profileSetter.CurrentProfile.Attacks.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.Attacks[1].ToString();
+                                }
+                                break;
+                            case "Input A2":
+                                if (profileSetter.CurrentProfile.Attacks.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.Attacks[2].ToString();
+                                }
+                                break;
+                            case "Input A3":
+                                if (profileSetter.CurrentProfile.Attacks.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.Attacks[3].ToString();
+                                }
+                                break;
+                            case "Input A4":
+                                if (profileSetter.CurrentProfile.Attacks.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.Attacks[4].ToString();
+                                }
+                                break;
+                            case "Input Ld0":
+                                if (profileSetter.CurrentProfile.Leadership.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.Leadership[0].ToString();
+                                }
+                                break;
+                            case "Input Ld1":
+                                if (profileSetter.CurrentProfile.Leadership.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.Leadership[1].ToString();
+                                }
+                                break;
+                            case "Input Ld2":
+                                if (profileSetter.CurrentProfile.Leadership.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.Leadership[2].ToString();
+                                }
+                                break;
+                            case "Input Ld3":
+                                if (profileSetter.CurrentProfile.Leadership.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.Leadership[3].ToString();
+                                }
+                                break;
+                            case "Input Ld4":
+                                if (profileSetter.CurrentProfile.Leadership.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.Leadership[4].ToString();
+                                }
+                                break;
+                            case "Input Sv0":
+                                if (profileSetter.CurrentProfile.Save.Count > 0) {
+                                    input.text = profileSetter.CurrentProfile.Save[0].ToString();
+                                }
+                                break;
+                            case "Input Sv1":
+                                if (profileSetter.CurrentProfile.Save.Count > 1) {
+                                    input.text = profileSetter.CurrentProfile.Save[1].ToString();
+                                }
+                                break;
+                            case "Input Sv2":
+                                if (profileSetter.CurrentProfile.Save.Count > 2) {
+                                    input.text = profileSetter.CurrentProfile.Save[2].ToString();
+                                }
+                                break;
+                            case "Input Sv3":
+                                if (profileSetter.CurrentProfile.Save.Count > 3) {
+                                    input.text = profileSetter.CurrentProfile.Save[3].ToString();
+                                }
+                                break;
+                            case "Input Sv4":
+                                if (profileSetter.CurrentProfile.Save.Count > 4) {
+                                    input.text = profileSetter.CurrentProfile.Save[4].ToString();
+                                }
+                                break;
+                        }
+                    }
                 }
-                return true;
-            } else {
-                value = 0;
-                OutputError(tTemp);
-                return false;
             }
-        } else {
-            value = 0;
-            OutputError(tTemp);
-            return false;
         }
     }
 
-    bool ValueCheckPositive (string name, int i, out int value) {
-        int nTemp;
-        string sTemp = name + i;
-        InputField inputTemp = GameObject.Find(sTemp).GetComponent<InputField>();
-        Text[] tTemp = inputTemp.gameObject.GetComponentsInChildren<Text>();
-        if (int.TryParse(inputTemp.text, out nTemp)) {
+    public void OutputProfileError (string profileName, int index) {
 
-            if (nTemp > 0) {
-                value = nTemp;
-                foreach (Text text in tTemp) {
-                    text.color = defaultText;
-                }
-                return true;
-            } else {
-                value = 0;
-                OutputError(tTemp);
-                return false;
+        InputField[] inputs = unitCard[index].GetComponentsInChildren<InputField>();
+        foreach (InputField input in inputs) {
+            if (input.gameObject.name == profileName) {
+
+                SetColor(input.gameObject.name, false);                
             }
-        } else {
-            value = 0;
-            OutputError(tTemp);
-            return false;
         }
     }
 
-    bool ValueCheckNotNegative (string name, int i, out int value) {
-        int nTemp;
-        string sTemp = name + i;
-        InputField inputTemp = GameObject.Find(sTemp).GetComponent<InputField>();
-        Text[] tTemp = inputTemp.gameObject.GetComponentsInChildren<Text>();
-        if (int.TryParse(inputTemp.text, out nTemp)) {
+    //public void SetCombatProfile (bool overwrite) {
 
-            if (nTemp >= 0) {
-                value = nTemp;
-                foreach (Text text in tTemp) {
-                    text.color = defaultText;
-                }
-                return true;
-            } else {
-                value = 0;
-                OutputError(tTemp);
-                return false;
-            }
-        } else {
-            value = 0;
-            OutputError(tTemp);
-            return false;
-        }
-    }
+    //    if (ProfileCorrectlySet()) { //Include damage charts
 
-    void OutputError(Text[] temp) {
-        foreach (Text text in temp) {
-            text.color = Color.red;
-        }
-        textMessage.text = "Profile contains illegal values.";
-        Debug.Log("Value of " + name + " is not legal.");
-    }
+    //        Profile profile = new Profile();
+    //        {
+    //            profile.PointsValue = PointsValue;
+    //            profile.Name = Name;
+
+    //            //M
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.Move[i] = M[i];
+    //            }
+    //            //WS
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.WeaponSkill[i] = WS[i];
+    //            }
+    //            //BS
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.BallisticSkill[i] = BS[i];
+    //            }
+    //            //S
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.Strength[i] = S[i];
+    //            }
+    //            //T
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.Toughness[i] = T[i];
+    //            }
+    //            //W
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.Wounds[i] = W[i];
+    //            }
+    //            //A
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.Attacks[i] = A[i];
+    //            }
+    //            //Ld
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.Leadership[i] = Ld[i];
+    //            }
+    //            //Sv
+    //            for (int i = 0; i <= DamageCharts; i++) {
+    //                profile.Save[i] = Sv[i];
+    //            }
+    //        }
+    //        Debug.Log("Combat profile for " + profile.Name + ", " + profile.PointsValue + " points.");
+
+    //        for (int i = 0; i <= profile.DamageCharts; i++) {
+    //            Debug.Log("Damage Chart " + i + "- M:" + profile.Move[i] + " WS: " + profile.WeaponSkill[i] + " BS: " + profile.BallisticSkill[i] + " S: " + profile.Strength[i] +
+    //                      " T: " + profile.Toughness[i] + " W: " + profile.Wounds[i] + " A: " + profile.Attacks[i] + " Ld: " + profile.Leadership[i] + " Sv: " + profile.Save[i]);
+    //        }
+    //        textMessage.text = "";
+
+    //        instance.ActiveProfile = profile;
+    //        bool nameCheck = true;
+    //        for (int i = 0; i < instance.Profiles.Count; i++) {
+    //            if (Name == instance.Profiles[i].Name) {
+    //                nameCheck = false;
+    //                profileToLoad = i;
+    //            }
+    //        }
+
+    //        if (nameCheck) {
+    //            instance.Profiles.Add(profile);
+    //            instance.Save();
+    //            buttonLoad.interactable = true;
+    //        } else if (overwrite) {
+    //            instance.Profiles[profileToLoad] = profile;
+    //            overwritePanel.SetActive(false);
+    //            instance.Save();
+    //        } else {
+    //            overwritePanel.SetActive(true);
+    //        }
+                       
+    //    } else {
+    //        textMessage.text = "Unit Profile is not complete. Please finish the card for all rows of the damage chart.";
+    //    }
+    //}
+
+    //public void UpdateProfiles (int damageCharts) {
+
+    //    int nTemp;
+
+    //    //M
+    //    nTemp = Mathf.Min(damageCharts+1, M.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input M" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = M[i].ToString();
+    //    }
+    //    //WS
+    //    nTemp = Mathf.Min(damageCharts+1, WS.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input WS" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = WS[i].ToString();
+    //    }
+    //    //BS
+    //    nTemp = Mathf.Min(damageCharts+1, BS.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input BS" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = BS[i].ToString();
+    //    }
+    //    //S
+    //    nTemp = Mathf.Min(damageCharts+1, S.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input S" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = S[i].ToString();
+    //    }
+    //    //T
+    //    nTemp = Mathf.Min(damageCharts+1, T.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input T" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = T[i].ToString();
+    //    }
+    //    //W
+    //    nTemp = Mathf.Min(damageCharts+1, W.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input W" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = W[i].ToString();
+    //    }
+    //    //A
+    //    nTemp = Mathf.Min(damageCharts+1, A.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input A" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = A[i].ToString();
+    //    }
+    //    //Ld
+    //    nTemp = Mathf.Min(damageCharts+1, Ld.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input Ld" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = Ld[i].ToString();
+    //    }
+    //    //Sv
+    //    nTemp = Mathf.Min(damageCharts+1, Sv.Count(i => i != 0));
+    //    for (int i = 0; i < nTemp; i++) {
+    //        string sTemp = "Input Sv" + i;
+    //        GameObject.Find(sTemp).GetComponent<InputField>().text = Sv[i].ToString();
+    //    }
+    //}
+
+    //bool ProfileCorrectlySet () {
+
+    //    bool currentProfileCorrect = true;
+    //    InputField inputTemp = GameObject.Find("Input Points Value").GetComponent<InputField>();
+    //    Text[] tTemp = inputTemp.gameObject.GetComponentsInChildren<Text>();
+    //    int nTemp;
+    //    if (int.TryParse(inputTemp.text, out nTemp)) {
+
+    //        if (nTemp >= 0) {
+    //            PointsValue = nTemp;
+    //            foreach (Text text in tTemp) {
+    //                text.color = defaultText;
+    //            }
+    //        } else {
+    //            OutputError(tTemp);
+    //            currentProfileCorrect = false;
+    //        }
+    //    } else {
+    //        OutputError(tTemp);
+    //        currentProfileCorrect = false;
+    //    }
+
+    //    inputTemp = GameObject.Find("Input Name").GetComponent<InputField>();
+    //    Name = inputTemp.text;
+    //    if (Name.Length == 0) {
+    //        Text[] taTemp = inputTemp.GetComponentsInChildren<Text>();
+    //        OutputError(taTemp);
+    //        currentProfileCorrect = false;
+    //    }
+
+    //    for (int i = 0; i <= DamageCharts; i++) {
+
+    //        if (unitCard[i].activeSelf) {
+
+    //            //M
+    //            if (ValueCheckNotNegative("Input M", i, out nTemp)) {
+    //                M[i] = nTemp;
+    //                Debug.Log("M" + i + ": " + M[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+
+    //            //WS
+    //            if (ValueCheckDice("Input WS", i, out nTemp)) {
+    //                WS[i] = nTemp;
+    //                Debug.Log("WS" + i + ": " + WS[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+
+    //            //BS
+    //            if (ValueCheckDice("Input BS", i, out nTemp)) {
+    //                BS[i] = nTemp;
+    //                Debug.Log("BS" + i + ": " + BS[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+
+    //            //S
+    //            if (ValueCheckPositive("Input S", i, out nTemp)) {
+    //                S[i] = nTemp;
+    //                Debug.Log("S" + i + ": " + S[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+
+    //            //T
+    //            if (ValueCheckPositive("Input T", i, out nTemp)) {
+    //                T[i] = nTemp;
+    //                Debug.Log("T" + i + ": " + T[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+
+    //            //W
+    //            if (ValueCheckPositive("Input W", i, out nTemp)) {
+    //                W[i] = nTemp;
+    //                Debug.Log("W" + i + ": " + W[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+    //            if (i > 0) {
+    //                if (W[i] >= W[i-1]) {
+    //                    Debug.Log("W" + i + " is not less than W" + (i - 1) + ". Please check that wound chart values are correct.");
+    //                    string sTemp = "Input W" + i;
+    //                    Text[] textTemp = GameObject.Find(sTemp).GetComponentsInChildren<Text>();
+    //                    for (int n = 0; n < textTemp.Length; n++) {
+    //                        textTemp[n].color = Color.red;
+    //                    }
+    //                    currentProfileCorrect = false;
+    //                }
+    //            }
+
+    //            //A
+    //            if (ValueCheckPositive("Input A", i, out nTemp)) {
+    //                A[i] = nTemp;
+    //                Debug.Log("A" + i + ": " + A[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+
+    //            //Ld
+    //            if (ValueCheckPositive("Input Ld", i, out nTemp)) {
+    //                Ld[i] = nTemp;
+    //                Debug.Log("Ld" + i + ": " + Ld[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+
+    //            //Sv
+    //            if (ValueCheckDice("Input Sv", i, out nTemp)) {
+    //                Sv[i] = nTemp;
+    //                Debug.Log("Sv" + i + ": " + Sv[i]);
+    //            } else {
+    //                currentProfileCorrect = false;
+    //            }
+
+    //            //if (! includeDamageCharts) {
+    //            //    break;
+    //            //}
+
+    //        } else if (i == 0) {
+    //            currentProfileCorrect = false;
+    //        }
+    //    }
+    //    textMessage.text = "";
+    //    return currentProfileCorrect;
+    //}
+
+    //bool ValueCheckDice (string name, int i, out int value) {
+    //    int nTemp;
+    //    string sTemp = name + i;
+    //    InputField inputTemp = GameObject.Find(sTemp).GetComponent<InputField>();
+    //    Text[] tTemp = inputTemp.gameObject.GetComponentsInChildren<Text>();
+    //    if (int.TryParse(inputTemp.text, out nTemp)) {
+
+    //        if (0 < nTemp && nTemp < 7) {
+    //            value = nTemp;
+    //            foreach (Text text in tTemp) {
+    //                text.color = defaultText;
+    //            }
+    //            return true;
+    //        } else {
+    //            value = 0;
+    //            OutputError(tTemp);
+    //            return false;
+    //        }
+    //    } else {
+    //        value = 0;
+    //        OutputError(tTemp);
+    //        return false;
+    //    }
+    //}
+
+    //bool ValueCheckPositive (string name, int i, out int value) {
+    //    int nTemp;
+    //    string sTemp = name + i;
+    //    InputField inputTemp = GameObject.Find(sTemp).GetComponent<InputField>();
+    //    Text[] tTemp = inputTemp.gameObject.GetComponentsInChildren<Text>();
+    //    if (int.TryParse(inputTemp.text, out nTemp)) {
+
+    //        if (nTemp > 0) {
+    //            value = nTemp;
+    //            foreach (Text text in tTemp) {
+    //                text.color = defaultText;
+    //            }
+    //            return true;
+    //        } else {
+    //            value = 0;
+    //            OutputError(tTemp);
+    //            return false;
+    //        }
+    //    } else {
+    //        value = 0;
+    //        OutputError(tTemp);
+    //        return false;
+    //    }
+    //}
+
+    //bool ValueCheckNotNegative (string name, int i, out int value) {
+    //    int nTemp;
+    //    string sTemp = name + i;
+    //    InputField inputTemp = GameObject.Find(sTemp).GetComponent<InputField>();
+    //    Text[] tTemp = inputTemp.gameObject.GetComponentsInChildren<Text>();
+    //    if (int.TryParse(inputTemp.text, out nTemp)) {
+
+    //        if (nTemp >= 0) {
+    //            value = nTemp;
+    //            foreach (Text text in tTemp) {
+    //                text.color = defaultText;
+    //            }
+    //            return true;
+    //        } else {
+    //            value = 0;
+    //            OutputError(tTemp);
+    //            return false;
+    //        }
+    //    } else {
+    //        value = 0;
+    //        OutputError(tTemp);
+    //        return false;
+    //    }
+    //}
+
+    //void OutputError(Text[] temp) {
+    //    foreach (Text text in temp) {
+    //        text.color = Color.red;
+    //    }
+    //    textMessage.text = "Profile contains illegal values.";
+    //    Debug.Log("Value of " + name + " is not legal.");
+    //}
     
-    public void ResetLoad(Profile profile) {
-        textMessage.text = "";
+    //public void ResetLoad(Profile profile) {
+    //    textMessage.text = "";
 
-        PointsValue = profile.PointsValue;
-        GameObject inputPointsValue = GameObject.Find("Input Points Value");
-        if (inputPointsValue) {
-            inputPointsValue.GetComponent<InputField>().text = profile.PointsValue.ToString();
-        }
-        Name = profile.Name;
-        GameObject inputName = GameObject.Find("Input Name");
-        if (inputName) {
-            inputName.GetComponent<InputField>().text = profile.Name;
-        }
+    //    PointsValue = profile.PointsValue;
+    //    GameObject inputPointsValue = GameObject.Find("Input Points Value");
+    //    if (inputPointsValue) {
+    //        inputPointsValue.GetComponent<InputField>().text = profile.PointsValue.ToString();
+    //    }
+    //    Name = profile.Name;
+    //    GameObject inputName = GameObject.Find("Input Name");
+    //    if (inputName) {
+    //        inputName.GetComponent<InputField>().text = profile.Name;
+    //    }
 
-        //M
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            M[i] = profile.Move[i];
-        }
-        //WS
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            WS[i] = profile.WeaponSkill[i];
-        }
-        //BS
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            BS[i] = profile.BallisticSkill[i];
-        }
-        //S
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            S[i] = profile.Strength[i];
-        }
-        //T
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            T[i] = profile.Toughness[i];
-        }
-        //W
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            W[i] = profile.Wounds[i];
-        }
-        //A
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            A[i] = profile.Attacks[i];
-        }
-        //Ld
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            Ld[i] = profile.Leadership[i];
-        }
-        //Sv
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            Sv[i] = profile.Save[i];
-        }
+    //    //M
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        M[i] = profile.Move[i];
+    //    }
+    //    //WS
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        WS[i] = profile.WeaponSkill[i];
+    //    }
+    //    //BS
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        BS[i] = profile.BallisticSkill[i];
+    //    }
+    //    //S
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        S[i] = profile.Strength[i];
+    //    }
+    //    //T
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        T[i] = profile.Toughness[i];
+    //    }
+    //    //W
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        W[i] = profile.Wounds[i];
+    //    }
+    //    //A
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        A[i] = profile.Attacks[i];
+    //    }
+    //    //Ld
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        Ld[i] = profile.Leadership[i];
+    //    }
+    //    //Sv
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        Sv[i] = profile.Save[i];
+    //    }
 
-        DamageCharts = profile.DamageCharts;
-        dropdownDamage.value = DamageCharts;
-        for (int i = 1; i <= DamageCharts; i++) {
-            unitCard[i].SetActive(true);
-        }
-        UpdateProfiles(profile.DamageCharts);
+    //    DamageCharts = profile.DamageCharts;
+    //    dropdownDamage.value = DamageCharts;
+    //    for (int i = 1; i <= DamageCharts; i++) {
+    //        unitCard[i].SetActive(true);
+    //    }
+    //    UpdateProfiles(profile.DamageCharts);
 
-        Debug.Log(Name + " Points Value: " + PointsValue);
-        for (int i = 0; i <= profile.DamageCharts; i++) {
-            Debug.Log("Chart Line " + i + " - M: " + M[i] + " WS: " + WS[i] + " BS: " + BS[i] + " S: " + S[i] + " T: " + W[i] + " W: " + A[i] + " Ld: " + Ld[i] + " Sv: " + Sv[i]);
-        }
-    }
+    //    Debug.Log(Name + " Points Value: " + PointsValue);
+    //    for (int i = 0; i <= profile.DamageCharts; i++) {
+    //        Debug.Log("Chart Line " + i + " - M: " + M[i] + " WS: " + WS[i] + " BS: " + BS[i] + " S: " + S[i] + " T: " + W[i] + " W: " + A[i] + " Ld: " + Ld[i] + " Sv: " + Sv[i]);
+    //    }
+    //}
 
     public void Load () {
         save.interactable = false;
@@ -567,8 +874,8 @@ public class ProfileUI : MonoBehaviour {
     }
 
     public void LoadSavedProfile () {
-        ResetLoad(instance.Profiles[profileToLoad]);
-        overwritePanel.SetActive(false);
+        //ResetLoad(instance.Profiles[profileToLoad]);
+        panelNameCheck.SetActive(false);
     }
 
     public void Close (bool overwrite) {
@@ -583,7 +890,7 @@ public class ProfileUI : MonoBehaviour {
             searchField = null;
             panelLoad.SetActive(false);
         } else {
-            overwritePanel.SetActive(false);
+            panelNameCheck.SetActive(false);
         }
     }
 

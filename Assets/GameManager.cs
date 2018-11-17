@@ -277,7 +277,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Load();
+        //Load();
 	}
 	
 	// Update is called once per frame
@@ -294,13 +294,13 @@ public class GameManager : MonoBehaviour {
 
         switch (scene.name) {
 
-            case "Profile UI":
-                profileUI = FindObjectOfType<ProfileUI>();
-                //Debug.Log(profileUI.name + " loaded.");
-                if ( ! initialLoad) {
-                    Load();
-                }
-                break;
+            //case "Profile UI":
+            //    profileUI = FindObjectOfType<ProfileUI>();
+            //    //Debug.Log(profileUI.name + " loaded.");
+            //    if ( ! initialLoad) {
+            //        Load();
+            //    }
+            //    break;
 
             //case "Move UI":
             //    Save();
