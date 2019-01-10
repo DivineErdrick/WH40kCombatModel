@@ -30,15 +30,39 @@ public class ProfileSetter : MonoBehaviour {
 	}
 
     public void SetDamageCharts (int damageCharts) {
+        Debug.Log("Setting Damage Charts to " + damageCharts + ".");
         CurrentProfile.DamageCharts = damageCharts;
         profileUI.CreateDamageProfiles();
     }
+
+    //public void ClearExcessDamageChartEntries () {
+
+    //    Debug.Log("Checking to see if there are possibly more entries than Damage Chart values.");
+
+    //    if (CurrentProfile.DamageCharts < 4) {
+
+    //        Debug.Log("Clearing additional entries.");
+
+    //        for (int i = 4; i > CurrentProfile.DamageCharts; i--) {
+
+    //            CurrentProfile.Move[i] = 0;
+    //            CurrentProfile.WeaponSkill[i] = 0;
+    //            CurrentProfile.BallisticSkill[i] = 0;
+    //            CurrentProfile.Strength[i] = 0;
+    //            CurrentProfile.Toughness[i] = 0;
+    //            CurrentProfile.Wounds[i] = 0;
+    //            CurrentProfile.Attacks[i] = 0;
+    //            CurrentProfile.Leadership[i] = 0;
+    //            CurrentProfile.Save[i] = 0;
+    //        }
+    //    }
+    //}
 
     public void SetProfile (string inputName, int value) {
 
         /* The names being used in the ProfileValueChecker are formatted
          so that characters can be set apart to determine both the value
-         and position in the array.*/
+         and position in the array.*/        
         
         if (inputName == "Points") {
 
@@ -55,34 +79,19 @@ public class ProfileSetter : MonoBehaviour {
                 switch (inputName[0]) {
 
                     case 'M':
-                        while (CurrentProfile.Move.Count <= profileIndex) {
-                            CurrentProfile.Move.Add(0);
-                        }
-                        CurrentProfile.Move.Insert(profileIndex, value);
+                        CurrentProfile.Move[profileIndex] = value;
                         break;
                     case 'S':
-                        while (CurrentProfile.Strength.Count <= profileIndex) {
-                            CurrentProfile.Strength.Add(0);
-                        }
-                        CurrentProfile.Strength.Insert(profileIndex, value);
+                        CurrentProfile.Strength[profileIndex] = value;
                         break;
                     case 'T':
-                        while (CurrentProfile.Toughness.Count <= profileIndex) {
-                            CurrentProfile.Toughness.Add(0);
-                        }
-                        CurrentProfile.Toughness.Insert(profileIndex, value);
+                        CurrentProfile.Toughness[profileIndex] = value;
                         break;
                     case 'W':
-                        while (CurrentProfile.Wounds.Count <= profileIndex) {
-                            CurrentProfile.Wounds.Add(0);
-                        }
-                        CurrentProfile.Wounds.Insert(profileIndex, value);
+                        CurrentProfile.Wounds[profileIndex] = value;
                         break;
                     case 'A':
-                        while (CurrentProfile.Attacks.Count <= profileIndex) {
-                            CurrentProfile.Attacks.Add(0);
-                        }
-                        CurrentProfile.Attacks.Insert(profileIndex, value);
+                        CurrentProfile.Attacks[profileIndex] = value;
                         break;
                 }
             } else if (inputName.Length == 3) {
@@ -91,34 +100,20 @@ public class ProfileSetter : MonoBehaviour {
 
                 switch (inputName[0]) {
                     case 'W':
-                        while (CurrentProfile.WeaponSkill.Count <= profileIndex) {
-                            CurrentProfile.WeaponSkill.Add(0);
-                        }
-                        CurrentProfile.WeaponSkill.Insert(profileIndex, value);
+                        CurrentProfile.WeaponSkill[profileIndex] = value;
                         break;
                     case 'B':
-                        while (CurrentProfile.BallisticSkill.Count <= profileIndex) {
-                            CurrentProfile.BallisticSkill.Add(0);
-                        }
-                        CurrentProfile.BallisticSkill.Insert(profileIndex, value);
+                        CurrentProfile.BallisticSkill[profileIndex] = value;
                         break;
                     case 'L':
-                        while (CurrentProfile.Leadership.Count <= profileIndex) {
-                            CurrentProfile.Leadership.Add(0);
-                        }
-                        CurrentProfile.Leadership.Insert(profileIndex, value);
+                        CurrentProfile.Leadership[profileIndex] = value;
                         break;
                     case 'S':
-                        while (CurrentProfile.Strength.Count <= profileIndex) {
-                            CurrentProfile.Strength.Add(0);
-                        }
-                        CurrentProfile.Strength.Insert(profileIndex, value);
+                        CurrentProfile.Save[profileIndex] = value;
                         break;
                 }
             }
-        }
-
-        
+        }        
 
         /* The names of the input objects have been formatted so that
          the character array can be easily read. This method grabs the

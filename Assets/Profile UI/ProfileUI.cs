@@ -93,32 +93,34 @@ public class ProfileUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-        if (searchField) {
+        //if (searchField) {
 
-            string searchTerm = searchField.GetComponent<InputField>().text;
+        //    string searchTerm = searchField.GetComponent<InputField>().text;
 
-            for (int i = 0; i < buttonProfiles.Length; i++) {
-                buttonProfiles[i].gameObject.SetActive(true);
-            }
+        //    for (int i = 0; i < buttonProfiles.Length; i++) {
+        //        buttonProfiles[i].gameObject.SetActive(true);
+        //    }
 
-            if (searchTerm.Length > 0) {
+        //    if (searchTerm.Length > 0) {
 
-                for (int i = 0; i < searchTerm.Length; i++) {
+        //        for (int i = 0; i < searchTerm.Length; i++) {
 
-                    for (int n = 0; n < buttonProfiles.Length; n++) {
+        //            for (int n = 0; n < buttonProfiles.Length; n++) {
 
-                        string sTemp = buttonProfiles[n].Profile.Name;
-                        if (searchTerm[i] != sTemp[i]) {
+        //                string sTemp = buttonProfiles[n].Profile.Name;
+        //                if (searchTerm[i] != sTemp[i]) {
 
-                            buttonProfiles[n].gameObject.SetActive(false);
-                        } 
-                    }
-                }
-            }
-        }
+        //                    buttonProfiles[n].gameObject.SetActive(false);
+        //                } 
+        //            }
+        //        }
+        //    }
+        //}
 	}
 
     public void CreateDamageProfiles () {
+
+        Debug.Log("Adjusting visible profiles based on current profiles Damage Charts.");
         
         for (int i = 1; i < unitCard.Length; i++) {
 
@@ -128,6 +130,9 @@ public class ProfileUI : MonoBehaviour {
 
             unitCard[i].SetActive(true);
         }
+
+        Debug.Log("Loading Current Profile into visible profiles.");
+
         ReadProfile();
         //UpdateProfiles(profileSetter.CurrentProfile.DamageCharts);
         //Vector2 vMin = new Vector2(textDamage.rectTransform.anchorMin.x, 0.75f - 0.05f * (float)damageCharts);
@@ -152,6 +157,12 @@ public class ProfileUI : MonoBehaviour {
 
                 InputField[] inputs = card.GetComponentsInChildren<InputField>();
                 foreach (InputField input in inputs) {
+
+                    profileName = (profileName == "S0") ? "Input S0" : profileName;
+                    profileName = (profileName == "S1") ? "Input S1" : profileName;
+                    profileName = (profileName == "S2") ? "Input S2" : profileName;
+                    profileName = (profileName == "S3") ? "Input S3" : profileName;
+                    profileName = (profileName == "S4") ? "Input S4" : profileName;
 
                     if (input.gameObject.name.Contains(profileName)) {
 
@@ -181,242 +192,202 @@ public class ProfileUI : MonoBehaviour {
             foreach (GameObject card in unitCard) {
 
                 if (card.activeInHierarchy) {
+                    Debug.Log("Profile panel " + card.name + " is active.");
 
-                    InputField[] inputs = GetComponentsInChildren<InputField>();
+                    InputField[] inputs = card.GetComponentsInChildren<InputField>();
                     foreach (InputField input in inputs) {
+                        Debug.Log("Attempting to fill " + input.gameObject.name + ".");
 
-                        switch (input.gameObject.name) {
+                        Text[] texts = input.gameObject.GetComponentsInChildren<Text>();
+                        switch (input.gameObject.name) {                            
 
                             case "Input Points Value":
+                                Debug.Log("Setting Points Value in " + input.gameObject.name + ".");
                                 input.text = profileSetter.CurrentProfile.PointsValue.ToString();
                                 break;
                             case "Input Name":
+                                Debug.Log("Setting Input Name in " + input.gameObject.name + ".");
                                 input.text = profileSetter.CurrentProfile.Name;
                                 break;
                             case "Input M0":
-                                if (profileSetter.CurrentProfile.Move.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.Move[0].ToString();
-                                }
+                                Debug.Log("Setting Move[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Move[0].ToString();
                                 break;
                             case "Input M1":
-                                if (profileSetter.CurrentProfile.Move.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.Move[1].ToString();
-                                }
+                                Debug.Log("Setting Move[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Move[1].ToString();
                                 break;
                             case "Input M2":
-                                if (profileSetter.CurrentProfile.Move.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.Move[2].ToString();
-                                }
+                                Debug.Log("Setting Move[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Move[2].ToString();
                                 break;
                             case "Input M3":
-                                if (profileSetter.CurrentProfile.Move.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.Move[3].ToString();
-                                }
+                                Debug.Log("Setting Move[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Move[3].ToString();
                                 break;
                             case "Input M4":
-                                if (profileSetter.CurrentProfile.Move.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.Move[4].ToString();
-                                }
+                                Debug.Log("Setting Move[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Move[4].ToString();
                                 break;
                             case "Input WS0":
-                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.WeaponSkill[0].ToString();
-                                }
+                                Debug.Log("Setting Weapon Skill[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.WeaponSkill[0].ToString();
                                 break;
                             case "Input WS1":
-                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.WeaponSkill[1].ToString();
-                                }
+                                Debug.Log("Setting Weapon Skill[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.WeaponSkill[1].ToString();
                                 break;
                             case "Input WS2":
-                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.WeaponSkill[2].ToString();
-                                }
+                                Debug.Log("Setting Weapon Skill[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.WeaponSkill[2].ToString();
                                 break;
                             case "Input WS3":
-                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.WeaponSkill[3].ToString();
-                                }
+                                Debug.Log("Setting Weapon Skill[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.WeaponSkill[3].ToString();
                                 break;
                             case "Input WS4":
-                                if (profileSetter.CurrentProfile.WeaponSkill.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.WeaponSkill[4].ToString();
-                                }
+                                Debug.Log("Setting Weapon Skill[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.WeaponSkill[4].ToString();
                                 break;
                             case "Input BS0":
-                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.BallisticSkill[0].ToString();
-                                }
+                                Debug.Log("Setting Ballistic Skill[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.BallisticSkill[0].ToString();
                                 break;
                             case "Input BS1":
-                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.BallisticSkill[1].ToString();
-                                }
+                                Debug.Log("Setting Ballistic Skill[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.BallisticSkill[1].ToString();
                                 break;
                             case "Input BS2":
-                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.BallisticSkill[2].ToString();
-                                }
+                                Debug.Log("Setting Ballistic Skill[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.BallisticSkill[2].ToString();
                                 break;
                             case "Input BS3":
-                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.BallisticSkill[3].ToString();
-                                }
+                                Debug.Log("Setting Ballistic Skill[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.BallisticSkill[3].ToString();
                                 break;
                             case "Input BS4":
-                                if (profileSetter.CurrentProfile.BallisticSkill.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.BallisticSkill[4].ToString();
-                                }
+                                Debug.Log("Setting Ballistic Skill[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.BallisticSkill[4].ToString();
                                 break;
                             case "Input S0":
-                                if (profileSetter.CurrentProfile.Strength.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.Strength[0].ToString();
-                                }
+                                Debug.Log("Setting Strength[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Strength[0].ToString();
                                 break;
                             case "Input S1":
-                                if (profileSetter.CurrentProfile.Strength.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.Strength[1].ToString();
-                                }
+                                Debug.Log("Setting Strength[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Strength[1].ToString();
                                 break;
                             case "Input S2":
-                                if (profileSetter.CurrentProfile.Strength.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.Strength[2].ToString();
-                                }
+                                Debug.Log("Setting Strength[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Strength[2].ToString();
                                 break;
                             case "Input S3":
-                                if (profileSetter.CurrentProfile.Strength.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.Strength[3].ToString();
-                                }
+                                Debug.Log("Setting Strength[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Strength[3].ToString();
                                 break;
                             case "Input S4":
-                                if (profileSetter.CurrentProfile.Strength.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.Strength[4].ToString();
-                                }
+                                Debug.Log("Setting Strength[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Strength[4].ToString();
                                 break;
                             case "Input T0":
-                                if (profileSetter.CurrentProfile.Toughness.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.Toughness[0].ToString();
-                                }
+                                Debug.Log("Setting Toughness[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Toughness[0].ToString();
                                 break;
                             case "Input T1":
-                                if (profileSetter.CurrentProfile.Toughness.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.Toughness[1].ToString();
-                                }
+                                Debug.Log("Setting Toughness[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Toughness[1].ToString();
                                 break;
                             case "Input T2":
-                                if (profileSetter.CurrentProfile.Toughness.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.Toughness[2].ToString();
-                                }
+                                Debug.Log("Setting Toughness[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Toughness[2].ToString();
                                 break;
                             case "Input T3":
-                                if (profileSetter.CurrentProfile.Toughness.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.Toughness[3].ToString();
-                                }
+                                Debug.Log("Setting Toughness[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Toughness[3].ToString();
                                 break;
                             case "Input T4":
-                                if (profileSetter.CurrentProfile.Toughness.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.Toughness[4].ToString();
-                                }
+                                Debug.Log("Setting Toughness[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Toughness[4].ToString();
                                 break;
                             case "Input W0":
-                                if (profileSetter.CurrentProfile.Wounds.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.Wounds[0].ToString();
-                                }
+                                Debug.Log("Setting Wounds[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Wounds[0].ToString();
                                 break;
                             case "Input W1":
-                                if (profileSetter.CurrentProfile.Wounds.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.Wounds[1].ToString();
-                                }
+                                Debug.Log("Setting Wounds[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Wounds[1].ToString();
                                 break;
                             case "Input W2":
-                                if (profileSetter.CurrentProfile.Wounds.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.Wounds[2].ToString();
-                                }
+                                Debug.Log("Setting Wounds[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Wounds[2].ToString();
                                 break;
                             case "Input W3":
-                                if (profileSetter.CurrentProfile.Wounds.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.Wounds[3].ToString();
-                                }
+                                Debug.Log("Setting Wounds[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Wounds[3].ToString();
                                 break;
                             case "Input W4":
-                                if (profileSetter.CurrentProfile.Wounds.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.Wounds[4].ToString();
-                                }
+                                Debug.Log("Setting Wounds[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Wounds[4].ToString();
                                 break;
                             case "Input A0":
-                                if (profileSetter.CurrentProfile.Attacks.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.Attacks[0].ToString();
-                                }
+                                Debug.Log("Setting Attacks[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Attacks[0].ToString();
                                 break;
                             case "Input A1":
-                                if (profileSetter.CurrentProfile.Attacks.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.Attacks[1].ToString();
-                                }
+                                Debug.Log("Setting Attacks[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Attacks[1].ToString();
                                 break;
                             case "Input A2":
-                                if (profileSetter.CurrentProfile.Attacks.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.Attacks[2].ToString();
-                                }
+                                Debug.Log("Setting Attacks[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Attacks[2].ToString();
                                 break;
                             case "Input A3":
-                                if (profileSetter.CurrentProfile.Attacks.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.Attacks[3].ToString();
-                                }
+                                Debug.Log("Setting Attacks[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Attacks[3].ToString();
                                 break;
                             case "Input A4":
-                                if (profileSetter.CurrentProfile.Attacks.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.Attacks[4].ToString();
-                                }
+                                Debug.Log("Setting Attacks[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Attacks[4].ToString();
                                 break;
                             case "Input Ld0":
-                                if (profileSetter.CurrentProfile.Leadership.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.Leadership[0].ToString();
-                                }
+                                Debug.Log("Setting Leadership[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Leadership[0].ToString();
                                 break;
                             case "Input Ld1":
-                                if (profileSetter.CurrentProfile.Leadership.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.Leadership[1].ToString();
-                                }
+                                Debug.Log("Setting Leadership[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Leadership[1].ToString();
                                 break;
                             case "Input Ld2":
-                                if (profileSetter.CurrentProfile.Leadership.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.Leadership[2].ToString();
-                                }
+                                Debug.Log("Setting Leadership[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Leadership[2].ToString();
                                 break;
                             case "Input Ld3":
-                                if (profileSetter.CurrentProfile.Leadership.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.Leadership[3].ToString();
-                                }
+                                Debug.Log("Setting Leadership[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Leadership[3].ToString();
                                 break;
                             case "Input Ld4":
-                                if (profileSetter.CurrentProfile.Leadership.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.Leadership[4].ToString();
-                                }
+                                Debug.Log("Setting Leadership[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Leadership[4].ToString();
                                 break;
                             case "Input Sv0":
-                                if (profileSetter.CurrentProfile.Save.Count > 0) {
-                                    input.text = profileSetter.CurrentProfile.Save[0].ToString();
-                                }
+                                Debug.Log("Setting Save[0] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Save[0].ToString();
                                 break;
                             case "Input Sv1":
-                                if (profileSetter.CurrentProfile.Save.Count > 1) {
-                                    input.text = profileSetter.CurrentProfile.Save[1].ToString();
-                                }
+                                Debug.Log("Setting Save[1] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Save[1].ToString();
                                 break;
                             case "Input Sv2":
-                                if (profileSetter.CurrentProfile.Save.Count > 2) {
-                                    input.text = profileSetter.CurrentProfile.Save[2].ToString();
-                                }
+                                Debug.Log("Setting Save[2] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Save[2].ToString();
                                 break;
                             case "Input Sv3":
-                                if (profileSetter.CurrentProfile.Save.Count > 3) {
-                                    input.text = profileSetter.CurrentProfile.Save[3].ToString();
-                                }
+                                Debug.Log("Setting Save[3] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Save[3].ToString();
                                 break;
                             case "Input Sv4":
-                                if (profileSetter.CurrentProfile.Save.Count > 4) {
-                                    input.text = profileSetter.CurrentProfile.Save[4].ToString();
-                                }
+                                Debug.Log("Setting Save[4] in " + input.gameObject.name + ".");
+                                input.text = profileSetter.CurrentProfile.Save[4].ToString();
                                 break;
                         }
                     }
@@ -510,7 +481,7 @@ public class ProfileUI : MonoBehaviour {
     //        } else {
     //            overwritePanel.SetActive(true);
     //        }
-                       
+
     //    } else {
     //        textMessage.text = "Unit Profile is not complete. Please finish the card for all rows of the damage chart.";
     //    }
@@ -787,7 +758,7 @@ public class ProfileUI : MonoBehaviour {
     //    textMessage.text = "Profile contains illegal values.";
     //    Debug.Log("Value of " + name + " is not legal.");
     //}
-    
+
     //public void ResetLoad(Profile profile) {
     //    textMessage.text = "";
 
@@ -851,6 +822,14 @@ public class ProfileUI : MonoBehaviour {
     //        Debug.Log("Chart Line " + i + " - M: " + M[i] + " WS: " + WS[i] + " BS: " + BS[i] + " S: " + S[i] + " T: " + W[i] + " W: " + A[i] + " Ld: " + Ld[i] + " Sv: " + Sv[i]);
     //    }
     //}
+
+    public void OpenNameCheckPanel () {
+        panelNameCheck.SetActive(true);
+    }
+
+    public void EnableLoad () {
+        buttonLoad.interactable = true;
+    }
 
     public void Load () {
         save.interactable = false;

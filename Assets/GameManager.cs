@@ -277,7 +277,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //Load();
+        LoadProfile();
 	}
 	
 	// Update is called once per frame
@@ -329,18 +329,20 @@ public class GameManager : MonoBehaviour {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    public void Save () {
+    public void SaveProfile () {
+
+        Debug.Log("Attempting to save profiles to file.");
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/WH40KTester.dat");
+        FileStream file = File.Create(Application.persistentDataPath + "/WH40KProfiles.dat");
 
         if (file != null) {
-            Debug.Log("WH40KTester.dat created.");
+            Debug.Log("WH40KProfiles.dat created.");
         }
 
         TesterData data = new TesterData();
         data.Profiles = Profiles;
-        data.Rules = Rules;
+        //data.Rules = Rules;
         //data.FileData.Add("This");
         //data.FileData.Add(" is ");
         //data.FileData.Add("data.");
@@ -350,17 +352,23 @@ public class GameManager : MonoBehaviour {
         file.Close();
     }
 
-    public void Load () {
+    public void LoadProfile () {
 
-        if (File.Exists(Application.persistentDataPath + "/WH40KTester.dat")) {
+        Debug.Log("Attempting to load data.");
+
+        if (File.Exists(Application.persistentDataPath + "/WH40KProfiles.dat")) {
+
+            Debug.Log("WH40kProfiles.dat exists.");
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/WH40KTester.dat", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/WH40KProfiles.dat", FileMode.Open);
             TesterData data = (TesterData)bf.Deserialize(file);
 
             //set desired data to be loaded
             //Debug.Log(data.FileData[0] + data.FileData[1] + data.FileData[2]);
             Profiles = data.Profiles;
-            Rules = data.Rules;
+            //Rules = data.Rules;
+
+            if (Profiles[0] != null) Debug.Log("Profiles have been loaded.");
 
             file.Close();
         }

@@ -1040,7 +1040,7 @@ public class RuleUI : MonoBehaviour {
 
             if (nameCheck) {
                 instance.Rules.Add(rule);
-                instance.Save();
+                instance.SaveProfile();
                 buttonLoad.interactable = true;
             } else if (overwrite) {
                 instance.Rules[ruleToLoad] = rule;
