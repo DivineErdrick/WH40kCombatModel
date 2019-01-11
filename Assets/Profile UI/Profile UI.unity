@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 14261500}
   - component: {fileID: 14261502}
   - component: {fileID: 14261501}
+  - component: {fileID: 14261503}
   m_Layer: 5
   m_Name: Button Load
   m_TagString: Untagged
@@ -290,6 +291,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14261499}
   m_CullTransparentMesh: 0
+--- !u!114 &14261503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14261499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86414d289d7033d4f9abcd275232b5c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &17059957
 GameObject:
   m_ObjectHideFlags: 0
@@ -17193,6 +17206,7 @@ GameObject:
   - component: {fileID: 1640677333}
   - component: {fileID: 1640677336}
   - component: {fileID: 1640677335}
+  - component: {fileID: 1640677337}
   m_Layer: 0
   m_Name: Profile UI
   m_TagString: Untagged
@@ -17265,6 +17279,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dea1cdb6e50ddbe4cafcc76109d3a07a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1640677337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640677332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f389cb02201af44b48d70681eb37a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1643588447
@@ -19663,7 +19689,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Enter the unit''s information:'
+  m_Text: 'Enter the model''s information:'
 --- !u!222 &1948682488
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -43,7 +43,8 @@ public class ProfileSaver : MonoBehaviour {
                 Debug.Log("The profile is okay to save.");
                 //profileSetter.ClearExcessDamageChartEntries();
                 Debug.Log("Attempting to add the profile to the profile list.");
-                Profile saveProfile = CopyProfile(profileSetter.CurrentProfile);
+                ProfileCopier copier = FindObjectOfType<ProfileCopier>();
+                Profile saveProfile = copier.CopyProfile(profileSetter.CurrentProfile);
                 instance.Profiles.Add(saveProfile);
                 instance.SaveProfile();
                 profileUI.EnableLoad();
@@ -59,33 +60,6 @@ public class ProfileSaver : MonoBehaviour {
                 profileUI.OpenNameCheckPanel();
             }
         }
-    }
-
-    public Profile CopyProfile (Profile currentProfile) {
-
-        GameManager instance = FindObjectOfType<GameManager>(); ;
-
-        Profile profileCopy = new Profile {
-
-            DamageCharts = currentProfile.DamageCharts,
-            Name = currentProfile.Name,
-            PointsValue = currentProfile.PointsValue
-        };
-
-        for (int i = 0; i <= profileCopy.DamageCharts; i++) {
-
-            profileCopy.Move[i] = currentProfile.Move[i];
-            profileCopy.WeaponSkill[i] = currentProfile.WeaponSkill[i];
-            profileCopy.BallisticSkill[i] = currentProfile.BallisticSkill[i];
-            profileCopy.Strength[i] = currentProfile.Strength[i];
-            profileCopy.Toughness[i] = currentProfile.Toughness[i];
-            profileCopy.Wounds[i] = currentProfile.Wounds[i];
-            profileCopy.Attacks[i] = currentProfile.Attacks[i];
-            profileCopy.Leadership[i] = currentProfile.Leadership[i];
-            profileCopy.Save[i] = currentProfile.Save[i];
-        }
-
-        return profileCopy;
     }
 
     //bool CheckProfile (Profile profile) {

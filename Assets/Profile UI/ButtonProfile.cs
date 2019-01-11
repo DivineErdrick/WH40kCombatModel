@@ -8,7 +8,6 @@ public class ButtonProfile : MonoBehaviour {
     public Profile Profile { get; set; }
 
     GameManager instance;
-    ProfileUI profileUI;
 
     // Use this for initialization
     void Start () {
@@ -27,9 +26,12 @@ public class ButtonProfile : MonoBehaviour {
         //Debug.Log("Clicked!");
         if (Profile != null) {
 
-            profileUI = FindObjectOfType<ProfileUI>();
-            instance.ActiveProfile = Profile;
-            //profileUI.ResetLoad(Profile);
+            ProfileCopier copier = FindObjectOfType<ProfileCopier>();
+            ProfileLoader loader = FindObjectOfType<ProfileLoader>();
+            ProfileSetter setter = FindObjectOfType<ProfileSetter>();
+
+            setter.CurrentProfile = copier.CopyProfile(Profile);
+            loader.LoadProfile(setter.CurrentProfile);
         }
     }
 }
