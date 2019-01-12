@@ -93,29 +93,6 @@ public class ProfileUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-        //if (searchField) {
-
-        //    string searchTerm = searchField.GetComponent<InputField>().text;
-
-        //    for (int i = 0; i < buttonProfiles.Length; i++) {
-        //        buttonProfiles[i].gameObject.SetActive(true);
-        //    }
-
-        //    if (searchTerm.Length > 0) {
-
-        //        for (int i = 0; i < searchTerm.Length; i++) {
-
-        //            for (int n = 0; n < buttonProfiles.Length; n++) {
-
-        //                string sTemp = buttonProfiles[n].Profile.Name;
-        //                if (searchTerm[i] != sTemp[i]) {
-
-        //                    buttonProfiles[n].gameObject.SetActive(false);
-        //                } 
-        //            }
-        //        }
-        //    }
-        //}
 	}
 
     public void CreateDamageProfiles () {
@@ -824,6 +801,7 @@ public class ProfileUI : MonoBehaviour {
     //}
 
     public void OpenNameCheckPanel () {
+        SetInteractable(false);
         panelNameCheck.SetActive(true);
     }
 
@@ -832,24 +810,11 @@ public class ProfileUI : MonoBehaviour {
     }
 
     public void Load () {
-        save.interactable = false;
-        load.interactable = false;
 
+        SetInteractable(false);
         panelLoad.SetActive(true);
-        if (instance.Profiles.Count > 6) {
-            contentLoad.GetComponent<RectTransform>().offsetMin = new Vector2(0, -48 * (instance.Profiles.Count - 6));
-        }
-        for (int i = 0; i < instance.Profiles.Count; i++) {
-            string profileName = instance.Profiles[i].Name;
-            GameObject profileButton = Instantiate(buttonProfile);
-            profileButton.transform.SetParent(contentLoad.transform);
-            profileButton.GetComponent<ButtonProfile>().Profile = instance.Profiles[i];
-            profileButton.GetComponent<RectTransform>().localScale = Vector3.one;
-            profileButton.GetComponentInChildren<Text>().text = profileName;
-        }
 
-        buttonProfiles = FindObjectsOfType<ButtonProfile>();
-        searchField = panelLoad.GetComponentInChildren<InputField>();
+        panelLoad.GetComponent<ProfileLoadPanel>().CreateLoadButtons();
     }
 
     public void LoadSavedProfile () {
@@ -864,13 +829,28 @@ public class ProfileUI : MonoBehaviour {
                 Destroy(buttons[i].gameObject);
             }
 
-            save.interactable = true;
-            load.interactable = true;
+            SetInteractable(true);
             searchField = null;
             panelLoad.SetActive(false);
         } else {
+            SetInteractable(true);
             panelNameCheck.SetActive(false);
         }
+    }
+
+    public void SetInteractable (bool interactable) {
+
+        dropdownDamage.interactable = interactable;
+
+        foreach (GameObject card in unitCard) {
+
+            InputField[] inputs = card.GetComponentsInChildren<InputField>();
+            foreach (InputField input in inputs) {
+                input.interactable = interactable;
+            }
+        }
+        save.interactable = interactable;
+        load.interactable = interactable;
     }
 
     public void Back () {

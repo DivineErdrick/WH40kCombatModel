@@ -4317,13 +4317,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 338817682}
   m_TextComponent: {fileID: 944327928}
   m_Placeholder: {fileID: 2044726351}
-  m_ContentType: 4
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 1
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 3
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -17304,6 +17304,7 @@ GameObject:
   - component: {fileID: 1643588448}
   - component: {fileID: 1643588450}
   - component: {fileID: 1643588449}
+  - component: {fileID: 1643588451}
   m_Layer: 5
   m_Name: Panel Load
   m_TagString: Untagged
@@ -17372,6 +17373,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643588447}
   m_CullTransparentMesh: 0
+--- !u!114 &1643588451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643588447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd83d173c88be64bbfef1def94a7751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonProfile: {fileID: 1817488522707276, guid: 54a25a0f7080e5d41ad85c5f464bc4d5,
+    type: 3}
+  contentLoad: {fileID: 625166345}
 --- !u!1 &1664060407
 GameObject:
   m_ObjectHideFlags: 0

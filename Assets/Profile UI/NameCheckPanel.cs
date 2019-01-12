@@ -48,9 +48,7 @@ public class NameCheckPanel : MonoBehaviour {
 
         ProfileUI UI = FindObjectOfType<ProfileUI>();
 
-        UI.save.interactable = true;
-        UI.load.interactable = true;
-
+        UI.SetInteractable(true);
         gameObject.SetActive(false);
     }
 }
