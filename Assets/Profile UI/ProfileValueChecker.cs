@@ -132,7 +132,9 @@ public class ProfileValueChecker : MonoBehaviour {
         }
     }
 
-    void CheckForWarnings (Profile profile, string profileName) {
+    bool CheckForWarnings (Profile profile, string profileName) {
+
+        bool error = false;
 
         Debug.Log("Profile Value Checker is checking for warnings.");
 
@@ -276,6 +278,8 @@ public class ProfileValueChecker : MonoBehaviour {
                         Debug.Log("Calling an error.");
 
                         message.DisplayMessage("Wounds must decrease with each damage chart.", true);
+                        error = true;
+                        return error;
                     } else {
 
                         Debug.Log("Updating warnings.");
@@ -357,6 +361,7 @@ public class ProfileValueChecker : MonoBehaviour {
                     break;
             }
         }
+        return error;
     }
 
     int[] CopiedStats (int[] stats, int statsCount) {
@@ -379,7 +384,7 @@ public class ProfileValueChecker : MonoBehaviour {
         ProfileUI profileUI = FindObjectOfType<ProfileUI>();
         Profile profile = FindObjectOfType<ProfileSetter>().CurrentProfile;
 
-        int nTemp;
+        //int nTemp;
 
         Debug.Log("Profile Checker is checking Points Value in Profile");
         Debug.Log("Current Points Value is " + profile.PointsValue);
@@ -398,7 +403,7 @@ public class ProfileValueChecker : MonoBehaviour {
             message.DisplayMessage("Please enter the model's name.", true);
             return false;
         }
-        nTemp = 100;
+        //nTemp = 100;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Move is " + profile.Move[i]);
             if (profile.Move[i] < 0) {
@@ -407,15 +412,16 @@ public class ProfileValueChecker : MonoBehaviour {
                 message.DisplayMessage("The profile may not have a negative Move.", true);
                 return false;
             }
-            if (nTemp < profile.Move[i]) {
-                Debug.Log("Warning: Value of M" + i + " is greater than value of M" + (i-1));
-                message.CurrentState = ProfileMessager.State.warning;
-                message.MWarning = true;
-                message.ReturnToCurrentState();
-            }
-            nTemp = profile.Move[i];
+            //if (nTemp < profile.Move[i]) {
+            //    Debug.Log("Warning: Value of M" + i + " is greater than value of M" + (i-1));
+            //    message.CurrentState = ProfileMessager.State.warning;
+            //    message.MWarning = true;
+            //    message.ReturnToCurrentState();
+            //}
+            //nTemp = profile.Move[i];
         }
-        nTemp = 0;
+        CheckForWarnings(profile, "M0");
+        //nTemp = 0;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Weapon Skill is " + profile.WeaponSkill[i]);
             if (0 > profile.WeaponSkill[i] || profile.WeaponSkill[i] > 7) {
@@ -424,15 +430,16 @@ public class ProfileValueChecker : MonoBehaviour {
                 Debug.Log("Value of WS" + i + " is not legal.");
                 return false;
             }
-            if (nTemp > profile.WeaponSkill[i]) {
-                message.CurrentState = ProfileMessager.State.warning;
-                message.WSWarning = true;
-                message.ReturnToCurrentState();
-                Debug.Log("Warning: Value of WS" + i + " is better than value of WS" + (i-1));
-            }
-            nTemp = profile.WeaponSkill[i];
+            //if (nTemp > profile.WeaponSkill[i]) {
+            //    message.CurrentState = ProfileMessager.State.warning;
+            //    message.WSWarning = true;
+            //    message.ReturnToCurrentState();
+            //    Debug.Log("Warning: Value of WS" + i + " is better than value of WS" + (i-1));
+            //}
+            //nTemp = profile.WeaponSkill[i];
         }
-        nTemp = 0;
+        CheckForWarnings(profile, "WS0");
+        //nTemp = 0;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Ballistic Skill is " + profile.BallisticSkill[i]);
             if (0 > profile.BallisticSkill[i] || profile.BallisticSkill[i] > 7) {
@@ -441,15 +448,16 @@ public class ProfileValueChecker : MonoBehaviour {
                 Debug.Log("Value of BS" + i + " is not legal.");
                 return false;
             }
-            if (nTemp > profile.BallisticSkill[i]) {
-                message.CurrentState = ProfileMessager.State.warning;
-                message.BSWarning = true;
-                message.ReturnToCurrentState();
-                Debug.Log("Warning: Value of BS" + i + " is better than value of BS" + (i-1));
-            }
-            nTemp = profile.BallisticSkill[i];
+            //if (nTemp > profile.BallisticSkill[i]) {
+            //    message.CurrentState = ProfileMessager.State.warning;
+            //    message.BSWarning = true;
+            //    message.ReturnToCurrentState();
+            //    Debug.Log("Warning: Value of BS" + i + " is better than value of BS" + (i-1));
+            //}
+            //nTemp = profile.BallisticSkill[i];
+            CheckForWarnings(profile, "BS0");
         }
-        nTemp = 100;
+        //nTemp = 100;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Strength is " + profile.Strength[i]);
             if (profile.Strength[i] < 0) {
@@ -458,15 +466,16 @@ public class ProfileValueChecker : MonoBehaviour {
                 Debug.Log("Value of S" + i + " is not legal.");
                 return false;
             }
-            if (nTemp < profile.Strength[i]) {
-                message.CurrentState = ProfileMessager.State.warning;
-                message.SWarning = true;
-                message.ReturnToCurrentState();
-                Debug.Log("Warning: Value of S" + i + " is greater than value of S" + (i-1));
-            }
-            nTemp = profile.Strength[i];
+            //if (nTemp < profile.Strength[i]) {
+            //    message.CurrentState = ProfileMessager.State.warning;
+            //    message.SWarning = true;
+            //    message.ReturnToCurrentState();
+            //    Debug.Log("Warning: Value of S" + i + " is greater than value of S" + (i-1));
+            //}
+            //nTemp = profile.Strength[i];
         }
-        nTemp = 20;
+        CheckForWarnings(profile, "S0");
+        //nTemp = 20;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Toughness is " + profile.Toughness[i]);
             if (profile.Toughness[i] < 1) {
@@ -475,15 +484,16 @@ public class ProfileValueChecker : MonoBehaviour {
                 Debug.Log("Value of T" + i + " is not legal.");
                 return false;
             }
-            if (nTemp < profile.Toughness[i]) {
-                message.CurrentState = ProfileMessager.State.warning;
-                message.TWarning = true;
-                message.ReturnToCurrentState();
-                Debug.Log("Warning: Value of T" + i + " is better than value of T" + (i-1));
-            }
-            nTemp = profile.Toughness[i];
+            //if (nTemp < profile.Toughness[i]) {
+            //    message.CurrentState = ProfileMessager.State.warning;
+            //    message.TWarning = true;
+            //    message.ReturnToCurrentState();
+            //    Debug.Log("Warning: Value of T" + i + " is better than value of T" + (i-1));
+            //}
+            //nTemp = profile.Toughness[i];
         }
-        nTemp = 100;
+        CheckForWarnings(profile, "T0");
+        //nTemp = 100;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Wounds is " + profile.Wounds[i]);
             if (profile.Wounds[i] < 1) {
@@ -492,14 +502,19 @@ public class ProfileValueChecker : MonoBehaviour {
                 Debug.Log("Value of W" + i + " is not legal.");
                 return false;
             }
-            if (nTemp <= profile.Wounds[i]) {
-                message.DisplayMessage("Wounds must decrease with each damage chart.", true);
-                Debug.Log("Value of W must decrease at each damage level.");
-                return false;
-            }
-            nTemp = profile.Wounds[i];
+            //if (nTemp <= profile.Wounds[i]) {
+            //    message.DisplayMessage("Wounds must decrease with each damage chart.", true);
+            //    Debug.Log("Value of W must decrease at each damage level.");
+            //    return false;
+            //}
+            //nTemp = profile.Wounds[i];
         }
-        nTemp = 20;
+        bool error = CheckForWarnings(profile, "W0");
+        if (error) {
+
+            return false;
+        }
+        //nTemp = 20;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Attacks is " + profile.Attacks[i]);
             if (profile.Attacks[i] < 0) {
@@ -508,15 +523,16 @@ public class ProfileValueChecker : MonoBehaviour {
                 Debug.Log("Value of A" + i + " is not legal.");
                 return false;
             }
-            if (nTemp < profile.Attacks[i]) {
-                message.CurrentState = ProfileMessager.State.warning;
-                message.AWarning = true;
-                message.ReturnToCurrentState();
-                Debug.Log("Warning: Value of A" + i + " is greater than value of A" + (i-1));
-            }
-            nTemp = profile.Attacks[i];
+            //if (nTemp < profile.Attacks[i]) {
+            //    message.CurrentState = ProfileMessager.State.warning;
+            //    message.AWarning = true;
+            //    message.ReturnToCurrentState();
+            //    Debug.Log("Warning: Value of A" + i + " is greater than value of A" + (i-1));
+            //}
+            //nTemp = profile.Attacks[i];
         }
-        nTemp = 20;
+        CheckForWarnings(profile, "A0");
+        //nTemp = 20;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Leadership is " + profile.Leadership[i]);
             if (profile.Leadership[i] < 0) {
@@ -525,15 +541,16 @@ public class ProfileValueChecker : MonoBehaviour {
                 Debug.Log("Value of Ld" + i + " is not legal.");
                 return false;
             }
-            if (nTemp < profile.Leadership[i]) {
-                message.CurrentState = ProfileMessager.State.warning;
-                message.LdWarning = true;
-                message.ReturnToCurrentState();
-                Debug.Log("Warning: Value of Ld" + i + " is greater than value of Ld" + (i-1));
-            }
-            nTemp = profile.Leadership[i];
+            //if (nTemp < profile.Leadership[i]) {
+            //    message.CurrentState = ProfileMessager.State.warning;
+            //    message.LdWarning = true;
+            //    message.ReturnToCurrentState();
+            //    Debug.Log("Warning: Value of Ld" + i + " is greater than value of Ld" + (i-1));
+            //}
+            //nTemp = profile.Leadership[i];
         }
-        nTemp = 0;
+        CheckForWarnings(profile, "Ld0");
+        //nTemp = 0;
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Save is " + profile.Save[i]);
             if (0 > profile.Save[i] || profile.Save[i] > 7) {
@@ -542,14 +559,15 @@ public class ProfileValueChecker : MonoBehaviour {
                 Debug.Log("Value of Sv" + i + " is not legal.");
                 return false;
             }
-            if (nTemp > profile.Save[i]) {
-                message.CurrentState = ProfileMessager.State.warning;
-                message.SvWarning = true;
-                message.ReturnToCurrentState();
-                Debug.Log("Warning: Value of Sv" + (i) + " is better than value of Sv" + (i-1));
-            }
-            nTemp = profile.Save[i];
+            //if (nTemp > profile.Save[i]) {
+            //    message.CurrentState = ProfileMessager.State.warning;
+            //    message.SvWarning = true;
+            //    message.ReturnToCurrentState();
+            //    Debug.Log("Warning: Value of Sv" + (i) + " is better than value of Sv" + (i-1));
+            //}
+            //nTemp = profile.Save[i];
         }
+        CheckForWarnings(profile, "Sv0");
         //Debug
         //for (int i = 0; i < profile.Toughness.Count; i++) {
         //    Debug.Log("T" + i + ": " + profile.Toughness[i]);
