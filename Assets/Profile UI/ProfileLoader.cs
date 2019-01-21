@@ -22,6 +22,7 @@ public class ProfileLoader : MonoBehaviour
         ProfileCopier copier = FindObjectOfType<ProfileCopier>();
         ProfileSetter setter = FindObjectOfType<ProfileSetter>();
         ProfileUI UI = FindObjectOfType<ProfileUI>();
+        ProfileMessager messager = FindObjectOfType<ProfileMessager>();
 
         Debug.Log("Loading profile named " + profile.Name + ".");
 
@@ -49,5 +50,7 @@ public class ProfileLoader : MonoBehaviour
 
             UI.CreateDamageProfiles();
         }
+
+        StartCoroutine(messager.DisplayTemporaryMessage(setter.CurrentProfile.Name + " loaded.", false));
     }
 }

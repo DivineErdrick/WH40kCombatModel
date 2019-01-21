@@ -29,9 +29,11 @@ public class ButtonProfile : MonoBehaviour {
             ProfileCopier copier = FindObjectOfType<ProfileCopier>();
             ProfileLoader loader = FindObjectOfType<ProfileLoader>();
             ProfileSetter setter = FindObjectOfType<ProfileSetter>();
+            ProfileUI ui = FindObjectOfType<ProfileUI>();
 
             setter.CurrentProfile = copier.CopyProfile(Profile);
             loader.LoadProfile(setter.CurrentProfile);
+            ui.Close(ProfileUI.CloseType.loadPanelLoad);
         }
     }
 }

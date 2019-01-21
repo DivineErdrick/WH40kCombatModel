@@ -71,4 +71,11 @@ public class ProfileLoadPanel : MonoBehaviour
         searchField = GetComponentInChildren<InputField>();
         buttonProfiles = FindObjectsOfType<ButtonProfile>();
     }
+
+    public void Close () {
+
+        ProfileUI ui = FindObjectOfType<ProfileUI>();
+
+        ui.Close(ProfileUI.CloseType.loadPanelClose);
+    }
 }

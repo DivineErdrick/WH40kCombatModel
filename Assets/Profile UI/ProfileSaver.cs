@@ -40,6 +40,8 @@ public class ProfileSaver : MonoBehaviour {
             }
 
             if (nameCheck) {
+
+                ProfileMessager messager = FindObjectOfType<ProfileMessager>();
                 Debug.Log("The profile is okay to save.");
                 //profileSetter.ClearExcessDamageChartEntries();
                 Debug.Log("Attempting to add the profile to the profile list.");
@@ -48,6 +50,7 @@ public class ProfileSaver : MonoBehaviour {
                 instance.Profiles.Add(saveProfile);
                 instance.SaveProfile();
                 profileUI.EnableLoad();
+                StartCoroutine(messager.DisplayTemporaryMessage("Profile Saved.", false));
 
             //} else if (overwrite) {
 

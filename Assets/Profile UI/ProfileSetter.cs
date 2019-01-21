@@ -30,6 +30,7 @@ public class ProfileSetter : MonoBehaviour {
 	}
 
     public void SetDamageCharts (int damageCharts) {
+
         Debug.Log("Setting Damage Charts to " + damageCharts + ".");
         CurrentProfile.DamageCharts = damageCharts;
         profileUI.CreateDamageProfiles();
@@ -172,6 +173,7 @@ public class ProfileSetter : MonoBehaviour {
     }
 
     public void SetProfile (string name, string value) {
+
         switch (name) {
             case "Name":
                 CurrentProfile.Name = value;

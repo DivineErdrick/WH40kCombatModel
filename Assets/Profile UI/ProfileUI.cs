@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class ProfileUI : MonoBehaviour {
 
+    public enum CloseType { basic, loadPanelClose, loadPanelLoad, nameCheckLoad, nameCheckSave }
+
     public Text textMessage;
     public GameObject[] unitCard;
     public Text textDamage;
@@ -37,8 +39,9 @@ public class ProfileUI : MonoBehaviour {
     ButtonProfile[] buttonProfiles;
 
     GameManager instance;
+    ProfileMessager messanger;
     ProfileValueChecker valueChecker;
-    ProfileSetter profileSetter;
+    ProfileSetter setter;
     InputField searchField;
     Color defaultColor;
 
@@ -68,9 +71,10 @@ public class ProfileUI : MonoBehaviour {
 
         instance = GameManager.instance;
         Assert.IsNotNull(instance, "Can not find Game Manager.");
+        messanger = FindObjectOfType<ProfileMessager>();
         valueChecker = GetComponent<ProfileValueChecker>();
         Assert.IsNotNull(valueChecker, "Can not find Value Checker.");
-        profileSetter = GetComponent<ProfileSetter>();
+        setter = GetComponent<ProfileSetter>();
         Assert.IsNotNull(valueChecker, "Can not find Profile Setter.");
 
         defaultColor = unitCard[1].GetComponentInChildren<Text>().color;
@@ -103,7 +107,7 @@ public class ProfileUI : MonoBehaviour {
 
             unitCard[i].SetActive(false);
         }
-        for (int i = 1; i <= profileSetter.CurrentProfile.DamageCharts; i++) {
+        for (int i = 1; i <= setter.CurrentProfile.DamageCharts; i++) {
 
             unitCard[i].SetActive(true);
         }
@@ -164,7 +168,7 @@ public class ProfileUI : MonoBehaviour {
 
     public void ReadProfile () {
 
-        if (profileSetter.CurrentProfile != null) {
+        if (setter.CurrentProfile != null) {
 
             foreach (GameObject card in unitCard) {
 
@@ -180,191 +184,191 @@ public class ProfileUI : MonoBehaviour {
 
                             case "Input Points Value":
                                 Debug.Log("Setting Points Value in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.PointsValue.ToString();
+                                input.text = setter.CurrentProfile.PointsValue.ToString();
                                 break;
                             case "Input Name":
                                 Debug.Log("Setting Input Name in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Name;
+                                input.text = setter.CurrentProfile.Name;
                                 break;
                             case "Input M0":
                                 Debug.Log("Setting Move[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Move[0].ToString();
+                                input.text = setter.CurrentProfile.Move[0].ToString();
                                 break;
                             case "Input M1":
                                 Debug.Log("Setting Move[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Move[1].ToString();
+                                input.text = setter.CurrentProfile.Move[1].ToString();
                                 break;
                             case "Input M2":
                                 Debug.Log("Setting Move[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Move[2].ToString();
+                                input.text = setter.CurrentProfile.Move[2].ToString();
                                 break;
                             case "Input M3":
                                 Debug.Log("Setting Move[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Move[3].ToString();
+                                input.text = setter.CurrentProfile.Move[3].ToString();
                                 break;
                             case "Input M4":
                                 Debug.Log("Setting Move[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Move[4].ToString();
+                                input.text = setter.CurrentProfile.Move[4].ToString();
                                 break;
                             case "Input WS0":
                                 Debug.Log("Setting Weapon Skill[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.WeaponSkill[0].ToString();
+                                input.text = setter.CurrentProfile.WeaponSkill[0].ToString();
                                 break;
                             case "Input WS1":
                                 Debug.Log("Setting Weapon Skill[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.WeaponSkill[1].ToString();
+                                input.text = setter.CurrentProfile.WeaponSkill[1].ToString();
                                 break;
                             case "Input WS2":
                                 Debug.Log("Setting Weapon Skill[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.WeaponSkill[2].ToString();
+                                input.text = setter.CurrentProfile.WeaponSkill[2].ToString();
                                 break;
                             case "Input WS3":
                                 Debug.Log("Setting Weapon Skill[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.WeaponSkill[3].ToString();
+                                input.text = setter.CurrentProfile.WeaponSkill[3].ToString();
                                 break;
                             case "Input WS4":
                                 Debug.Log("Setting Weapon Skill[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.WeaponSkill[4].ToString();
+                                input.text = setter.CurrentProfile.WeaponSkill[4].ToString();
                                 break;
                             case "Input BS0":
                                 Debug.Log("Setting Ballistic Skill[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.BallisticSkill[0].ToString();
+                                input.text = setter.CurrentProfile.BallisticSkill[0].ToString();
                                 break;
                             case "Input BS1":
                                 Debug.Log("Setting Ballistic Skill[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.BallisticSkill[1].ToString();
+                                input.text = setter.CurrentProfile.BallisticSkill[1].ToString();
                                 break;
                             case "Input BS2":
                                 Debug.Log("Setting Ballistic Skill[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.BallisticSkill[2].ToString();
+                                input.text = setter.CurrentProfile.BallisticSkill[2].ToString();
                                 break;
                             case "Input BS3":
                                 Debug.Log("Setting Ballistic Skill[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.BallisticSkill[3].ToString();
+                                input.text = setter.CurrentProfile.BallisticSkill[3].ToString();
                                 break;
                             case "Input BS4":
                                 Debug.Log("Setting Ballistic Skill[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.BallisticSkill[4].ToString();
+                                input.text = setter.CurrentProfile.BallisticSkill[4].ToString();
                                 break;
                             case "Input S0":
                                 Debug.Log("Setting Strength[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Strength[0].ToString();
+                                input.text = setter.CurrentProfile.Strength[0].ToString();
                                 break;
                             case "Input S1":
                                 Debug.Log("Setting Strength[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Strength[1].ToString();
+                                input.text = setter.CurrentProfile.Strength[1].ToString();
                                 break;
                             case "Input S2":
                                 Debug.Log("Setting Strength[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Strength[2].ToString();
+                                input.text = setter.CurrentProfile.Strength[2].ToString();
                                 break;
                             case "Input S3":
                                 Debug.Log("Setting Strength[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Strength[3].ToString();
+                                input.text = setter.CurrentProfile.Strength[3].ToString();
                                 break;
                             case "Input S4":
                                 Debug.Log("Setting Strength[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Strength[4].ToString();
+                                input.text = setter.CurrentProfile.Strength[4].ToString();
                                 break;
                             case "Input T0":
                                 Debug.Log("Setting Toughness[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Toughness[0].ToString();
+                                input.text = setter.CurrentProfile.Toughness[0].ToString();
                                 break;
                             case "Input T1":
                                 Debug.Log("Setting Toughness[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Toughness[1].ToString();
+                                input.text = setter.CurrentProfile.Toughness[1].ToString();
                                 break;
                             case "Input T2":
                                 Debug.Log("Setting Toughness[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Toughness[2].ToString();
+                                input.text = setter.CurrentProfile.Toughness[2].ToString();
                                 break;
                             case "Input T3":
                                 Debug.Log("Setting Toughness[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Toughness[3].ToString();
+                                input.text = setter.CurrentProfile.Toughness[3].ToString();
                                 break;
                             case "Input T4":
                                 Debug.Log("Setting Toughness[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Toughness[4].ToString();
+                                input.text = setter.CurrentProfile.Toughness[4].ToString();
                                 break;
                             case "Input W0":
                                 Debug.Log("Setting Wounds[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Wounds[0].ToString();
+                                input.text = setter.CurrentProfile.Wounds[0].ToString();
                                 break;
                             case "Input W1":
                                 Debug.Log("Setting Wounds[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Wounds[1].ToString();
+                                input.text = setter.CurrentProfile.Wounds[1].ToString();
                                 break;
                             case "Input W2":
                                 Debug.Log("Setting Wounds[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Wounds[2].ToString();
+                                input.text = setter.CurrentProfile.Wounds[2].ToString();
                                 break;
                             case "Input W3":
                                 Debug.Log("Setting Wounds[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Wounds[3].ToString();
+                                input.text = setter.CurrentProfile.Wounds[3].ToString();
                                 break;
                             case "Input W4":
                                 Debug.Log("Setting Wounds[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Wounds[4].ToString();
+                                input.text = setter.CurrentProfile.Wounds[4].ToString();
                                 break;
                             case "Input A0":
                                 Debug.Log("Setting Attacks[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Attacks[0].ToString();
+                                input.text = setter.CurrentProfile.Attacks[0].ToString();
                                 break;
                             case "Input A1":
                                 Debug.Log("Setting Attacks[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Attacks[1].ToString();
+                                input.text = setter.CurrentProfile.Attacks[1].ToString();
                                 break;
                             case "Input A2":
                                 Debug.Log("Setting Attacks[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Attacks[2].ToString();
+                                input.text = setter.CurrentProfile.Attacks[2].ToString();
                                 break;
                             case "Input A3":
                                 Debug.Log("Setting Attacks[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Attacks[3].ToString();
+                                input.text = setter.CurrentProfile.Attacks[3].ToString();
                                 break;
                             case "Input A4":
                                 Debug.Log("Setting Attacks[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Attacks[4].ToString();
+                                input.text = setter.CurrentProfile.Attacks[4].ToString();
                                 break;
                             case "Input Ld0":
                                 Debug.Log("Setting Leadership[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Leadership[0].ToString();
+                                input.text = setter.CurrentProfile.Leadership[0].ToString();
                                 break;
                             case "Input Ld1":
                                 Debug.Log("Setting Leadership[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Leadership[1].ToString();
+                                input.text = setter.CurrentProfile.Leadership[1].ToString();
                                 break;
                             case "Input Ld2":
                                 Debug.Log("Setting Leadership[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Leadership[2].ToString();
+                                input.text = setter.CurrentProfile.Leadership[2].ToString();
                                 break;
                             case "Input Ld3":
                                 Debug.Log("Setting Leadership[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Leadership[3].ToString();
+                                input.text = setter.CurrentProfile.Leadership[3].ToString();
                                 break;
                             case "Input Ld4":
                                 Debug.Log("Setting Leadership[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Leadership[4].ToString();
+                                input.text = setter.CurrentProfile.Leadership[4].ToString();
                                 break;
                             case "Input Sv0":
                                 Debug.Log("Setting Save[0] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Save[0].ToString();
+                                input.text = setter.CurrentProfile.Save[0].ToString();
                                 break;
                             case "Input Sv1":
                                 Debug.Log("Setting Save[1] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Save[1].ToString();
+                                input.text = setter.CurrentProfile.Save[1].ToString();
                                 break;
                             case "Input Sv2":
                                 Debug.Log("Setting Save[2] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Save[2].ToString();
+                                input.text = setter.CurrentProfile.Save[2].ToString();
                                 break;
                             case "Input Sv3":
                                 Debug.Log("Setting Save[3] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Save[3].ToString();
+                                input.text = setter.CurrentProfile.Save[3].ToString();
                                 break;
                             case "Input Sv4":
                                 Debug.Log("Setting Save[4] in " + input.gameObject.name + ".");
-                                input.text = profileSetter.CurrentProfile.Save[4].ToString();
+                                input.text = setter.CurrentProfile.Save[4].ToString();
                                 break;
                         }
                     }
@@ -801,11 +805,14 @@ public class ProfileUI : MonoBehaviour {
     //}
 
     public void OpenNameCheckPanel () {
+
         SetInteractable(false);
         panelNameCheck.SetActive(true);
+        messanger.DisplayMessage("A Profile with that name has been found.", true);
     }
 
     public void EnableLoad () {
+
         buttonLoad.interactable = true;
     }
 
@@ -813,6 +820,7 @@ public class ProfileUI : MonoBehaviour {
 
         SetInteractable(false);
         panelLoad.SetActive(true);
+        messanger.DisplayMessage("Select the profile to load or search by the model's name.", false);
 
         panelLoad.GetComponent<ProfileLoadPanel>().CreateLoadButtons();
     }
@@ -822,19 +830,31 @@ public class ProfileUI : MonoBehaviour {
         panelNameCheck.SetActive(false);
     }
 
-    public void Close (bool overwrite) {
-        if ( ! overwrite) {
+    public void Close (CloseType closeType) {
+
+        if (closeType == CloseType.loadPanelClose || closeType == CloseType.loadPanelLoad) {
             Button[] buttons = contentLoad.GetComponentsInChildren<Button>();
             for (int i = 0; i < buttons.Length; i++) {
                 Destroy(buttons[i].gameObject);
             }
 
-            SetInteractable(true);
             searchField = null;
             panelLoad.SetActive(false);
+
         } else {
-            SetInteractable(true);
+
             panelNameCheck.SetActive(false);
+        }
+        SetInteractable(true);
+        messanger.ReturnToCurrentState();
+
+        if (closeType == CloseType.nameCheckSave) {
+
+            StartCoroutine(messanger.DisplayTemporaryMessage("Profile saved.", false));
+
+        } else if (closeType == CloseType.nameCheckLoad || closeType == CloseType.loadPanelLoad) {
+
+            StartCoroutine(messanger.DisplayTemporaryMessage(setter.CurrentProfile.Name + " loaded.", false));
         }
     }
 

@@ -3467,6 +3467,7 @@ GameObject:
   - component: {fileID: 291155792}
   - component: {fileID: 291155794}
   - component: {fileID: 291155793}
+  - component: {fileID: 291155795}
   m_Layer: 5
   m_Name: Text Messages
   m_TagString: Untagged
@@ -3506,7 +3507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.82745105, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3526,7 +3527,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Enter the model's profile. Select the number of damage charts below. You
+    can leave blank stats blank, or enter '0'.
 --- !u!222 &291155794
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3535,6 +3537,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291155791}
   m_CullTransparentMesh: 0
+--- !u!114 &291155795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291155791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 884d451961feb8249b9574d6aac38055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultColor: {r: 1, g: 0.82745105, b: 0, a: 1}
 --- !u!1 &297300482
 GameObject:
   m_ObjectHideFlags: 0
@@ -7441,9 +7456,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1640677333}
+      - m_Target: {fileID: 1643588451}
         m_MethodName: Close
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
