@@ -84,44 +84,6 @@ public class RuleUI : MonoBehaviour {
     public GameObject panelLoad;
     public GameObject contentLoad;
     public GameObject buttonRule;
-    public InputField searchField;
-
-    public string InputName { get; set; }
-
-    //Use flags
-    public bool UseDeployment { get; set; }
-    public bool UseStartOfGame { get; set; }
-    public bool UseYourTurn { get; set; }
-    public bool UseOpponentsTurn { get; set; }
-    public bool UseStartOfTurn { get; set; }
-    public bool UseMove { get; set; }
-    public bool UsePsychic { get; set; }
-    public bool UseShooting { get; set; }
-    public bool UseCharge { get; set; }
-    public bool UseFight { get; set; }
-    public bool UseMorale { get; set; }
-    public bool UseEndOfTurn { get; set; }
-    public bool UseEndOfGame { get; set; }
-
-    //Activation
-    public int ActivationType { get; set; }
-
-    //Triggers
-    public int MoveTriggers { get; set; }
-    public int PsychicTriggers { get; set; }
-    public int ShootingTriggers { get; set; }
-    public int ChargeTriggers { get; set; }
-    public int FightTriggers { get; set; }
-    public int MoraleTriggers { get; set; }
-
-    //Specific Triggers
-    public int AttackTriggers { get; set; }
-    public int WoundTriggers { get; set; }
-    public int PowerTriggers { get; set; }
-    public int DenyTriggers { get; set; }
-    public int SpecificChargeTriggers { get; set; }
-    public int SpecificFightsTriggers { get; set; }
-    public int RollTrigger { get; set; }
 
     ////Move Triggers
     //public int MoveTriggers { get; set; }
@@ -214,52 +176,14 @@ public class RuleUI : MonoBehaviour {
     //public bool UnitDestroyedInMorale { get; set; }
     //public bool EndOfMorale { get; set; }
 
-    //Target
-    
-    public int RuleTarget { get; set; }
-    public string InputKeyword { get; set; }
-    public int KeywordTarget { get; set; }
-    public int RuleType { get; set; }
-
-    //Properties
-    public int Range { get; set; }
-    public int Damage { get; set; }
-    public int Roll { get; set; }
-
-    //Reserves
-    public bool ReserveOutsideEnemy { get; set; }
-    public bool ReserveFromObject { get; set; }
-    public bool ReserveRerollCharges { get; set; }
-    public bool ReserveDealsMortal { get; set; }
-    public int ReserveDamageRange { get; set; }
-
-    //Profile
-    public int Profile { get; set; }
-    public int Modifier { get; set; }
-    public int Change { get; set; }
-
-    //Pass Roll
-    public int RollModified { get; set; }
-    public int ModifiedBy { get; set; }
-    public int RollModifier { get; set; }
-
-    //Ignore Penalties
-    public int PenaltyIgnored { get; set; }
-
-    //Additional Attack
-    public bool OnlyAdditionalAttack { get; set; }
-    public bool CanExplode { get; set; }
-
-    //Mortal Wounds
-    public bool SlayTheModel { get; set; }
+    RuleSetter setter;
+    RuleLoader loader;
 
     Rule rule;
     //bool triggersSet = false;
-    int ruleToLoad;
     Color defaultColor;
     Color panelColor1;
     Color panelColor2;
-    ButtonRule[] buttonRules;
 
     void Awake () {
 
@@ -336,6 +260,12 @@ public class RuleUI : MonoBehaviour {
     void Start () {
 
         instance = GameManager.instance;
+        Assert.IsNotNull(instance, "Could not find Game Manager.");
+        setter = GetComponent<RuleSetter>();
+        Assert.IsNotNull(setter, "Could not find Rule Setter.");
+        loader = panelLoad.GetComponent<RuleLoader>();
+        Assert.IsNotNull(loader, "Could not find Rule Loader.");
+
         defaultColor = textRange.color;
         panelColor1 = panelRuleUse.GetComponent<Image>().color;
         panelColor2 = panelActivation.GetComponent<Image>().color;
@@ -348,29 +278,6 @@ public class RuleUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (searchField) {
-
-            string searchTerm = searchField.GetComponent<InputField>().text;
-
-            for (int i = 0; i < buttonRules.Length; i++) {
-                buttonRules[i].gameObject.SetActive(true);
-            }
-
-            if (searchTerm.Length > 0) {
-
-                for (int i = 0; i < searchTerm.Length; i++) {
-
-                    for (int n = 0; n < buttonRules.Length; n++) {
-
-                        string sTemp = buttonRules[n].Rule.Name;
-                        if (searchTerm[i] != sTemp[i]) {
-
-                            buttonRules[n].gameObject.SetActive(false);
-                        }
-                    }
-                }
-            }
-        }
     }
 
     public void CheckAllUseToggles (bool turnTogglesOn) {
@@ -465,8 +372,8 @@ public class RuleUI : MonoBehaviour {
     }
 
     float AdjustAnchors (float offset, GameObject panel) {
-        Vector2 min = new Vector2(0.01f, 0.75f);
-        Vector2 max = new Vector2(0.99f, 0.8f);
+        Vector2 min = new Vector2(0.01f, 0.7f);
+        Vector2 max = new Vector2(0.99f, 0.75f);
 
         min.y = min.y - 0.05f * offset;
         max.y = max.y - 0.05f * offset;
@@ -485,46 +392,53 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleActivationPanel () {
 
-        if (UseDeployment || UseStartOfGame || UseYourTurn || UseOpponentsTurn || UseStartOfTurn || UseMove || UsePsychic || UseShooting || UseCharge || UseFight || UseMorale || UseEndOfTurn || UseEndOfGame) {
+        if (setter.InputName.Length > 0
+         && (setter.UseDeployment || setter.UseStartOfGame || setter.UseYourTurn || setter.UseOpponentsTurn || setter.UseStartOfTurn 
+         || setter.UseMove || setter.UsePsychic || setter.UseShooting || setter.UseCharge || setter.UseFight || setter.UseMorale 
+         || setter.UseEndOfTurn || setter.UseEndOfGame)) {
+
             panelActivation.SetActive(true);
         } else {
+
             panelActivation.SetActive(false);
         }
     }
 
     public void ToggleTriggerDropdowns () {
 
-        if (ActivationType == 3 && (UseMove || UsePsychic || UseShooting || UseCharge || UseFight || UseMorale)) {
+        if (setter.ActivationType == 3
+        && panelActivation.activeInHierarchy
+        && (setter.UseMove || setter.UsePsychic || setter.UseShooting || setter.UseCharge || setter.UseFight || setter.UseMorale)) {
 
             panelTriggers.SetActive(true);
             AdjustPanels();
 
-            if (UseMove) {
+            if (setter.UseMove) {
                 dropdownMove.gameObject.SetActive(true);
             } else {
                 dropdownMove.gameObject.SetActive(false);
             }
-            if (UsePsychic) {
+            if (setter.UsePsychic) {
                 dropdownPsychic.gameObject.SetActive(true);
             } else {
                 dropdownPsychic.gameObject.SetActive(false);
             }
-            if (UseShooting) {
+            if (setter.UseShooting) {
                 dropdownShooting.gameObject.SetActive(true);
             } else {
                 dropdownShooting.gameObject.SetActive(false);
             }
-            if (UseCharge) {
+            if (setter.UseCharge) {
                 dropdownCharge.gameObject.SetActive(true);
             } else {
                 dropdownCharge.gameObject.SetActive(false);
             }
-            if (UseFight) {
+            if (setter.UseFight) {
                 dropdownFight.gameObject.SetActive(true);
             } else {
                 dropdownFight.gameObject.SetActive(false);
             }
-            if (UseMorale) {
+            if (setter.UseMorale) {
                 dropdownMorale.gameObject.SetActive(true);
             } else {
                 dropdownMorale.gameObject.SetActive(false);
@@ -577,16 +491,15 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleSpecificTriggers () {
 
-        if (MoraleTriggers == 3 ||
-            PsychicTriggers == 1 || PsychicTriggers == 2 ||
-            ShootingTriggers == 1 || ShootingTriggers == 2 ||
-            (ChargeTriggers != 0 && ChargeTriggers != 4) ||
-            (FightTriggers != 0 && FightTriggers != 6)) {
+        if (panelTriggers.activeInHierarchy
+        && (setter.MoraleTriggers == 3 || setter.PsychicTriggers == 1 || setter.PsychicTriggers == 2 || setter.ShootingTriggers == 1 || setter.ShootingTriggers == 2 
+        || (setter.ChargeTriggers != 0 && setter.ChargeTriggers != 4) 
+        || (setter.FightTriggers != 0 && setter.FightTriggers != 6))) {
 
             panelSpecificTriggers.SetActive(true);
             AdjustPanels();
 
-            switch (PsychicTriggers) {
+            switch (setter.PsychicTriggers) {
                 case 1:
                     dropdownPowerTriggers.gameObject.SetActive(true);
                     dropdownDenyTriggers.gameObject.SetActive(false);
@@ -600,7 +513,7 @@ public class RuleUI : MonoBehaviour {
                     dropdownDenyTriggers.gameObject.SetActive(false);
                     break;
             }
-            switch (ShootingTriggers) {
+            switch (setter.ShootingTriggers) {
                 case 1:
                     textAttacks.gameObject.SetActive(true);
                     dropdownAttackTriggers.gameObject.SetActive(true);
@@ -612,7 +525,7 @@ public class RuleUI : MonoBehaviour {
                 default:
                     break;
             }
-            switch (ChargeTriggers) {
+            switch (setter.ChargeTriggers) {
                 case 1:
                     dropdownChargeTriggers.gameObject.SetActive(true);
                     break;
@@ -630,7 +543,7 @@ public class RuleUI : MonoBehaviour {
                     dropdownChargeTriggers.gameObject.SetActive(false);
                     break;
             }
-            switch (FightTriggers) {
+            switch (setter.FightTriggers) {
                 case 1:
                 case 2:
                 case 3:
@@ -650,34 +563,34 @@ public class RuleUI : MonoBehaviour {
                     dropdownFightsTriggers.gameObject.SetActive(false);
                     break;
             }
-            if (ShootingTriggers != 1 && 
-                ChargeTriggers != 2 &&
-                FightTriggers != 4) 
+            if (setter.ShootingTriggers != 1 
+             && setter.ChargeTriggers != 2 
+             && setter.FightTriggers != 4) 
             {
                 dropdownAttackTriggers.gameObject.SetActive(false);
             }
-            if (ShootingTriggers != 2 &&
-                ChargeTriggers != 3 &&
-                FightTriggers != 5) 
+            if (setter.ShootingTriggers != 2
+             && setter.ChargeTriggers != 3
+             && setter.FightTriggers != 5) 
             {
                 dropdownWoundTriggers.gameObject.SetActive(false);
             }
-            if (ShootingTriggers != 1 &&
-                ChargeTriggers != 2 &&
-                FightTriggers != 4 &&
-                ShootingTriggers != 2 &&
-                ChargeTriggers != 3 &&
-                FightTriggers != 5) 
+            if (setter.ShootingTriggers != 1
+             && setter.ChargeTriggers != 2
+             && setter.FightTriggers != 4
+             && setter.ShootingTriggers != 2
+             && setter.ChargeTriggers != 3
+             && setter.FightTriggers != 5) 
             {
                 textAttacks.gameObject.SetActive(false);
             }
-            if ((dropdownMove.IsActive() && MoveTriggers == 3) ||
-                (dropdownMorale.IsActive() && MoraleTriggers == 3) || 
-                (dropdownAttackTriggers.IsActive() && AttackTriggers == 3) || 
-                (dropdownWoundTriggers.IsActive() && WoundTriggers == 1) || 
-                (dropdownPowerTriggers.IsActive() && PowerTriggers == 3) ||
-                (dropdownDenyTriggers.IsActive() && DenyTriggers == 1) ||
-                (dropdownChargeTriggers.IsActive() && SpecificChargeTriggers == 3)) 
+            if ((dropdownMove.IsActive() && setter.MoveTriggers == 3)
+             || (dropdownMorale.IsActive() && setter.MoraleTriggers == 3)
+             || (dropdownAttackTriggers.IsActive() && setter.AttackTriggers == 3)
+             || (dropdownWoundTriggers.IsActive() && setter.WoundTriggers == 1)
+             || (dropdownPowerTriggers.IsActive() && setter.PowerTriggers == 3)
+             || (dropdownDenyTriggers.IsActive() && setter.DenyTriggers == 1)
+             || (dropdownChargeTriggers.IsActive() && setter.SpecificChargeTriggers == 3)) 
             {
                 textRollOf.gameObject.SetActive(true);
                 dropdownRollTrigger.gameObject.SetActive(true);
@@ -702,7 +615,7 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleRuleTarget () {
 
-        if (ActivationType != 0) {
+        if (panelActivation.activeInHierarchy && setter.ActivationType != 0) {
             panelRuleTarget.SetActive(true);
             AdjustPanels();
         } else {
@@ -713,7 +626,7 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleRuleType () {
 
-        if (RuleTarget != 0) {
+        if (panelRuleTarget.activeInHierarchy && setter.RuleTarget != 0) {
             panelRuleType.SetActive(true);
             AdjustPanels();
         } else {
@@ -724,7 +637,7 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleKeyword () {
 
-        if (RuleTarget == 11) {
+        if (setter.RuleTarget == 11) {
 
             inputKeyword.gameObject.SetActive(true);
             dropdownKeywordTarget.gameObject.SetActive(true);
@@ -738,16 +651,17 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleProperties () {
 
-        if ((RuleTarget != 0 && RuleTarget != 9 && RuleTarget != 10) ||
-            RuleType == 1 || RuleType == 2 || RuleType == 3 || RuleType == 10) {
+        if (panelRuleType.activeInHierarchy
+          && ((setter.RuleTarget != 0 && setter.RuleTarget != 9 && setter.RuleTarget != 10)
+          || setter.RuleType == 1 || setter.RuleType == 2 || setter.RuleType == 3 || setter.RuleType == 10)) {
 
             panelProperties.SetActive(true);
             AdjustPanels();
 
-            if ((RuleTarget != 0 &&
-                 RuleTarget != 9 &&
-                 RuleTarget != 10) ||
-                 RuleType == 1) {
+            if ((setter.RuleTarget != 0
+              && setter.RuleTarget != 9
+              && setter.RuleTarget != 10)
+              || setter.RuleType == 1) {
 
                 panelProperties.SetActive(true);
                 textRange.gameObject.SetActive(true);
@@ -757,8 +671,8 @@ public class RuleUI : MonoBehaviour {
                 inputRange.gameObject.SetActive(false);
             }
 
-            if ((RuleType == 1 && ReserveDealsMortal) ||
-                RuleType == 10) {
+            if ((setter.RuleType == 1 && setter.ReserveDealsMortal)
+              || setter.RuleType == 10) {
                 textDamage.gameObject.SetActive(true);
                 dropdownDamage.gameObject.SetActive(true);
             } else {
@@ -766,10 +680,10 @@ public class RuleUI : MonoBehaviour {
                 dropdownDamage.gameObject.SetActive(false);
             }
 
-            if (RuleType == 2 ||
-                RuleType == 3 ||
-                RuleType == 10 ||
-                ReserveDealsMortal) {
+            if (setter.RuleType == 2
+             || setter.RuleType == 3
+             || setter.RuleType == 10
+             || setter.ReserveDealsMortal) {
 
                 textRoll.gameObject.SetActive(true);
                 dropdownRoll.gameObject.SetActive(true);
@@ -828,7 +742,7 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleReserveRange () {
 
-        if (ReserveDealsMortal) {
+        if (panelRuleType.activeInHierarchy && setter.ReserveDealsMortal) {
             inputReserveRange.gameObject.SetActive(true);
         } else {
             inputReserveRange.gameObject.SetActive(false);
@@ -837,9 +751,10 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleModifiers () {
 
-        if (ModifiedBy == 1 ||
-            ModifiedBy == 2 ||
-            ModifiedBy == 3) {
+        if (panelRuleType.activeInHierarchy
+         && (setter.ModifiedBy == 1
+         || setter.ModifiedBy == 2
+         || setter.ModifiedBy == 3)) {
 
             textModifier.gameObject.SetActive(true);
             dropdownModifier.gameObject.SetActive(true);
@@ -853,7 +768,7 @@ public class RuleUI : MonoBehaviour {
 
         switch (ruleType) {
             case 1:
-                if (ReserveDealsMortal) {
+                if (panelRuleType.activeInHierarchy && setter.ReserveDealsMortal) {
                     textRoll.gameObject.SetActive(true);
                     dropdownRoll.gameObject.SetActive(true);
                 }
@@ -964,13 +879,13 @@ public class RuleUI : MonoBehaviour {
                 if (int.TryParse(inputRange.text, out value)) {
                     if (value >= 0) {
                         textRange.color = defaultColor;
-                        Range = value;
+                        setter.Range = value;
                     } else {
-                        Range = 0;
+                        setter.Range = 0;
                         OutputError(textRange, "Range");
                     }
                 } else {
-                    Range = 0;
+                    setter.Range = 0;
                     OutputError(textRange, "Range");
                 }
                 break;
@@ -978,13 +893,13 @@ public class RuleUI : MonoBehaviour {
                 if (int.TryParse(inputRange.text, out value)) {
                     if (value >= 0) {
                         textRange.color = defaultColor;
-                        ReserveDamageRange = value;
+                        setter.ReserveDamageRange = value;
                     } else {
-                        ReserveDamageRange = 0;
+                        setter.ReserveDamageRange = 0;
                         OutputError(textRange, "Reserves");
                     }
                 } else {
-                    ReserveDamageRange = 0;
+                    setter.ReserveDamageRange = 0;
                     OutputError(textRange, "Reserves");
                 }
                 break;
@@ -1021,395 +936,13 @@ public class RuleUI : MonoBehaviour {
     //    triggersSet = true;
     //}
 
-    public void Save (bool overwrite) {
+    public void Load() {
 
-        rule = new Rule();
-        bool datacheckPassed = true;
+        buttonSave.interactable = false;
+        buttonLoad.interactable = false;
 
-        datacheckPassed = Datacheck();
-
-        if (datacheckPassed) {
-            instance.ActiveRule = rule;
-            bool nameCheck = true;
-            for (int i = 0; i < instance.Rules.Count; i++) {
-                if (rule.Name == instance.Rules[i].Name) {
-                    nameCheck = false;
-                    ruleToLoad = i;
-                }
-            }
-
-            if (nameCheck) {
-                instance.Rules.Add(rule);
-                instance.SaveProfile();
-                buttonLoad.interactable = true;
-            } else if (overwrite) {
-                instance.Rules[ruleToLoad] = rule;
-                panelNameCheck.SetActive(false);
-            } else {
-                panelNameCheck.SetActive(true);
-            }
-
-            Debug.Log("New Rule name is " + rule.Name + ". It has been added to the rule data as " + instance.Rules.Last().Name + ".");
-            buttonLoad.interactable = true;
-        }
-    }
-
-    bool Datacheck () {
-
-        bool dataPassed = true;
-
-        if (inputName.text.Length == 0) {
-            Debug.Log("You must name your rule.");
-            dataPassed = false;
-            return dataPassed;
-        } else {
-            rule.Name = inputName.text;
-            Debug.Log("Rule name: " + rule.Name);
-        }
-
-        //Uses
-        if (UseDeployment) { rule.UseTimes.Add(Rule.Uses.Deployment); Debug.Log("Rule can be used in deployment."); }
-        if (UseStartOfGame) { rule.UseTimes.Add(Rule.Uses.StartOfGame); Debug.Log("Rule can be used at the start of the game."); }
-        if (UseYourTurn) { rule.UseTimes.Add(Rule.Uses.YourTurn); Debug.Log("Rule can be used on your turn."); }
-        if (UseOpponentsTurn) { rule.UseTimes.Add(Rule.Uses.OpponentsTurn); Debug.Log("Rule can be used during the opponents turn."); }
-        if (UseStartOfTurn) { rule.UseTimes.Add(Rule.Uses.StartOfTurn); Debug.Log("Rule can be used at the start of the turn."); }
-        if (UseMove) { rule.UseTimes.Add(Rule.Uses.Move); Debug.Log("Rule can be used in the move phase."); }
-        if (UsePsychic) { rule.UseTimes.Add(Rule.Uses.Psychic); Debug.Log("Rule can be used in the psychic phase."); }
-        if (UseShooting) { rule.UseTimes.Add(Rule.Uses.Shooting); Debug.Log("Rule can be used in the shooting phase."); }
-        if (UseCharge) { rule.UseTimes.Add(Rule.Uses.Charge); Debug.Log("Rule can be used in the charge phase."); }
-        if (UseFight) { rule.UseTimes.Add(Rule.Uses.Fight); Debug.Log("Rule can be used in the fight phase."); }
-        if (UseMorale) { rule.UseTimes.Add(Rule.Uses.Morale); Debug.Log("Rule can be used in the morale phase."); }
-        if (UseEndOfTurn) { rule.UseTimes.Add(Rule.Uses.EndOfTurn); Debug.Log("Rule can be used at the end of the turn."); }
-        if (UseEndOfGame) { rule.UseTimes.Add(Rule.Uses.EndOfGame); Debug.Log("Rule can be used at the end of the game."); }
-
-        //Activation
-        if (ActivationType == 0) {
-            Debug.Log("You must select an activation type.");
-            dataPassed = false;
-            return dataPassed;
-        }
-        rule.ActivationType = (Rule.ActivationTypes)ActivationType;
-        Debug.Log("Rule has an activation type of " + rule.ActivationType);
-
-        //Triggers
-        if (ActivationType == 3) {
-            if (UseMove) {
-                rule.MoveTrigger = new Rule.MoveTriggers();
-                rule.MoveTrigger = (Rule.MoveTriggers)MoveTriggers;
-                Debug.Log("Rule is triggered during the move phase on " + rule.MoveTrigger);
-                if (MoveTriggers == 3) {
-                    if (RollTrigger != 0) {
-                        rule.RollTrigger = RollTrigger;
-                        Debug.Log("Rule is triggered on and advance roll of " + rule.RollTrigger);
-                    } else {
-                        Debug.Log("You must select a value for the roll trigger.");
-                        dataPassed = false;
-                        return dataPassed;
-                    }
-                }
-            }
-            if (UsePsychic) {
-                rule.PsychicTrigger = new Rule.PsychicTriggers();
-                rule.PsychicTrigger = (Rule.PsychicTriggers)PsychicTriggers;
-                Debug.Log("Rule is triggered during the psychic phase on" + rule.PsychicTrigger);
-                if (PsychicTriggers == 1) {
-                    rule.PowerTrigger = new Rule.PowerTriggers();
-                    rule.PowerTrigger = (Rule.PowerTriggers)PowerTriggers;
-                    Debug.Log("Rule is triggered when a player uses a power on " + rule.PowerTrigger);
-                    if (PowerTriggers == 3) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on psychic test rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-                if (PsychicTriggers == 2) {
-                    rule.DenyTrigger = new Rule.DenyTriggers();
-                    rule.DenyTrigger = (Rule.DenyTriggers)DenyTriggers;
-                    Debug.Log("Rule is triggered when a player tries to deny a power on " + rule.DenyTrigger);
-                    if (DenyTriggers == 1) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on deny rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-            }
-            if (UseShooting) {
-                rule.ShootingTrigger = new Rule.ShootingTriggers();
-                rule.ShootingTrigger = (Rule.ShootingTriggers)ShootingTriggers;
-                Debug.Log("Rule is triggered during the shooting phase on " + rule.ShootingTrigger);
-                if (ShootingTriggers == 1) {
-                    rule.AttackTrigger = new Rule.AttackTriggers();
-                    rule.AttackTrigger = (Rule.AttackTriggers)AttackTriggers;
-                    Debug.Log("Rule is triggered when a player shoots on " + rule.AttackTrigger);
-                    if (AttackTriggers == 2) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on shooting rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-                if (ShootingTriggers == 2) {
-                    rule.WoundTrigger = new Rule.WoundTriggers();
-                    rule.WoundTrigger = (Rule.WoundTriggers)WoundTriggers;
-                    Debug.Log("Rule is triggered when a player hits on " + rule.WoundTrigger);
-                    if (WoundTriggers == 1) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on wound rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-            }
-            if (UseCharge) {
-                rule.ChargeTrigger = new Rule.ChargeTriggers();
-                rule.ChargeTrigger = (Rule.ChargeTriggers)ChargeTriggers;
-                Debug.Log("Rule is triggered during the charge phase on " + rule.ChargeTrigger);
-                if (ChargeTriggers == 1) {
-                    rule.SpecificChargeTrigger = new Rule.SpecificChargeTriggers();
-                    rule.SpecificChargeTrigger = (Rule.SpecificChargeTriggers)SpecificChargeTriggers;
-                    Debug.Log("Rule is triggered when a charges on " + rule.SpecificChargeTrigger);
-                    if (SpecificChargeTriggers == 3) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on charge rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-                if (ChargeTriggers == 2) {
-                    rule.AttackTrigger = new Rule.AttackTriggers();
-                    rule.AttackTrigger = (Rule.AttackTriggers)AttackTriggers;
-                    Debug.Log("Rule is triggered when a player can overwatch on " + rule.AttackTrigger);
-                    if (AttackTriggers == 2) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on charge rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-                if (ChargeTriggers == 3) {
-                    rule.WoundTrigger = new Rule.WoundTriggers();
-                    rule.WoundTrigger = (Rule.WoundTriggers)WoundTriggers;
-                    Debug.Log("Rule is triggered when a player hits on " + rule.WoundTrigger);
-                    if (WoundTriggers == 1) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on wound rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-            }
-            if (UseFight) {
-                rule.FightTrigger = new Rule.FightTriggers();
-                rule.FightTrigger = (Rule.FightTriggers)FightTriggers;
-                Debug.Log("Rule is triggered during the fight phase " + rule.FightTrigger);
-                if (FightTriggers == 1 || FightTriggers == 2 || FightTriggers == 3) {
-                    rule.SpecificFightsTrigger = new Rule.SpecificFightsTriggers();
-                    rule.SpecificFightsTrigger = (Rule.SpecificFightsTriggers)SpecificFightsTriggers;
-                    Debug.Log("Rule is triggered during fights on " + rule.SpecificFightsTrigger);
-                }
-                if (FightTriggers == 4) {
-                    rule.AttackTrigger = new Rule.AttackTriggers();
-                    rule.AttackTrigger = (Rule.AttackTriggers)AttackTriggers;
-                    Debug.Log("Rule is triggered when a player attacks on " + rule.AttackTrigger);
-                    if (AttackTriggers == 2) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on wound rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-                if (FightTriggers == 5) {
-                    rule.WoundTrigger = new Rule.WoundTriggers();
-                    rule.WoundTrigger = (Rule.WoundTriggers)WoundTriggers;
-                    Debug.Log("Rule is triggered when a player hits on " + rule.WoundTrigger);
-                    if (WoundTriggers == 1) {
-                        if (RollTrigger != 0) {
-                            rule.RollTrigger = RollTrigger;
-                            Debug.Log("Rule is triggered on wound rolls of " + rule.RollTrigger);
-                        } else {
-                            Debug.Log("You must select a value for the roll trigger.");
-                            dataPassed = false;
-                            return dataPassed;
-                        }
-                    }
-                }
-            }
-            if (UseMorale) {
-                rule.MoraleTrigger = new Rule.MoraleTriggers();
-                rule.MoraleTrigger = (Rule.MoraleTriggers)MoraleTriggers;
-                Debug.Log("Rule is triggered during the morale " + rule.MoraleTrigger);
-                if (MoraleTriggers == 3) {
-                    if (RollTrigger != 0) {
-                        rule.RollTrigger = RollTrigger;
-                        Debug.Log("Rule is triggered on wound rolls of " + rule.RollTrigger);
-                    } else {
-                        Debug.Log("You must select a value for the roll trigger.");
-                        dataPassed = false;
-                        return dataPassed;
-                    }
-                }
-            }
-        }
-
-        if (RuleTarget == 0) {
-            Debug.Log("Your rule requires a target.");
-            dataPassed = false;
-            return dataPassed;
-        } else {
-            rule.Target = (Rule.Targets)RuleTarget;
-            Debug.Log("The rule targets " + rule.Target);
-            if (RuleTarget == 11 && InputKeyword.Length == 0) {
-                Debug.Log("Enter the keyword your rule targets.");
-                dataPassed = false;
-                return dataPassed;
-            } else {
-                rule.Keyword = InputKeyword;
-                Debug.Log("The rule targets the keyword " + rule.Keyword);
-                rule.KeywordTarget = (Rule.KeywordTargets)KeywordTarget;
-            }
-        }
-
-        if (RuleType == 0) {
-            Debug.Log("Select the type of rule.");
-            dataPassed = false;
-            return dataPassed;
-        } else {
-            rule.RuleType = (Rule.RuleTypes)RuleType;
-            Debug.Log("The rule is a " + rule.RuleType);
-            if ((RuleTarget != 9 && RuleTarget != 10) || RuleType == 1) {
-                rule.Range = Range;
-                Debug.Log("Rule Range is " + rule.Range);
-            }
-            if ((RuleType == 1 && ReserveDealsMortal) || RuleType == 10) {
-                if (Damage != 0) {
-                    if (Damage < 7) {
-                        rule.Damage = Damage;
-                        Debug.Log("Rule Damage is " + rule.Range);
-                    } else {
-                        rule.DamageDice = new Rule.Dice();
-                        rule.DamageDice = (Rule.Dice)(Damage - 7);
-                        Debug.Log("Rule Damage is " + rule.DamageDice);
-                    }
-                } else {
-                    Debug.Log("Select the damage the rule deals.");
-                    dataPassed = false;
-                    return dataPassed;
-                }
-            }
-            if (RuleType == 2 || RuleType == 3 || RuleType == 10) {
-                if (Roll != 0) {
-                    rule.Roll = Roll;
-                    Debug.Log("Rule passes on rolls of " + rule.Range);
-                } else {
-                    Debug.Log("Select the passing roll for the rule.");
-                    dataPassed = false;
-                    return dataPassed;
-                }
-            }
-            if (RuleType == 1) {
-                rule.ReserveOutsideEnemy = ReserveOutsideEnemy;
-                if (rule.ReserveOutsideEnemy) Debug.Log("Deploy from reserve away from the enemy.");
-                rule.ReserveFromObject = ReserveFromObject;
-                if (rule.ReserveFromObject) Debug.Log("Deploy from reserve near an object.");
-                rule.RerollCharges = ReserveRerollCharges;
-                if (rule.RerollCharges) Debug.Log("Reroll charges after deploying from reserve.");
-                rule.ReserveMortalWounds = ReserveDealsMortal;
-                if (rule.ReserveOutsideEnemy) Debug.Log("Deploying from reserve deals mortal wounds.");
-                if (ReserveDealsMortal) {
-                    rule.ReserveRange = ReserveDamageRange;
-                    Debug.Log("Deal mortal wounds to targets within " + rule.ReserveRange);
-                }
-            }
-            if (RuleType == 4) {
-                rule.Profile = new Rule.Profiles();
-                rule.Profile = (Rule.Profiles)Profile;
-                Debug.Log("Rule changes the following profile " + rule.Profile);
-                rule.Modify = new Rule.Modifiers();
-                rule.Modify = (Rule.Modifiers)Modifier;
-                Debug.Log("Profile changed by " + rule.Modify);
-                if (Change != 0) {
-                    if (Change < 7) {
-                        rule.ProfileChange = Change;
-                        Debug.Log("And modified by " + rule.ProfileChange);
-                    } else {
-                        rule.ChangeDice = new Rule.Dice();
-                        rule.ChangeDice = (Rule.Dice)(Change - 7);
-                        Debug.Log("And modified by " + rule.ChangeDice);
-                    }
-                } else {
-                    Debug.Log("Select the amount the profile changes.");
-                    dataPassed = false;
-                    return dataPassed;
-                }
-            }
-            if (RuleType == 5) {
-                rule.RollModified = new Rule.Rolls();
-                rule.RollModified = (Rule.Rolls)RollModified;
-                Debug.Log("Rule modifies " + rule.RollModified + " rolls.");
-                rule.RollModifiedBy = new Rule.RollModifiers();
-                rule.RollModifiedBy = (Rule.RollModifiers)ModifiedBy;
-                Debug.Log("Roll is modified by " + rule.RollModifiedBy);
-                if (RollModifier == 0) {
-                    Debug.Log("Select the amount the roll is modified by.");
-                    dataPassed = false;
-                    return dataPassed;
-                } else {
-                    rule.RollModifierAmount = RollModifier;
-                    Debug.Log("Roll is modified by " + rule.RollModifierAmount);
-                }
-            }
-            if (RuleType == 6) {
-                rule.IgnoreProfile = new Rule.IgnoreProfiles();
-                rule.IgnoreProfile = (Rule.IgnoreProfiles)PenaltyIgnored;
-                Debug.Log("Penalties are ignored for " + rule.IgnoreProfile);
-            }
-            if (RuleType == 9) {
-                rule.AdditionalAttackOnly = OnlyAdditionalAttack;
-                if (rule.AdditionalAttackOnly) Debug.Log("Rule forces the attack only on additional attacks.");
-                rule.AdditionalAttacksCanExplode = CanExplode;
-                if (rule.AdditionalAttacksCanExplode) Debug.Log("Additional attacks can explode.");
-            }
-            if (RuleType == 10) {
-                rule.SlayTheModel = SlayTheModel;
-                if (rule.SlayTheModel) Debug.Log("Rule slays the target model.");
-            }
-        }
-
-        return dataPassed;
+        panelLoad.SetActive(true);
+        loader.StartLoadPanel();
     }
 
     public void Close(bool overwrite) {
@@ -1421,236 +954,10 @@ public class RuleUI : MonoBehaviour {
 
             buttonSave.interactable = true;
             buttonLoad.interactable = true;
-            searchField = null;
+            //searchField = null;
             panelLoad.SetActive(false);
         } else {
             panelNameCheck.SetActive(false);
-        }
-    }
-
-    public void LoadSavedRule() {
-        ResetLoad(instance.Rules[ruleToLoad]);
-        panelNameCheck.SetActive(false);
-    }
-
-    public void Load() {
-        buttonSave.interactable = false;
-        buttonLoad.interactable = false;
-
-        panelLoad.SetActive(true);
-        if (instance.Rules.Count > 6) {
-            contentLoad.GetComponent<RectTransform>().offsetMin = new Vector2(0, -48 * (instance.Rules.Count - 6));
-        }
-        for (int i = 0; i < instance.Rules.Count; i++) {
-            string ruleName = instance.Rules[i].Name;
-            GameObject ruleButton = Instantiate(buttonRule);
-            ruleButton.transform.SetParent(contentLoad.transform);
-            ruleButton.GetComponent<ButtonRule>().Rule = instance.Rules[i];
-            ruleButton.GetComponent<RectTransform>().localScale = Vector3.one;
-            ruleButton.GetComponentInChildren<Text>().text = ruleName;
-        }
-
-        buttonRules = FindObjectsOfType<ButtonRule>();
-        searchField = panelLoad.GetComponentInChildren<InputField>();
-    }
-
-    public void ResetLoad(Rule rule) {
-
-        InputName = rule.Name;
-        inputName.text = InputName;
-
-        for (int i = 0; i < rule.UseTimes.Count; i++) {
-            if (rule.UseTimes[i] == Rule.Uses.Deployment) {
-                UseDeployment = true;
-                useToggles[0].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.StartOfGame) {
-                UseStartOfGame = true;
-                useToggles[1].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.YourTurn) {
-                UseYourTurn = true;
-                useToggles[2].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.OpponentsTurn) {
-                UseOpponentsTurn = true;
-                useToggles[3].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.StartOfTurn) {
-                UseStartOfTurn = true;
-                useToggles[4].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.Move) {
-                UseMove = true;
-                useToggles[5].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.Psychic) {
-                UsePsychic = true;
-                useToggles[6].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.Shooting) {
-                UseShooting = true;
-                useToggles[7].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.Charge) {
-                UseCharge = true;
-                useToggles[8].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.Fight) {
-                UseFight = true;
-                useToggles[9].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.Morale) {
-                UseMorale = true;
-                useToggles[10].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.EndOfTurn) {
-                UseEndOfTurn = true;
-                useToggles[11].isOn = true;
-            }
-            if (rule.UseTimes[i] == Rule.Uses.EndOfGame) {
-                UseEndOfGame = true;
-                useToggles[12].isOn = true;
-            }
-        }
-
-        ActivationType = (int)rule.ActivationType;
-        panelActivation.GetComponentInChildren<Dropdown>().value = ActivationType;
-
-        if (ActivationType == 3) {
-            if (rule.MoveTrigger != 0) {
-                MoveTriggers = (int)rule.MoveTrigger;
-                dropdownMove.value = MoveTriggers;
-            }
-            if (rule.PsychicTrigger != 0) {
-                PsychicTriggers = (int)rule.PsychicTrigger;
-                dropdownPsychic.value = PsychicTriggers;
-            }
-            if (rule.ShootingTrigger != 0) {
-                ShootingTriggers = (int)rule.ShootingTrigger;
-                dropdownShooting.value = ShootingTriggers;
-            }
-            if (rule.ChargeTrigger != 0) {
-                ChargeTriggers = (int)rule.ChargeTrigger;
-                dropdownCharge.value = ChargeTriggers;
-            }
-            if (rule.FightTrigger != 0) {
-                FightTriggers = (int)rule.FightTrigger;
-                dropdownFightsTriggers.value = FightTriggers;
-            }
-            if (rule.MoraleTrigger != 0) {
-                MoraleTriggers = (int)rule.MoraleTrigger;
-                dropdownMorale.value = MoraleTriggers;
-            }
-            if (rule.AttackTrigger != 0) {
-                AttackTriggers = (int)rule.AttackTrigger;
-                dropdownAttackTriggers.value = AttackTriggers;
-            }
-            if (rule.WoundTrigger != 0) {
-                WoundTriggers = (int)rule.WoundTrigger;
-                dropdownWoundTriggers.value = WoundTriggers;
-            }
-            if (rule.PowerTrigger != 0) {
-                PowerTriggers = (int)rule.PowerTrigger;
-                dropdownPowerTriggers.value = PowerTriggers;
-            }
-            if (rule.DenyTrigger != 0) {
-                DenyTriggers = (int)rule.DenyTrigger;
-                dropdownDenyTriggers.value = DenyTriggers;
-            }
-            if (rule.ChargeTrigger != 0) {
-                ChargeTriggers = (int)rule.ChargeTrigger;
-                dropdownChargeTriggers.value = ChargeTriggers;
-            }
-            if (rule.SpecificFightsTrigger != 0) {
-                SpecificFightsTriggers = (int)rule.SpecificFightsTrigger;
-                dropdownFightsTriggers.value = SpecificFightsTriggers;
-            }
-        }
-
-        RuleTarget = (int)rule.Target;
-        dropdownTarget.value = RuleTarget;
-        if (RuleTarget != 9 &&
-            RuleTarget != 10) {
-
-            Range = rule.Range;
-            inputRange.text = Range.ToString();
-
-            if (RuleTarget == 11) {
-                InputKeyword = rule.Keyword;
-                inputKeyword.text = InputKeyword;
-                KeywordTarget = (int)rule.KeywordTarget;
-                dropdownKeywordTarget.value = KeywordTarget;
-            }
-        }
-
-        RuleType = (int)rule.RuleType;
-        panelRuleType.GetComponentInChildren<Dropdown>().value = RuleType;
-        switch (RuleType) {
-            case 1: 
-                ReserveOutsideEnemy = rule.ReserveOutsideEnemy;
-                toggleOutsideEnemy.isOn = ReserveOutsideEnemy;
-                ReserveFromObject = rule.ReserveFromObject;
-                toggleFromObject.isOn = ReserveFromObject;
-                ReserveRerollCharges = rule.RerollCharges;
-                toggleRerollCharges.isOn = ReserveRerollCharges;
-                ReserveDealsMortal = rule.ReserveMortalWounds;
-                toggleReserveMortal.isOn = ReserveDealsMortal;
-
-                if (ReserveDealsMortal) {
-                    ReserveDamageRange = rule.ReserveRange;
-                    inputReserveRange.text = ReserveDamageRange.ToString();
-                    if (rule.Damage == 0) {
-                        Damage = (int)rule.DamageDice + 7;
-                    }
-                    dropdownDamage.value = Damage;
-                }
-                break;
-            case 2:
-            case 3:
-                Roll = rule.Roll;
-                dropdownRoll.value = Roll;
-                break;
-            case 4:
-                Profile = (int)rule.Profile;
-                dropdownProfile.value = Profile;
-                Modifier = (int)rule.Modify;
-                dropdownProfileModifier.value = Modifier;
-                if (rule.ProfileChange == 0) {
-                    Change = (int)rule.ChangeDice + 7;
-                } else {
-                    Change = rule.ProfileChange;
-                }
-                dropdownProfileChange.value = Change;
-                break;
-            case 5:
-                RollModified = (int)rule.RollModified;
-                dropdownModifiedRoll.value = RollModified;
-                ModifiedBy = (int)rule.RollModifiedBy;
-                dropdownModifiedBy.value = ModifiedBy;
-                RollModifier = (int)rule.RollModifierAmount;
-                dropdownModifier.value = RollModifier;
-                break;
-            case 6:
-                PenaltyIgnored = (int)rule.IgnoreProfile;
-                panelIgnore.GetComponentInChildren<Dropdown>().value = PenaltyIgnored;
-                break;
-            case 9:
-                OnlyAdditionalAttack = rule.AdditionalAttackOnly;
-                toggleOnlyAttack.isOn = OnlyAdditionalAttack;
-                CanExplode = rule.AdditionalAttacksCanExplode;
-                toggleCanExplode.isOn = CanExplode;
-                break;
-            case 10:
-                if (rule.Damage == 0) {
-                    Damage = (int)rule.DamageDice + 7;
-                }
-                dropdownDamage.value = Damage;
-                Roll = rule.Roll;
-                dropdownRoll.value = Roll;
-                SlayTheModel = rule.SlayTheModel;
-                panelMortalWounds.GetComponentInChildren<Toggle>().isOn = SlayTheModel;
-                break;
         }
     }
 

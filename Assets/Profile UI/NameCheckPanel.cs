@@ -31,7 +31,7 @@ public class NameCheckPanel : MonoBehaviour {
         Profile saveProfile = copier.CopyProfile(setter.CurrentProfile);
 
         instance.Profiles[saver.profileToLoad] = saveProfile;
-        instance.SaveProfile();
+        instance.SaveProfiles();
 
         ui.Close(ProfileUI.CloseType.nameCheckSave);
     }

@@ -277,7 +277,8 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        LoadProfile();
+        LoadProfiles();
+        LoadRules();
 	}
 	
 	// Update is called once per frame
@@ -329,7 +330,7 @@ public class GameManager : MonoBehaviour {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    public void SaveProfile () {
+    public void SaveProfiles () {
 
         Debug.Log("Attempting to save profiles to file.");
 
@@ -352,7 +353,32 @@ public class GameManager : MonoBehaviour {
         file.Close();
     }
 
-    public void LoadProfile () {
+    public void SaveRules()
+    {
+
+        Debug.Log("Attempting to save rules to file.");
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/WH40KRules.dat");
+
+        if (file != null)
+        {
+            Debug.Log("WH40KRules.dat created.");
+        }
+
+        TesterData data = new TesterData();
+        data.Rules = Rules;
+        //data.FileData.Add("This");
+        //data.FileData.Add(" is ");
+        //data.FileData.Add("data.");
+        //set desired save data
+
+        bf.Serialize(file, data);
+        file.Close();
+    }
+
+
+    public void LoadProfiles () {
 
         Debug.Log("Attempting to load data.");
 
@@ -367,6 +393,26 @@ public class GameManager : MonoBehaviour {
             //Debug.Log(data.FileData[0] + data.FileData[1] + data.FileData[2]);
             Profiles = data.Profiles;
             //Rules = data.Rules;
+
+            if (Profiles[0] != null) Debug.Log("Profiles have been loaded.");
+
+            file.Close();
+        }
+    }
+
+    public void LoadRules()
+    {
+        Debug.Log("Attempting to load data.");
+
+        if (File.Exists(Application.persistentDataPath + "/WH40KRules.dat"))
+        {
+
+            Debug.Log("WH40KRules.dat exists.");
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/WH40KRules.dat", FileMode.Open);
+            TesterData data = (TesterData)bf.Deserialize(file);
+
+            Rules = data.Rules;
 
             if (Profiles[0] != null) Debug.Log("Profiles have been loaded.");
 

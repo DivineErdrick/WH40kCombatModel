@@ -31,7 +31,7 @@ public class Rule {
 
     public enum RuleTypes { NotChosen, Reserves, Invuln, IgnoreWounds, ChangeProfile, Roll, IgnorePenaly, AllowShooting, AllowCharge, AdditionalAttack, MortalWounds }
 
-    public enum Profiles { M, WS, BS, S, T, W, A, Ld, Sv, Psychic, Cover, Range, AP, D }
+    public enum StatProfiles { M, WS, BS, S, T, W, A, Ld, Sv, Psychic, Cover, Range, AP, D }
     public enum Modifiers { Bonus, Penalty, Become }
 
     public enum Rolls { Advance, Psychic, Deny, Hit, Wound, Charge, Morale }
@@ -39,7 +39,7 @@ public class Rule {
 
     public enum IgnoreProfiles { Psychic, Deny, Hit, Wound, Morale, M, WS, BS, S, T, W, A, Ld, Sv, Cover, Range, AP, D }
 
-    public enum Dice { D3, D6, TwoD6 }
+    public enum Dice { D3, D6, e2D6 }
 
 
     public string Name { get; set; }
@@ -79,7 +79,7 @@ public class Rule {
     public bool ReserveMortalWounds { get; set; }
     public int ReserveRange { get; set; }
 
-    public Profiles Profile { get; set; }
+    public StatProfiles StatProfile { get; set; }
     public Modifiers Modify { get; set; }
     public int ProfileChange { get; set; }
     public Dice ChangeDice { get; set; }
@@ -116,12 +116,57 @@ public class Rule {
     //public bool CannotSelectWeapon { get; set; }
     //public bool MortalWounds { get; set; }
 
-    public Rule () {
+    public Rule() {
 
+        //public List<Uses> UseTimes { get; set; }
         UseTimes = new List<Uses>();
-        ActivationType = new ActivationTypes();
-        Target = new Targets();
-        RuleType = new RuleTypes();
+
+        //public ActivationTypes ActivationType { get; set; }
+
+        //public MoveTriggers MoveTrigger { get; set; }
+        //public PsychicTriggers PsychicTrigger { get; set; }
+        //public ShootingTriggers ShootingTrigger { get; set; }
+        //public ChargeTriggers ChargeTrigger { get; set; }
+        //public FightTriggers FightTrigger { get; set; }
+        //public MoraleTriggers MoraleTrigger { get; set; }
+
+        //public AttackTriggers AttackTrigger { get; set; }
+        //public WoundTriggers WoundTrigger { get; set; }
+        //public PowerTriggers PowerTrigger { get; set; }
+        //public DenyTriggers DenyTrigger { get; set; }
+        //public SpecificChargeTriggers SpecificChargeTrigger { get; set; }
+        //public SpecificFightsTriggers SpecificFightsTrigger { get; set; }
+        //public int RollTrigger { get; set; }
+
+        //public Targets Target { get; set; }
+        //public string Keyword { get; set; }
+        //public KeywordTargets KeywordTarget { get; set; }
+
+        //public RuleTypes RuleType { get; set; }
+
+        //public int Range { get; set; }
+        //public int Damage { get; set; }
+        //public Dice DamageDice { get; set; }
+        //public int Roll { get; set; }
+
+        //public bool ReserveOutsideEnemy { get; set; }
+        //public bool ReserveFromObject { get; set; }
+        //public bool RerollCharges { get; set; }
+        //public bool ReserveMortalWounds { get; set; }
+        //public int ReserveRange { get; set; }
+
+        //public Profiles Profile { get; set; }
+        //public Modifiers Modify { get; set; }
+        //public int ProfileChange { get; set; }
+        //public Dice ChangeDice { get; set; }
+
+        //public Rolls RollModified { get; set; }
+        //public RollModifiers RollModifiedBy { get; set; }
+        //public int RollModifierAmount { get; set; }
+
+        //public IgnoreProfiles IgnoreProfile { get; set; }
+
+
         //Keywords = new List<string>();
         //Triggers = new List<Trigger>();
         //OnlyUseableWithWeapons = new List<string>();

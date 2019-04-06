@@ -48,7 +48,7 @@ public class ProfileSaver : MonoBehaviour {
                 ProfileCopier copier = FindObjectOfType<ProfileCopier>();
                 Profile saveProfile = copier.CopyProfile(profileSetter.CurrentProfile);
                 instance.Profiles.Add(saveProfile);
-                instance.SaveProfile();
+                instance.SaveProfiles();
                 profileUI.EnableLoad();
                 StartCoroutine(messager.DisplayTemporaryMessage("Profile Saved.", false));
 
