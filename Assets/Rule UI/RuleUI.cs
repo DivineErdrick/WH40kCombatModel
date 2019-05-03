@@ -742,9 +742,12 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleReserveRange () {
 
-        if (panelRuleType.activeInHierarchy && setter.ReserveDealsMortal) {
+        if (panelRuleType.activeInHierarchy && setter.ReserveDealsMortal)
+        {
             inputReserveRange.gameObject.SetActive(true);
-        } else {
+        }
+        else
+        {
             inputReserveRange.gameObject.SetActive(false);
         }
     }
@@ -766,7 +769,18 @@ public class RuleUI : MonoBehaviour {
 
     public void ToggleRuleProperties (int ruleType) {
 
-        switch (ruleType) {
+        int currentRuleType;
+
+        if (panelRuleType.activeInHierarchy)
+        {
+            currentRuleType = (ruleType >= 0) ? ruleType : setter.RuleType;
+        }
+        else
+        {
+            currentRuleType = -1;
+        }
+
+        switch (currentRuleType) {
             case 1:
                 if (panelRuleType.activeInHierarchy && setter.ReserveDealsMortal) {
                     textRoll.gameObject.SetActive(true);
