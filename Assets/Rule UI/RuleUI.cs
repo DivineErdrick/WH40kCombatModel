@@ -292,7 +292,7 @@ public class RuleUI : MonoBehaviour {
         }
     }
 
-    void SwitchUseToggles (bool turnTogglesOn) {
+    public void SwitchUseToggles (bool turnTogglesOn) {
 
         useToggleAll.isOn = turnTogglesOn;
         useToggleNone.isOn = !turnTogglesOn;

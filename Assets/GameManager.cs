@@ -414,7 +414,7 @@ public class GameManager : MonoBehaviour {
 
             Rules = data.Rules;
 
-            if (Profiles[0] != null) Debug.Log("Profiles have been loaded.");
+            if (Profiles[0] != null) Debug.Log("Rules have been loaded.");
 
             file.Close();
         }

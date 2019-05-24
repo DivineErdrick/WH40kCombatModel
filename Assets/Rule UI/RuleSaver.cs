@@ -34,6 +34,7 @@ public class RuleSaver : MonoBehaviour
 
     public void Save(bool overwrite) {
 
+        Debug.Log("Attempting to save Rule.");
         rule = new Rule();
         bool datacheckPassed = true;
 
@@ -41,6 +42,8 @@ public class RuleSaver : MonoBehaviour
 
         if (datacheckPassed) {
             //instance.ActiveRule = rule;
+            Debug.Log("Rule is valid.");
+            Debug.Log("Checking if a rule with this name exists.");
             bool nameCheck = true;
             for (int i = 0; i < instance.Rules.Count; i++) {
                 if (rule.Name == instance.Rules[i].Name) {
@@ -50,23 +53,28 @@ public class RuleSaver : MonoBehaviour
             }
 
             if (nameCheck) {
+                Debug.Log("Saving rule.");
                 instance.Rules.Add(rule);
                 instance.SaveRules();
-                ui.buttonLoad.interactable = true;
-            } else if (overwrite) {
+            }
+            else if (overwrite) {
+                Debug.Log("Saving rule.");
                 instance.Rules[loader.RuleToLoad] = rule;
+                instance.SaveRules();
                 ui.panelNameCheck.SetActive(false);
-            } else {
+            }
+            else {
+                Debug.Log("A rule with that name exists. Opening Name Check Panel.");
                 ui.panelNameCheck.SetActive(true);
             }
 
-            Debug.Log("New Rule name is " + rule.Name + ". It has been added to the rule data as " + instance.Rules.Last().Name + ".");
             ui.buttonLoad.interactable = true;
         }
     }
 
     bool Datacheck() {
 
+        Debug.Log("Checking if the rule is valid.");
         bool dataPassed = true;
 
         if (setter.InputName.Length == 0) {
@@ -79,6 +87,7 @@ public class RuleSaver : MonoBehaviour
         }
 
         //Uses
+        rule.UseTimes = new List<Rule.Uses>();
         if (setter.UseDeployment) { rule.UseTimes.Add(Rule.Uses.Deployment); Debug.Log("Rule can be used in deployment."); }
         if (setter.UseStartOfGame) { rule.UseTimes.Add(Rule.Uses.StartOfGame); Debug.Log("Rule can be used at the start of the game."); }
         if (setter.UseYourTurn) { rule.UseTimes.Add(Rule.Uses.YourTurn); Debug.Log("Rule can be used on your turn."); }
