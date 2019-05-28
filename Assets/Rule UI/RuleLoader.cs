@@ -271,7 +271,7 @@ public class RuleLoader : MonoBehaviour
 
                 if (setter.ReserveDealsMortal) {
                     ui.ToggleReserveRange();
-                    setter.ReserveDamageRange = rule.ReserveRange;
+                    setter.ReserveDamageRange = rule.ReserveDamageRange;
                     ui.inputReserveRange.text = setter.ReserveDamageRange.ToString();
                     Debug.Log("Reserves deal damage within " + setter.ReserveDamageRange + " inches.");
                     if (rule.Damage == 0)
@@ -280,6 +280,9 @@ public class RuleLoader : MonoBehaviour
                         Debug.Log("Rule deals " + (Rule.Dice)(setter.Damage - 7) + " damage.");
                     } else Debug.Log("Rule deals " + setter.Damage + " damage.");
                     ui.dropdownDamage.value = setter.Damage;
+                    setter.Roll = rule.Roll;
+                    ui.dropdownRoll.value = setter.Roll;
+                    Debug.Log("Rule succeeds on a roll of " + setter.Roll);
                 }
                 break;
             case 2:

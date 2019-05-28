@@ -338,7 +338,7 @@ public class RuleSaver : MonoBehaviour
                 if (setter.Damage != 0) {
                     if (setter.Damage < 7) {
                         rule.Damage = setter.Damage;
-                        Debug.Log("Rule Damage is " + rule.Range);
+                        Debug.Log("Rule Damage is " + rule.Damage);
                     } else {
                         rule.DamageDice = new Rule.Dice();
                         rule.DamageDice = (Rule.Dice)(setter.Damage - 7);
@@ -353,7 +353,7 @@ public class RuleSaver : MonoBehaviour
             if (setter.RuleType == 2 || setter.RuleType == 3 || setter.RuleType == 10) {
                 if (setter.Roll != 0) {
                     rule.Roll = setter.Roll;
-                    Debug.Log("Rule passes on rolls of " + rule.Range);
+                    Debug.Log("Rule passes on rolls of " + rule.Roll);
                 } else {
                     Debug.Log("Select the passing roll for the rule.");
                     dataPassed = false;
@@ -361,17 +361,20 @@ public class RuleSaver : MonoBehaviour
                 }
             }
             if (setter.RuleType == 1) {
+                rule.Range = setter.Range;
                 rule.ReserveOutsideEnemy = setter.ReserveOutsideEnemy;
-                if (rule.ReserveOutsideEnemy) Debug.Log("Deploy from reserve away from the enemy.");
+                if (rule.ReserveOutsideEnemy) Debug.Log("Deploy from reserve " + rule.Range + " inches away from the enemy.");
                 rule.ReserveFromObject = setter.ReserveFromObject;
-                if (rule.ReserveFromObject) Debug.Log("Deploy from reserve near an object.");
+                if (rule.ReserveFromObject) Debug.Log("Deploy from reserve within " + rule.Range + " inches from an object.");
                 rule.RerollCharges = setter.ReserveRerollCharges;
                 if (rule.RerollCharges) Debug.Log("Reroll charges after deploying from reserve.");
                 rule.ReserveMortalWounds = setter.ReserveDealsMortal;
                 if (rule.ReserveOutsideEnemy) Debug.Log("Deploying from reserve deals mortal wounds.");
                 if (setter.ReserveDealsMortal) {
-                    rule.ReserveRange = setter.ReserveDamageRange;
-                    Debug.Log("Deal mortal wounds to targets within " + rule.ReserveRange);
+                    rule.ReserveDamageRange = setter.ReserveDamageRange;
+                    Debug.Log("Deal mortal wounds to targets within " + rule.ReserveDamageRange);
+                    rule.Roll = setter.Roll;
+                    Debug.Log("Rule deals damage on a roll of " + rule.Roll);
                 }
             }
             if (setter.RuleType == 4) {

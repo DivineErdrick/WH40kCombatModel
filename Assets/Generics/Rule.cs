@@ -77,7 +77,7 @@ public class Rule {
     public bool ReserveFromObject { get; set; }
     public bool RerollCharges { get; set; }
     public bool ReserveMortalWounds { get; set; }
-    public int ReserveRange { get; set; }
+    public int ReserveDamageRange { get; set; }
 
     public StatProfiles StatProfile { get; set; }
     public Modifiers Modify { get; set; }

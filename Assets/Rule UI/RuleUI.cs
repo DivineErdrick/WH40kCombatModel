@@ -904,7 +904,7 @@ public class RuleUI : MonoBehaviour {
                 }
                 break;
             case "Reserves":
-                if (int.TryParse(inputRange.text, out value)) {
+                if (int.TryParse(inputReserveRange.text, out value)) {
                     if (value >= 0) {
                         textRange.color = defaultColor;
                         setter.ReserveDamageRange = value;
