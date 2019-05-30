@@ -795,6 +795,11 @@ public class RuleUI : MonoBehaviour {
                 AdjustPanels();
                 break;
             case 2:
+                if (panelProperties.activeInHierarchy)
+                {
+                    textRoll.gameObject.SetActive(true);
+                    dropdownRoll.gameObject.SetActive(true);
+                }
                 textDamage.gameObject.SetActive(false);
                 dropdownDamage.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -806,6 +811,11 @@ public class RuleUI : MonoBehaviour {
                 AdjustPanels();
                 break;
             case 3:
+                if (panelProperties.activeInHierarchy)
+                {
+                    textRoll.gameObject.SetActive(true);
+                    dropdownRoll.gameObject.SetActive(true);
+                }
                 textDamage.gameObject.SetActive(false);
                 dropdownDamage.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -817,6 +827,11 @@ public class RuleUI : MonoBehaviour {
                 AdjustPanels();
                 break;
             case 4:
+                if (panelProperties.activeInHierarchy)
+                {
+                    textRoll.gameObject.SetActive(false);
+                    dropdownRoll.gameObject.SetActive(false);
+                }
                 textDamage.gameObject.SetActive(false);
                 dropdownDamage.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -828,6 +843,11 @@ public class RuleUI : MonoBehaviour {
                 AdjustPanels();
                 break;
             case 5:
+                if (panelProperties.activeInHierarchy)
+                {
+                    textRoll.gameObject.SetActive(false);
+                    dropdownRoll.gameObject.SetActive(false);
+                }
                 textDamage.gameObject.SetActive(false);
                 dropdownDamage.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -839,6 +859,11 @@ public class RuleUI : MonoBehaviour {
                 AdjustPanels();
                 break;
             case 6:
+                if (panelProperties.activeInHierarchy)
+                {
+                    textRoll.gameObject.SetActive(false);
+                    dropdownRoll.gameObject.SetActive(false);
+                }
                 textDamage.gameObject.SetActive(false);
                 dropdownDamage.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -850,6 +875,11 @@ public class RuleUI : MonoBehaviour {
                 AdjustPanels();
                 break;
             case 9:
+                if (panelProperties.activeInHierarchy)
+                {
+                    textRoll.gameObject.SetActive(true);
+                    dropdownRoll.gameObject.SetActive(true);
+                }
                 textDamage.gameObject.SetActive(false);
                 dropdownDamage.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
@@ -861,6 +891,11 @@ public class RuleUI : MonoBehaviour {
                 AdjustPanels();
                 break;
             case 10:
+                if (panelProperties.activeInHierarchy)
+                {
+                    textRoll.gameObject.SetActive(true);
+                    dropdownRoll.gameObject.SetActive(true);
+                }
                 textDamage.gameObject.SetActive(true);
                 dropdownDamage.gameObject.SetActive(true);
                 panelReserve.SetActive(false);
@@ -872,6 +907,11 @@ public class RuleUI : MonoBehaviour {
                 AdjustPanels();
                 break;
             default:
+                if (panelProperties.activeInHierarchy)
+                {
+                    textRoll.gameObject.SetActive(false);
+                    dropdownRoll.gameObject.SetActive(false);
+                }
                 textDamage.gameObject.SetActive(false);
                 dropdownDamage.gameObject.SetActive(false);
                 panelReserve.SetActive(false);
