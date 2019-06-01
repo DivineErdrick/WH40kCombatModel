@@ -64,7 +64,10 @@ public class RuleSetter : MonoBehaviour
     //Stat Profile
     public int StatProfile { get; set; }
     public int Modifier { get; set; }
+    public int ReRolls { get; set; }
     public int Change { get; set; }
+    public bool OrHigher { get; set; }
+    public bool OrLower { get; set; }
 
     //Pass Roll
     public int RollModified { get; set; }

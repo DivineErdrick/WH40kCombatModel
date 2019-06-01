@@ -71,9 +71,12 @@ public class RuleUI : MonoBehaviour {
     public Dropdown dropdownProfileChange;
     public GameObject panelRoll;
     public Text textModifier;
+    public Text textReRollsOf;
     public Dropdown dropdownModifiedRoll;
     public Dropdown dropdownModifiedBy;
     public Dropdown dropdownModifier;
+    public Dropdown dropdownRerolls;
+    public ToggleGroup groupRerollType;
     public GameObject panelIgnore;
     public GameObject panelAdditionalAttacks;
     public Toggle toggleOnlyAttack;
@@ -246,6 +249,9 @@ public class RuleUI : MonoBehaviour {
         Assert.IsNotNull(dropdownModifiedRoll, "The Modified Roll dropdown has not been added to the Rule UI.");
         Assert.IsNotNull(dropdownModifiedBy, "The Modified By dropdown has not been added to the Rule UI.");
         Assert.IsNotNull(textModifier, "The Modifier text has not been added to the Rule UI.");
+        Assert.IsNotNull(textReRollsOf, "The Rolls Of text has not been added to the Rule UI.");
+        Assert.IsNotNull(dropdownRerolls, "The Rerolls dropdown has not been added to the Rule UI.");
+        Assert.IsNotNull(groupRerollType, "The Reroll Type group has not been added to the Rule UI.");
         Assert.IsNotNull(dropdownModifier, "The Modifier dropdown has not been added to the Rule UI.");
         Assert.IsNotNull(panelIgnore, "The Ignore panel has not been added to the Rule UI.");
         Assert.IsNotNull(panelAdditionalAttacks, "The Aditional Attack panel has not been added to the Rule UI.");
@@ -853,6 +859,7 @@ public class RuleUI : MonoBehaviour {
                 panelReserve.SetActive(false);
                 panelProfile.SetActive(false);
                 panelRoll.SetActive(true);
+                ToggleModifierOptions();
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
@@ -922,6 +929,45 @@ public class RuleUI : MonoBehaviour {
                 panelMortalWounds.SetActive(false);
                 AdjustPanels();
                 break;
+        }
+    }
+
+    public void ToggleModifierOptions()
+    {
+        if (panelRuleType.activeInHierarchy
+            && panelRoll.activeInHierarchy)
+        {
+            if (setter.ModifiedBy == 0)
+            {
+                textModifier.gameObject.SetActive(false);
+                textReRollsOf.gameObject.SetActive(true);
+                dropdownModifier.gameObject.SetActive(false);
+                dropdownRerolls.gameObject.SetActive(true);
+                ToggleRerollGroup();
+            }
+            else
+            {
+                textModifier.gameObject.SetActive(true);
+                textReRollsOf.gameObject.SetActive(false);
+                dropdownModifier.gameObject.SetActive(true);
+                dropdownRerolls.gameObject.SetActive(false);
+                groupRerollType.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void ToggleRerollGroup ()
+    {
+        if (panelRuleType.activeInHierarchy
+            && panelRoll.activeInHierarchy
+            && dropdownRerolls.gameObject.activeInHierarchy
+            && setter.ReRolls > 0)
+        {
+            groupRerollType.gameObject.SetActive(true);
+        }
+        else
+        {
+            groupRerollType.gameObject.SetActive(false);
         }
     }
 
