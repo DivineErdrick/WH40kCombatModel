@@ -412,9 +412,14 @@ public class GameManager : MonoBehaviour {
             FileStream file = File.Open(Application.persistentDataPath + "/WH40KRules.dat", FileMode.Open);
             TesterData data = (TesterData)bf.Deserialize(file);
 
-            Rules = data.Rules;
+            switch (data.Rules[0].Version)
+            {
+                default:
+                    Rules = data.Rules;
+                    break;
+            }            
 
-            if (Profiles[0] != null) Debug.Log("Rules have been loaded.");
+            if (Rules[0] != null) Debug.Log("Rules have been loaded.");
 
             file.Close();
         }

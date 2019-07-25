@@ -406,14 +406,26 @@ public class RuleSaver : MonoBehaviour
                 rule.RollModifiedBy = new Rule.RollModifiers();
                 rule.RollModifiedBy = (Rule.RollModifiers)setter.ModifiedBy;
                 Debug.Log("Roll is modified by " + rule.RollModifiedBy);
-                if (setter.RollModifier == 0) {
+                if (setter.ModifiedBy > 0 && setter.RollModifier == 0) {
                     Debug.Log("Select the amount the roll is modified by.");
                     dataPassed = false;
                     return dataPassed;
-                } else {
+                }
+                else if (setter.ModifiedBy > 0)
+                {
                     rule.RollModifierAmount = setter.RollModifier;
                     Debug.Log("Roll is modified by " + rule.RollModifierAmount);
                 }
+                else
+                {
+                    rule.RerollType = (Rule.RerollTypes)setter.RerollType;
+                    Debug.Log("Reroll type is " + rule.RerollType);
+                    rule.RerollTypeOrLower = setter.RerollTypeOrLower;
+                    Debug.Log("Reroll on lower is " + rule.RerollTypeOrLower);
+                    rule.RerollTypeOrHigher = setter.RerollTypeOrHigher;
+                    Debug.Log("Reroll on higher is " + rule.RerollTypeOrHigher);
+                }
+                
             }
             if (setter.RuleType == 6) {
                 rule.IgnoreProfile = new Rule.IgnoreProfiles();

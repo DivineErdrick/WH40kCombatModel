@@ -31988,6 +31988,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1640677333}
+        m_MethodName: ToggleSpecificTriggers
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_AlphaFadeSpeed: 0.15
@@ -39329,7 +39340,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1640677335}
-        m_MethodName: set_ReRolls
+        m_MethodName: set_RerollType
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -54387,6 +54398,8 @@ MonoBehaviour:
   dropdownModifier: {fileID: 356561861}
   dropdownRerolls: {fileID: 1202239668}
   groupRerollType: {fileID: 621050017}
+  toggleOrLower: {fileID: 1799577095}
+  toggleOrHigher: {fileID: 2114551993}
   panelIgnore: {fileID: 811250013}
   panelAdditionalAttacks: {fileID: 271786412}
   toggleOnlyAttack: {fileID: 787831246}
@@ -59572,7 +59585,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1640677335}
-        m_MethodName: set_OrLower
+        m_MethodName: set_RerollTypeOrLower
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -68387,7 +68400,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1640677335}
-        m_MethodName: set_OrHigher
+        m_MethodName: set_RerollTypeOrHigher
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

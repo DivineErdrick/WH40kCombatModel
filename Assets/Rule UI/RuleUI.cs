@@ -77,6 +77,8 @@ public class RuleUI : MonoBehaviour {
     public Dropdown dropdownModifier;
     public Dropdown dropdownRerolls;
     public ToggleGroup groupRerollType;
+    public Toggle toggleOrLower;
+    public Toggle toggleOrHigher;
     public GameObject panelIgnore;
     public GameObject panelAdditionalAttacks;
     public Toggle toggleOnlyAttack;

@@ -66,13 +66,14 @@ public class RuleSetter : MonoBehaviour
     public int Modifier { get; set; }
     public int ReRolls { get; set; }
     public int Change { get; set; }
-    public bool OrHigher { get; set; }
-    public bool OrLower { get; set; }
 
     //Pass Roll
     public int RollModified { get; set; }
     public int ModifiedBy { get; set; }
     public int RollModifier { get; set; }
+    public int RerollType { get; set; }
+    public bool RerollTypeOrLower { get; set; }
+    public bool RerollTypeOrHigher { get; set; }
 
     //Ignore Penalties
     public int PenaltyIgnored { get; set; }

@@ -315,9 +315,37 @@ public class RuleLoader : MonoBehaviour
                 setter.RollModifier = rule.RollModifierAmount;
                 ui.ToggleModifiers();
                 ui.dropdownModifier.value = setter.RollModifier;
-                Debug.Log("Rule modifies " + (Rule.Rolls)setter.RollModified +
-                          " rolls with a " + setter.RollModifier +
-                          " " + (Rule.RollModifiers)setter.ModifiedBy);
+                setter.RerollType = (int)rule.RerollType;
+                ui.dropdownRerolls.value = setter.RerollType;
+                setter.RerollTypeOrLower = rule.RerollTypeOrLower;
+                ui.toggleOrLower.isOn = setter.RerollTypeOrLower;
+                setter.RerollTypeOrHigher = rule.RerollTypeOrHigher;
+                ui.toggleOrHigher.isOn = setter.RerollTypeOrHigher;
+                ui.ToggleRerollGroup();
+
+                //Debug
+                if (setter.ModifiedBy == 0)
+                {
+                    if (setter.RerollTypeOrLower)
+                    {
+                        Debug.Log("Rule allows rerolls for " + (Rule.Rolls)setter.RollModified +
+                                  " on rolls of " + setter.RerollType + " or lower.");
+                    } else if (setter.RerollTypeOrHigher)
+                    {
+                        Debug.Log("Rule allows rerolls for " + (Rule.Rolls)setter.RollModified +
+                                  " on rolls of " + setter.RerollType + " or higher.");
+                    } else
+                    {
+                        Debug.Log("Rule allows rerolls for " + (Rule.Rolls)setter.RollModified +
+                                  " on rolls of " + setter.RerollType);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Rule modifies " + (Rule.Rolls)setter.RollModified +
+                              " rolls with a " + setter.RollModifier +
+                              " " + (Rule.RollModifiers)setter.ModifiedBy);
+                }
                 break;
             case 6:
                 setter.PenaltyIgnored = (int)rule.IgnoreProfile;

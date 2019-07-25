@@ -8,6 +8,8 @@ using UnityEngine;
 [Serializable]
 public class Rule {
 
+    public int Version = 0;
+
     public enum Uses { Deployment, StartOfGame, YourTurn, OpponentsTurn, StartOfTurn, Move, Psychic, Shooting, Charge, Fight, Morale, EndOfTurn, EndOfGame }
 
     public enum ActivationTypes { Passive, User, Triggered }
@@ -40,6 +42,8 @@ public class Rule {
     public enum IgnoreProfiles { Psychic, Deny, Hit, Wound, Morale, M, WS, BS, S, T, W, A, Ld, Sv, Cover, Range, AP, D }
 
     public enum Dice { D3, D6, e2D6 }
+
+    public enum RerollTypes { All, On1s, On2s, On3s, On4s, On5s, On6s }
 
 
     public string Name { get; set; }
@@ -87,6 +91,9 @@ public class Rule {
     public Rolls RollModified { get; set; }
     public RollModifiers RollModifiedBy { get; set; }
     public int RollModifierAmount { get; set; }
+    public RerollTypes RerollType { get; set; }
+    public bool RerollTypeOrLower { get; set; }
+    public bool RerollTypeOrHigher { get; set; }
 
     public IgnoreProfiles IgnoreProfile { get; set; }
 
