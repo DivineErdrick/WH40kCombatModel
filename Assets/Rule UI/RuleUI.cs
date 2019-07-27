@@ -90,6 +90,9 @@ public class RuleUI : MonoBehaviour {
     public GameObject contentLoad;
     public GameObject buttonRule;
 
+    public GameObject ruleMessenger;
+    RuleMessenger messenger;
+
     ////Move Triggers
     //public int MoveTriggers { get; set; }
     //public bool StartOfMove { get; set; }
@@ -263,6 +266,8 @@ public class RuleUI : MonoBehaviour {
 
         Assert.IsNotNull(panelNameCheck, "The Name Check panel has not been added to the Rule UI.");
         Assert.IsNotNull(panelLoad, "The Load panel has not been added to the Rule UI.");
+
+        Assert.IsNotNull(ruleMessenger, "The Rule Messenger has not been added to the Rule UI.");
     }
     // Use this for initialization
     void Start () {
@@ -277,6 +282,8 @@ public class RuleUI : MonoBehaviour {
         defaultColor = textRange.color;
         panelColor1 = panelRuleUse.GetComponent<Image>().color;
         panelColor2 = panelActivation.GetComponent<Image>().color;
+
+        messenger = ruleMessenger.GetComponent<RuleMessenger>();
 
         if (instance.Rules.Count > 0) {
             buttonLoad.interactable = true;
@@ -338,6 +345,23 @@ public class RuleUI : MonoBehaviour {
         }
         //Debug.Log("Deployment: " + UseDeployment + " Start of Game: " + UseStartOfGame + " Your Turn: " + UseYourTurn + " Opponent's Turn: " + UseOpponentsTurn + " Start of Turn: " + UseStartOfTurn + " Move: " + UseMove +
         //" Psychic: " + UsePsychic + " Shoot: " + UseShoot + " Charge: " + UseCharge + " Fight: " + UseFight + " Morale: " + UseMorale + " End of Turn: " + UseEndOfTurn);
+    }
+
+    public void DisplayUIPanels (int ruleType)
+    {
+        ToggleActivationPanel();
+        ToggleTriggerDropdowns();
+        ToggleSpecificTriggers();
+        ToggleRuleTarget();
+        ToggleRuleType();
+        ToggleKeyword();
+        ToggleProperties();
+        ToggleReserveRange();
+        ToggleModifiers();
+        ToggleRuleProperties(ruleType);
+        ToggleModifierOptions();
+        AdjustPanels();
+        messenger.DisplayMessage();
     }
 
     void AdjustPanels () {
@@ -419,7 +443,6 @@ public class RuleUI : MonoBehaviour {
         && (setter.UseMove || setter.UsePsychic || setter.UseShooting || setter.UseCharge || setter.UseFight || setter.UseMorale)) {
 
             panelTriggers.SetActive(true);
-            AdjustPanels();
 
             if (setter.UseMove) {
                 dropdownMove.gameObject.SetActive(true);
@@ -453,7 +476,6 @@ public class RuleUI : MonoBehaviour {
             }
         } else {
             panelTriggers.SetActive(false);
-            AdjustPanels();
             dropdownMove.gameObject.SetActive(false);
             dropdownPsychic.gameObject.SetActive(false);
             dropdownShooting.gameObject.SetActive(false);
@@ -505,7 +527,6 @@ public class RuleUI : MonoBehaviour {
         || (setter.FightTriggers != 0 && setter.FightTriggers != 6))) {
 
             panelSpecificTriggers.SetActive(true);
-            AdjustPanels();
 
             switch (setter.PsychicTriggers) {
                 case 1:
@@ -617,7 +638,6 @@ public class RuleUI : MonoBehaviour {
             textRollOf.gameObject.SetActive(false);
             dropdownRollTrigger.gameObject.SetActive(false);
             panelSpecificTriggers.SetActive(false);
-            AdjustPanels();
         }
     }
 
@@ -625,10 +645,8 @@ public class RuleUI : MonoBehaviour {
 
         if (panelActivation.activeInHierarchy && setter.ActivationType != 0) {
             panelRuleTarget.SetActive(true);
-            AdjustPanels();
         } else {
             panelRuleTarget.SetActive(false);
-            AdjustPanels();
         }
     }
 
@@ -636,10 +654,8 @@ public class RuleUI : MonoBehaviour {
 
         if (panelRuleTarget.activeInHierarchy && setter.RuleTarget != 0) {
             panelRuleType.SetActive(true);
-            AdjustPanels();
         } else {
             panelRuleType.SetActive(false);
-            AdjustPanels();
         }
     }
 
@@ -664,7 +680,6 @@ public class RuleUI : MonoBehaviour {
           || setter.RuleType == 1 || setter.RuleType == 2 || setter.RuleType == 3 || setter.RuleType == 10)) {
 
             panelProperties.SetActive(true);
-            AdjustPanels();
 
             if ((setter.RuleTarget != 0
               && setter.RuleTarget != 9
@@ -702,7 +717,6 @@ public class RuleUI : MonoBehaviour {
 
         } else {
             panelProperties.SetActive(false);
-            AdjustPanels();
         }
     }
 
@@ -800,7 +814,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
-                AdjustPanels();
                 break;
             case 2:
                 if (panelProperties.activeInHierarchy)
@@ -816,7 +829,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
-                AdjustPanels();
                 break;
             case 3:
                 if (panelProperties.activeInHierarchy)
@@ -832,7 +844,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
-                AdjustPanels();
                 break;
             case 4:
                 if (panelProperties.activeInHierarchy)
@@ -848,7 +859,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
-                AdjustPanels();
                 break;
             case 5:
                 if (panelProperties.activeInHierarchy)
@@ -865,7 +875,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
-                AdjustPanels();
                 break;
             case 6:
                 if (panelProperties.activeInHierarchy)
@@ -881,7 +890,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(true);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
-                AdjustPanels();
                 break;
             case 9:
                 if (panelProperties.activeInHierarchy)
@@ -897,7 +905,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(true);
                 panelMortalWounds.SetActive(false);
-                AdjustPanels();
                 break;
             case 10:
                 if (panelProperties.activeInHierarchy)
@@ -913,7 +920,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(true);
-                AdjustPanels();
                 break;
             default:
                 if (panelProperties.activeInHierarchy)
@@ -929,7 +935,6 @@ public class RuleUI : MonoBehaviour {
                 panelIgnore.SetActive(false);
                 panelAdditionalAttacks.SetActive(false);
                 panelMortalWounds.SetActive(false);
-                AdjustPanels();
                 break;
         }
     }
