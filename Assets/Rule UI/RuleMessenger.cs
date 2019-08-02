@@ -89,7 +89,36 @@ public class RuleMessenger : MonoBehaviour
             {
                 case 1:
                     gameObject.GetComponent<Text>().text =
-                    "Select whether the reserve restrictions and range.";
+                    "Select the reserve restrictions and range.";
+                    break;
+                case 2:
+                case 3:
+                    gameObject.GetComponent<Text>().text =
+                    "Select the roll on which the rule succeeds.";
+                    break;
+                case 4:
+                    gameObject.GetComponent<Text>().text =
+                    "Select how the profile is changed.";
+                    break;
+                case 5:
+                    gameObject.GetComponent<Text>().text =
+                    "Select how the roll is changed.";
+                    break;
+                case 6:
+                    gameObject.GetComponent<Text>().text =
+                    "Select what profile or roll ignores penalties.";
+                    break;
+                case 9:
+                    gameObject.GetComponent<Text>().text =
+                    "Select if only the specific weapon gains extra attacks and if extra attacks can create more (explode).";
+                    break;
+                case 10:
+                    gameObject.GetComponent<Text>().text =
+                    "Select the success and number of mortal wounds and whether the model activating the rule is destroyed.";
+                    break;
+                default:
+                    gameObject.GetComponent<Text>().text =
+                    "Check to make sure all the desired options are selected, then select Save.";
                     break;
             }
         }
