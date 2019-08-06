@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class RuleMessenger : MonoBehaviour
 {
+    public enum Message { NoError };
+
     public RuleSetter setter;
 
     string startingText;
@@ -122,5 +124,16 @@ public class RuleMessenger : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public IEnumerator ErrorMessage (Message message)
+    {
+        switch (message)
+        {
+            default:
+                break;
+        }
+        yield return new WaitForSeconds(5f);
+        DisplayMessage();
     }
 }
