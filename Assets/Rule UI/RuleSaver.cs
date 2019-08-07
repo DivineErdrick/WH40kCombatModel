@@ -10,6 +10,7 @@ public class RuleSaver : MonoBehaviour
 
     Rule rule;
     RuleLoader loader;
+    RuleMessenger messenger;
     RuleSetter setter;
     RuleUI ui;
 
@@ -20,6 +21,11 @@ public class RuleSaver : MonoBehaviour
         Assert.IsNotNull(instance, "Could not find Game Manager.");
         loader = GetComponent<RuleLoader>();
         Assert.IsNotNull(loader, "Could not find Rule Loader.");
+        messenger = FindObjectOfType<RuleMessenger>();
+        if (messenger == null)
+        {
+            Debug.Log("Could not find RuleMessenger.");
+        }
         setter = GetComponent<RuleSetter>();
         Assert.IsNotNull(setter, "Could not find Rule Setter.");
         ui = GetComponent<RuleUI>();
@@ -80,6 +86,7 @@ public class RuleSaver : MonoBehaviour
         if (setter.InputName.Length == 0) {
             Debug.Log("You must name your rule.");
             dataPassed = false;
+            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoName));
             return dataPassed;
         } else {
             rule.Name = setter.InputName;
@@ -106,6 +113,7 @@ public class RuleSaver : MonoBehaviour
         if (setter.ActivationType == 0) {
             Debug.Log("You must select an activation type.");
             dataPassed = false;
+            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoActivation));
             return dataPassed;
         }
         rule.ActivationType = (Rule.ActivationTypes)setter.ActivationType;

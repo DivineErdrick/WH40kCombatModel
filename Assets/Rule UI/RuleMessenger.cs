@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class RuleMessenger : MonoBehaviour
 {
-    public enum Message { NoError };
+    public enum Message { NoName, NoActivation };
 
     public RuleSetter setter;
 
+    Color defaultColor;
     string startingText;
 
     void Awake()
@@ -20,6 +21,7 @@ public class RuleMessenger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        defaultColor = gameObject.GetComponent<Text>().color;
         startingText = gameObject.GetComponent<Text>().text;
     }
 
@@ -31,6 +33,7 @@ public class RuleMessenger : MonoBehaviour
 
     public void DisplayMessage ()
     {
+        gameObject.GetComponent<Text>().color = defaultColor;
         if (setter.InputName.Length == 0 || 
           (!setter.UseDeployment &&
            !setter.UseStartOfGame &&
@@ -128,8 +131,17 @@ public class RuleMessenger : MonoBehaviour
 
     public IEnumerator ErrorMessage (Message message)
     {
+        gameObject.GetComponent<Text>().color = Color.red;
         switch (message)
         {
+            case Message.NoName:
+                gameObject.GetComponent<Text>().text =
+                    "You need to name your Rule.";
+                break;
+            case Message.NoActivation:
+                gameObject.GetComponent<Text>().text =
+                    "You need to select when the rule takes effect.";
+                break;
             default:
                 break;
         }
