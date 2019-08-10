@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class RuleMessenger : MonoBehaviour
 {
-    public enum Message { NoName, NoActivation };
+    public enum Message { NoName, NoActivation, RollTriggerNeeded, NoTarget, NoKeywordTarget, NoRuleType, NoRuleDamage, NoRoll, NoProfileChange, NoRollModifier };
 
     public RuleSetter setter;
 
@@ -142,9 +142,49 @@ public class RuleMessenger : MonoBehaviour
                 gameObject.GetComponent<Text>().text =
                     "You need to select when the rule takes effect.";
                 break;
+            case Message.RollTriggerNeeded:
+                gameObject.GetComponent<Text>().text =
+                    "You need to select what roll triggers the effect.";
+                break;
+            case Message.NoTarget:
+                gameObject.GetComponent<Text>().text =
+                    "You need to select what the rule targets.";
+                break;
+            case Message.NoKeywordTarget:
+                gameObject.GetComponent<Text>().text =
+                    "You need to enter the keyword for units targeted by the rule.";
+                break;
+            case Message.NoRuleType:
+                gameObject.GetComponent<Text>().text =
+                    "You need to select the type of rule.";
+                break;
+            case Message.NoRuleDamage:
+                gameObject.GetComponent<Text>().text =
+                    "You need to select how much damage the rule deals.";
+                break;
+            case Message.NoRoll:
+                gameObject.GetComponent<Text>().text =
+                    "You need to select what roll is needed for the rule to succeed.";
+                break;
+            case Message.NoProfileChange:
+                gameObject.GetComponent<Text>().text =
+                    "You need to select how the profile is changed.";
+                break;
+            case Message.NoRollModifier:
+                gameObject.GetComponent<Text>().text =
+                    "You need to select how the roll is modified.";
+                break;
             default:
                 break;
         }
+        yield return new WaitForSeconds(5f);
+        DisplayMessage();
+    }
+
+    public IEnumerator SaveMessage ()
+    {
+        gameObject.GetComponent<Text>().text =
+            "Rule saved.";
         yield return new WaitForSeconds(5f);
         DisplayMessage();
     }

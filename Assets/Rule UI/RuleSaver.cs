@@ -62,12 +62,14 @@ public class RuleSaver : MonoBehaviour
                 Debug.Log("Saving rule.");
                 instance.Rules.Add(rule);
                 instance.SaveRules();
+                StartCoroutine(messenger.SaveMessage());
             }
             else if (overwrite) {
                 Debug.Log("Saving rule.");
                 instance.Rules[loader.RuleToLoad] = rule;
                 instance.SaveRules();
                 ui.panelNameCheck.SetActive(false);
+                StartCoroutine(messenger.SaveMessage());
             }
             else {
                 Debug.Log("A rule with that name exists. Opening Name Check Panel.");
@@ -132,6 +134,7 @@ public class RuleSaver : MonoBehaviour
                     } else {
                         Debug.Log("You must select a value for the roll trigger.");
                         dataPassed = false;
+                        StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                         return dataPassed;
                     }
                 }
@@ -151,6 +154,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -166,6 +170,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -186,6 +191,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -201,6 +207,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -221,6 +228,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -236,6 +244,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -251,6 +260,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -276,6 +286,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -291,6 +302,7 @@ public class RuleSaver : MonoBehaviour
                         } else {
                             Debug.Log("You must select a value for the roll trigger.");
                             dataPassed = false;
+                            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                             return dataPassed;
                         }
                     }
@@ -307,6 +319,7 @@ public class RuleSaver : MonoBehaviour
                     } else {
                         Debug.Log("You must select a value for the roll trigger.");
                         dataPassed = false;
+                        StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.RollTriggerNeeded));
                         return dataPassed;
                     }
                 }
@@ -316,6 +329,7 @@ public class RuleSaver : MonoBehaviour
         if (setter.RuleTarget == 0) {
             Debug.Log("Your rule requires a target.");
             dataPassed = false;
+            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoTarget));
             return dataPassed;
         } else {
             rule.Target = (Rule.Targets)setter.RuleTarget;
@@ -323,6 +337,7 @@ public class RuleSaver : MonoBehaviour
             if (setter.RuleTarget == 11 && setter.InputKeyword.Length == 0) {
                 Debug.Log("Enter the keyword your rule targets.");
                 dataPassed = false;
+                StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoKeywordTarget));
                 return dataPassed;
             } else {
                 rule.Keyword = setter.InputKeyword;
@@ -334,6 +349,7 @@ public class RuleSaver : MonoBehaviour
         if (setter.RuleType == 0) {
             Debug.Log("Select the type of rule.");
             dataPassed = false;
+            StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoRuleType));
             return dataPassed;
         } else {
             rule.RuleType = (Rule.RuleTypes)setter.RuleType;
@@ -355,6 +371,7 @@ public class RuleSaver : MonoBehaviour
                 } else {
                     Debug.Log("Select the damage the rule deals.");
                     dataPassed = false;
+                    StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoRuleDamage));
                     return dataPassed;
                 }
             }
@@ -365,6 +382,7 @@ public class RuleSaver : MonoBehaviour
                 } else {
                     Debug.Log("Select the passing roll for the rule.");
                     dataPassed = false;
+                    StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoRoll));
                     return dataPassed;
                 }
             }
@@ -404,6 +422,7 @@ public class RuleSaver : MonoBehaviour
                 } else {
                     Debug.Log("Select the amount the profile changes.");
                     dataPassed = false;
+                    StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoProfileChange));
                     return dataPassed;
                 }
             }
@@ -417,6 +436,7 @@ public class RuleSaver : MonoBehaviour
                 if (setter.ModifiedBy > 0 && setter.RollModifier == 0) {
                     Debug.Log("Select the amount the roll is modified by.");
                     dataPassed = false;
+                    StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoRollModifier));
                     return dataPassed;
                 }
                 else if (setter.ModifiedBy > 0)
