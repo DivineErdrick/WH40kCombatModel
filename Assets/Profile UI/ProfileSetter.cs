@@ -65,56 +65,50 @@ public class ProfileSetter : MonoBehaviour {
          so that characters can be set apart to determine both the value
          and position in the array.*/        
         
-        if (inputName == "Points") {
 
-            CurrentProfile.PointsValue = value;
+        if (inputName.Length == 2) {
+            Debug.Log("Profile Setter is attempting to set M, S, T, W, or A.");
 
-        } else {
+            int profileIndex = valueChecker.ReadIntString(inputName[1].ToString());
+            Debug.Log("Profile Index is " + profileIndex);
 
-            if (inputName.Length == 2) {
-                Debug.Log("Profile Setter is attempting to set M, S, T, W, or A.");
+            switch (inputName[0]) {
 
-                int profileIndex = valueChecker.ReadIntString(inputName[1].ToString());
-                Debug.Log("Profile Index is " + profileIndex);
-
-                switch (inputName[0]) {
-
-                    case 'M':
-                        CurrentProfile.Move[profileIndex] = value;
-                        break;
-                    case 'S':
-                        CurrentProfile.Strength[profileIndex] = value;
-                        break;
-                    case 'T':
-                        CurrentProfile.Toughness[profileIndex] = value;
-                        break;
-                    case 'W':
-                        CurrentProfile.Wounds[profileIndex] = value;
-                        break;
-                    case 'A':
-                        CurrentProfile.Attacks[profileIndex] = value;
-                        break;
-                }
-            } else if (inputName.Length == 3) {
-
-                int profileIndex = valueChecker.ReadIntString(inputName[2].ToString());
-
-                switch (inputName[0]) {
-                    case 'W':
-                        CurrentProfile.WeaponSkill[profileIndex] = value;
-                        break;
-                    case 'B':
-                        CurrentProfile.BallisticSkill[profileIndex] = value;
-                        break;
-                    case 'L':
-                        CurrentProfile.Leadership[profileIndex] = value;
-                        break;
-                    case 'S':
-                        CurrentProfile.Save[profileIndex] = value;
-                        break;
-                }
+                case 'M':
+                    CurrentProfile.Move[profileIndex] = value;
+                    break;
+                case 'S':
+                    CurrentProfile.Strength[profileIndex] = value;
+                    break;
+                case 'T':
+                    CurrentProfile.Toughness[profileIndex] = value;
+                    break;
+                case 'W':
+                    CurrentProfile.Wounds[profileIndex] = value;
+                    break;
+                case 'A':
+                    CurrentProfile.Attacks[profileIndex] = value;
+                    break;
             }
-        }        
+        } else if (inputName.Length == 3) {
+
+            int profileIndex = valueChecker.ReadIntString(inputName[2].ToString());
+
+            switch (inputName[0]) {
+                case 'W':
+                    CurrentProfile.WeaponSkill[profileIndex] = value;
+                    break;
+                case 'B':
+                    CurrentProfile.BallisticSkill[profileIndex] = value;
+                    break;
+                case 'L':
+                    CurrentProfile.Leadership[profileIndex] = value;
+                    break;
+                case 'S':
+                    CurrentProfile.Save[profileIndex] = value;
+                    break;
+            }
+        }
 
         /* The names of the input objects have been formatted so that
          the character array can be easily read. This method grabs the

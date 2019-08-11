@@ -182,10 +182,6 @@ public class ProfileUI : MonoBehaviour {
                         Text[] texts = input.gameObject.GetComponentsInChildren<Text>();
                         switch (input.gameObject.name) {                            
 
-                            case "Input Points Value":
-                                Debug.Log("Setting Points Value in " + input.gameObject.name + ".");
-                                input.text = setter.CurrentProfile.PointsValue.ToString();
-                                break;
                             case "Input Name":
                                 Debug.Log("Setting Input Name in " + input.gameObject.name + ".");
                                 input.text = setter.CurrentProfile.Name;

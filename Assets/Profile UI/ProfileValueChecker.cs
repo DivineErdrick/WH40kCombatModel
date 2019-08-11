@@ -60,7 +60,6 @@ public class ProfileValueChecker : MonoBehaviour {
 
             Debug.Log("Profile Value Checker is checking a numeric Profile: " + profileName);
             switch (profileName) {
-                case "Points":
                 case "M0":
                 case "M1":
                 case "M2":
@@ -138,7 +137,7 @@ public class ProfileValueChecker : MonoBehaviour {
 
         Debug.Log("Profile Value Checker is checking for warnings.");
 
-        if (profileName == "Name" || profileName == "Points" || profile.DamageCharts <= 0) {
+        if (profileName == "Name" || profile.DamageCharts <= 0) {
 
             Debug.Log("Profile being checked can not create a warning.");
 
@@ -385,15 +384,6 @@ public class ProfileValueChecker : MonoBehaviour {
         Profile profile = FindObjectOfType<ProfileSetter>().CurrentProfile;
 
         //int nTemp;
-
-        Debug.Log("Profile Checker is checking Points Value in Profile");
-        Debug.Log("Current Points Value is " + profile.PointsValue);
-        if (profile.PointsValue < 0) {
-            profileUI.OutputProfileError("Input Points Value", 0);
-            Debug.Log("Value of Points Value is not legal.");
-            message.DisplayMessage("The profile may not have a negative Points Value.", true);
-            return false;
-        }
 
         Debug.Log("Profile Checker is checking Name in Profile");
         Debug.Log("Current profile Name is " + profile.Name);

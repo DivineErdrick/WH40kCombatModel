@@ -9,7 +9,6 @@ using UnityEngine;
 public class Profile {
 
     public string Name { get; set; }
-    public int PointsValue { get; set; }
     public int DamageCharts { get; set; }
     public int[] Move { get; set; }
     public int[] WeaponSkill { get; set; }

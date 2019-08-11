@@ -25,7 +25,6 @@ public class ProfileCopier : MonoBehaviour
 
             DamageCharts = currentProfile.DamageCharts,
             Name = currentProfile.Name,
-            PointsValue = currentProfile.PointsValue
         };
 
         for (int i = 0; i <= profileCopy.DamageCharts; i++) {
