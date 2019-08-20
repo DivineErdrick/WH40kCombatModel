@@ -31,6 +31,11 @@ public class WeaponUI : MonoBehaviour
     public InputField InputShots;
     public Dropdown DropdownShots;
 
+    public GameObject panelRules;
+    public GameObject contentRules;
+    public GameObject panelLoad;
+    public GameObject contentLoad;
+
     WeaponSetter setter;
 
     Color defaultColor;
