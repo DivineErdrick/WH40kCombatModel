@@ -8,6 +8,8 @@ public class WeaponUI : MonoBehaviour
 {
     enum Stats { Strength, AP, Damage, Range, Shots }
 
+    public InputField InputName;
+
     public GameObject PanelMelee;
     public GameObject PanelRange;
 
@@ -35,6 +37,7 @@ public class WeaponUI : MonoBehaviour
     public GameObject contentRules;
     public GameObject panelLoad;
     public GameObject contentLoad;
+    public GameObject buttonRule;
 
     WeaponSetter setter;
 
