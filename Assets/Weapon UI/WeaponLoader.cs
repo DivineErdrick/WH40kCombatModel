@@ -79,7 +79,7 @@ public class WeaponLoader : MonoBehaviour
         rulesLoaded = true;
     }
 
-    public void ResetLoad(Rule weapon) {
+    public void ResetLoad(Weapon weapon) {
 
         setter.Name = weapon.Name;
         ui.InputName.text = setter.Name;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WeaponSetter : MonoBehaviour
 {
+    public Weapon CurrentWeapon;
+
     public string Name { get; set; }
 
     public int Type { get; set; }

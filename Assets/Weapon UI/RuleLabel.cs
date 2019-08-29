@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class RuleLabel : MonoBehaviour {
 
-    public Rule Rule { get; set; }
+    public Weapon Weapon { get; set; }
 
     GameManager instance;
-    RuleLoader loader;
-    RuleSetter setter;
+    WeaponLoader loader;
+    WeaponSetter setter;
     WeaponUI ui;
 
     // Use this for initialization
@@ -18,9 +18,9 @@ public class RuleLabel : MonoBehaviour {
 
         instance = GameManager.instance;
         Assert.IsNotNull(instance, "Can not find Game Manger.");
-        loader = FindObjectOfType<RuleLoader>();
+        loader = FindObjectOfType<WeaponLoader>();
         Assert.IsNotNull(loader, "Can not find Rule Loader.");
-        setter = FindObjectOfType<RuleSetter>();
+        setter = FindObjectOfType<WeaponSetter>();
         Assert.IsNotNull(setter, "Can not find Rule Setter.");
         ui = FindObjectOfType<WeaponUI>();
         Assert.IsNotNull(ui, "Can not find Rule UI.");
@@ -36,10 +36,10 @@ public class RuleLabel : MonoBehaviour {
     void LoadRule () {
 
         //Debug.Log("Clicked!");
-        if (Rule != null) {
+        if (Weapon != null) {
 
-            setter.CurrentRule = Rule;
-            loader.ResetLoad(Rule);
+            setter.CurrentWeapon = Weapon;
+            loader.ResetLoad(Weapon);
         }
     }
 }
