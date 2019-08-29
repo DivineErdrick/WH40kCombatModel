@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class RuleLoader : MonoBehaviour
 {
     GameManager instance;
-    RuleUI ui;
+    WeaponUI ui;
     RuleSetter setter;
 
     public int RuleToLoad { get; set; }
@@ -25,7 +25,7 @@ public class RuleLoader : MonoBehaviour
         Assert.IsNotNull(instance, "Could not find Game Manager.");
         setter = FindObjectOfType<RuleSetter>();
         Assert.IsNotNull(setter, "Could not find Rule Setter.");
-        ui = FindObjectOfType<RuleUI>();
+        ui = FindObjectOfType<WeaponUI>();
         Assert.IsNotNull(ui, "Could not find Rule UI.");
     }
 
@@ -60,7 +60,7 @@ public class RuleLoader : MonoBehaviour
     public void StartLoadPanel() {
 
         instance = GameManager.instance;
-        ui = FindObjectOfType<RuleUI>();
+        ui = FindObjectOfType<WeaponUI>();
 
         if (instance.Rules.Count > 6) {
             ui.contentLoad.GetComponent<RectTransform>().offsetMin = new Vector2(0, -48 * (instance.Rules.Count - 6));
