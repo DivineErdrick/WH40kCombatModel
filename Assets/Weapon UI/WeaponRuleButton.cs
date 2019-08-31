@@ -10,7 +10,7 @@ public class WeaponRuleButton : MonoBehaviour
     WeaponUI ui;
     WeaponSetter setter;
 
-    public InputField WeaponRule;
+    public InputField searchField;
 
     ButtonRule[] buttonRules;
 
@@ -75,21 +75,5 @@ public class WeaponRuleButton : MonoBehaviour
         buttonRules = FindObjectsOfType<ButtonRule>();
         //searchField = ui.panelLoad.GetComponentInChildren<InputField>();
         rulesLoaded = true;
-    }
-
-    public void ResetLoad(Rule weapon) {
-
-        setter.Name = weapon.Name;
-        ui.InputName.text = setter.Name;
-        Debug.Log("Rule name is " + setter.Name);
-
-        //Load weapon into setter and ui
-
-    }
-
-    public void LoadSavedRule() {
-        ResetLoad(instance.Rules[WeaponToLoad]);
-
-        //Close Panel
     }
 }

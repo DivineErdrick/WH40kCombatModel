@@ -90,7 +90,7 @@ public class WeaponLoader : MonoBehaviour
     }
 
     public void LoadSavedRule() {
-        ResetLoad(instance.Rules[WeaponToLoad]);
+        ResetLoad(instance.Weapons[WeaponToLoad]);
 
         //Close Panel
     }

@@ -15,6 +15,8 @@ public class Weapon {
     public enum VarRanges { None, D3, D6, TwoD3, TwoD6, ThreeD6, FourD6}
     public enum VarShotTypes { Attacks, AttacksX2, D3, D6, TwoD3, TwoD6, ThreeD6, FourD6 }
 
+    public string Name;
+
     public List<string> Rules;
 
     public WeaponTypes WeaponType;

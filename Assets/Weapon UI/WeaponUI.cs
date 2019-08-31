@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WeaponUI : MonoBehaviour
 {
     enum Stats { Strength, AP, Damage, Range, Shots }
+
+    GameManager instance;
 
     public InputField InputName;
 
@@ -35,9 +38,13 @@ public class WeaponUI : MonoBehaviour
 
     public GameObject panelRules;
     public GameObject contentRules;
+    public GameObject buttonRule;
+
+    public Button buttonSave;
+    public GameObject panelNameCheck;
+    public Button buttonLoad;
     public GameObject panelLoad;
     public GameObject contentLoad;
-    public GameObject buttonRule;
 
     WeaponSetter setter;
 
@@ -58,6 +65,16 @@ public class WeaponUI : MonoBehaviour
         Assert.IsNotNull(DropdownRange, "The Range Dropdown has not been added to the Weapon UI.");
         Assert.IsNotNull(InputShots, "The Shots Input has not been added to the Weapon UI.");
         Assert.IsNotNull(DropdownShots, "The Shots Dropdown has not been added to the Weapon UI.");
+        Assert.IsNotNull(panelRules, "The Rules Panel has not been added to the Weapon UI.");
+        Assert.IsNotNull(contentRules, "The Rules Content ui object has not been added to the Weapon UI.");
+        Assert.IsNotNull(buttonRule, "The Rule Button has not been added to the Weapon UI.");
+        Assert.IsNotNull(buttonSave, "The Save Button has not been added to the Weapon UI.");
+        Assert.IsNotNull(panelNameCheck, "The Name Check Panel has not been added to the Weapon UI.");
+        Assert.IsNotNull(buttonLoad, "The Load Button has not been added to the Weapon UI.");
+        Assert.IsNotNull(panelLoad, "The Load Panel has not been added to the Weapon UI.");
+        Assert.IsNotNull(contentLoad, "The Load Content ui object has not been added to the Weapon UI.");
+        instance = FindObjectOfType<GameManager>();
+        Assert.IsNotNull(instance, "The Weapon UI could not find the Game Manager.");
         setter = gameObject.GetComponent<WeaponSetter>();
         Assert.IsNotNull(setter, "The Weapon UI could not find the Weapon Setter.");
         defaultColor = InputRange.GetComponentInChildren<Text>().color;
@@ -281,5 +298,59 @@ public class WeaponUI : MonoBehaviour
         {
             text.color = colorToUse;
         }
+    }
+
+    public void Close(bool overwrite)
+    {
+        if (!overwrite)
+        {
+            Button[] buttons = contentLoad.GetComponentsInChildren<Button>();
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                Destroy(buttons[i].gameObject);
+            }
+
+            buttonSave.interactable = true;
+            buttonLoad.interactable = true;
+            //searchField = null;
+            panelLoad.SetActive(false);
+        }
+        else
+        {
+            panelNameCheck.SetActive(false);
+        }
+    }
+
+    public void Back()
+    {
+
+        SceneManager.LoadScene("Start");
+
+        //if (triggersSet) {
+
+        //    //panelChargeTriggers.SetActive(true);
+        //    //panelFightTriggers.SetActive(true);
+        //    //panelMeleeTriggers.SetActive(true);
+        //    //panelMoraleTriggers.SetActive(true);
+        //    panelTriggers.SetActive(true);
+        //    //panelOverwatchTriggers.SetActive(true);
+        //    //panelPsychicTriggers.SetActive(true);
+        //    panelRuleUse.SetActive(true);
+        //    //panelShootingTriggers.SetActive(true);
+        //    panelActivation.SetActive(true);
+
+        //    panelRuleUse.SetActive(false);
+
+        //    triggersSet = false;
+
+        //} else {
+        //    SceneManager.LoadScene("Start");
+        //}
+    }
+
+    public void Exit()
+    {
+        instance.OnDisable();
+        Application.Quit();
     }
 }

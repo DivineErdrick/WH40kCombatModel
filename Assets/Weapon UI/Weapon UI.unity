@@ -19975,6 +19975,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe9e803feaacca49be55258e1fccbbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentWeapon:
+    Name: 
+    Rules: []
+    WeaponType: 0
+    StrengthIsVar: 0
+    Strength: 0
+    VarStrength: 0
+    APIsVar: 0
+    AP: 0
+    VarAP: 0
+    DamageIsVar: 0
+    Damage: 0
+    VarDamage: 0
+    RangeIsVar: 0
+    Range: 0
+    VarRange: 0
+    ShotsAreVar: 0
+    Shots: 0
+    VarShots: 0
 --- !u!4 &1640677334
 Transform:
   m_ObjectHideFlags: 0
@@ -20001,6 +20020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0339d08f36d8b9948a4508d179c94682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputName: {fileID: 668920487}
   PanelMelee: {fileID: 1639357670}
   PanelRange: {fileID: 1420767711}
   ToggleStrength:
@@ -20038,6 +20058,10 @@ MonoBehaviour:
   DropdownShots: {fileID: 547033015}
   panelRules: {fileID: 1901316951}
   contentRules: {fileID: 1666329893}
+  buttonRule: {fileID: 1661676545}
+  buttonSave: {fileID: 869135333}
+  panelNameCheck: {fileID: 1307955051}
+  buttonLoad: {fileID: 14261501}
   panelLoad: {fileID: 1643588447}
   contentLoad: {fileID: 625166345}
 --- !u!1 &1643588447
@@ -20276,7 +20300,7 @@ GameObject:
   - component: {fileID: 1661676548}
   - component: {fileID: 1661676547}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button Rule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

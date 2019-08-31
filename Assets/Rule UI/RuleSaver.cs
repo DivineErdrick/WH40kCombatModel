@@ -12,7 +12,7 @@ public class RuleSaver : MonoBehaviour
     RuleLoader loader;
     RuleMessenger messenger;
     RuleSetter setter;
-    WeaponUI ui;
+    RuleUI ui;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +28,7 @@ public class RuleSaver : MonoBehaviour
         }
         setter = GetComponent<RuleSetter>();
         Assert.IsNotNull(setter, "Could not find Rule Setter.");
-        ui = GetComponent<WeaponUI>();
+        ui = GetComponent<RuleUI>();
         Assert.IsNotNull(ui, "Could not find Rule UI.");
     }
 

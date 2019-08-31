@@ -11,7 +11,7 @@ public class ButtonRule : MonoBehaviour {
     GameManager instance;
     RuleLoader loader;
     RuleSetter setter;
-    WeaponUI ui;
+    RuleUI ui;
 
     // Use this for initialization
     void Start () {
@@ -22,7 +22,7 @@ public class ButtonRule : MonoBehaviour {
         Assert.IsNotNull(loader, "Can not find Rule Loader.");
         setter = FindObjectOfType<RuleSetter>();
         Assert.IsNotNull(setter, "Can not find Rule Setter.");
-        ui = FindObjectOfType<WeaponUI>();
+        ui = FindObjectOfType<RuleUI>();
         Assert.IsNotNull(ui, "Can not find Rule UI.");
 
         GetComponent<Button>().onClick.AddListener(LoadRule);
