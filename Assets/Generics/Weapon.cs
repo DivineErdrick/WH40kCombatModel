@@ -8,6 +8,8 @@ using UnityEngine;
 [Serializable]
 public class Weapon {
 
+    public int Version;
+
     public enum WeaponTypes { None, Melee, RapidFire, Assault, Heavy, Pistol, Grenade }
     public enum VarStrengths { User, UserX2, D3, D6, TwoD3, TwoD6 }
     public enum VarAPs { None, MinusD3, MinusD6, Minus2D3 }

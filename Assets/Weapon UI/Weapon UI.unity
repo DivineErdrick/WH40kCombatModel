@@ -20058,12 +20058,14 @@ MonoBehaviour:
   DropdownShots: {fileID: 547033015}
   panelRules: {fileID: 1901316951}
   contentRules: {fileID: 1666329893}
-  buttonRule: {fileID: 1661676545}
+  buttonRule: {fileID: 1817488522707276, guid: a7eb616076304814fb4dfcd2921aea2a, type: 3}
   buttonSave: {fileID: 869135333}
   panelNameCheck: {fileID: 1307955051}
   buttonLoad: {fileID: 14261501}
   panelLoad: {fileID: 1643588447}
   contentLoad: {fileID: 625166345}
+  buttonWeapon: {fileID: 1817488522707276, guid: a7eb616076304814fb4dfcd2921aea2a,
+    type: 3}
 --- !u!1 &1643588447
 GameObject:
   m_ObjectHideFlags: 0

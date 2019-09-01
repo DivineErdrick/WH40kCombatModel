@@ -271,6 +271,8 @@ public class GameManager : MonoBehaviour {
 
         Profiles = new List<Profile>();
         Rules = new List<Rule>();
+        Weapons = new List<Weapon>();
+        Powers = new List<Power>();
         Models = new List<Model>();
         Units = new List<Unit>();
     }
@@ -279,6 +281,7 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         LoadProfiles();
         LoadRules();
+        LoadWeapons();
 	}
 	
 	// Update is called once per frame
@@ -377,6 +380,29 @@ public class GameManager : MonoBehaviour {
         file.Close();
     }
 
+    public void SaveWeapons()
+    {
+
+        Debug.Log("Attempting to save weapons to file.");
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/WH40KWeapons.dat");
+
+        if (file != null)
+        {
+            Debug.Log("WH40KWeapons.dat created.");
+        }
+
+        TesterData data = new TesterData();
+        data.Weapons = Weapons;
+        //data.FileData.Add("This");
+        //data.FileData.Add(" is ");
+        //data.FileData.Add("data.");
+        //set desired save data
+
+        bf.Serialize(file, data);
+        file.Close();
+    }
 
     public void LoadProfiles () {
 
@@ -425,6 +451,31 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void LoadWeapons()
+    {
+        Debug.Log("Attempting to load data.");
+
+        if (File.Exists(Application.persistentDataPath + "/WH40KWeapons.dat"))
+        {
+
+            Debug.Log("WH40KWeapons.dat exists.");
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/WH40KWeapons.dat", FileMode.Open);
+            TesterData data = (TesterData)bf.Deserialize(file);
+
+            switch (data.Weapons[0].Version)
+            {
+                default:
+                    Weapons = data.Weapons;
+                    break;
+            }
+
+            if (Weapons[0] != null) Debug.Log("Rules have been loaded.");
+
+            file.Close();
+        }
+    }
+
     public void Exit () {
 
         OnDisable();
@@ -437,9 +488,17 @@ class TesterData {
     //desired save data
     public List<Profile> Profiles { get; set; }
     public List<Rule> Rules { get; set; }
+    public List<Weapon> Weapons { get; set; }
+    public List<Power> Powers { get; set; }
+    public List<Model> Models { get; set; }
+    public List<Unit> Units { get; set; }
 
     public TesterData (){
         Profiles = new List<Profile>();
         Rules = new List<Rule>();
+        Weapons = new List<Weapon>();
+        Powers = new List<Power>();
+        Models = new List<Model>();
+        Units = new List<Unit>();
     }
 }

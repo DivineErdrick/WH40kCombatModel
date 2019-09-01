@@ -45,6 +45,7 @@ public class WeaponUI : MonoBehaviour
     public Button buttonLoad;
     public GameObject panelLoad;
     public GameObject contentLoad;
+    public GameObject buttonWeapon;
 
     WeaponSetter setter;
 
