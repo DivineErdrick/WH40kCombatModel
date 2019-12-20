@@ -51,6 +51,7 @@ public class WeaponUI : MonoBehaviour
     public GameObject buttonWeapon;
 
     WeaponLoader loader;
+    WeaponRuleManager manager;
     WeaponSetter setter;
 
     Color defaultColor;
@@ -85,6 +86,8 @@ public class WeaponUI : MonoBehaviour
         Assert.IsNotNull(instance, "The Weapon UI could not find the Game Manager.");
         loader = gameObject.GetComponent<WeaponLoader>();
         Assert.IsNotNull(loader, "The Weapon UI could not find the Weapon Loader.");
+        manager = gameObject.GetComponent<WeaponRuleManager>();
+        Assert.IsNotNull(manager, "The Weapon UI could not find the Weapon Rule Manager.");
         setter = gameObject.GetComponent<WeaponSetter>();
         Assert.IsNotNull(setter, "The Weapon UI could not find the Weapon Setter.");
         defaultColor = InputRange.GetComponentInChildren<Text>().color;
@@ -314,7 +317,9 @@ public class WeaponUI : MonoBehaviour
     {
         Debug.Log("Open Add rules panel.");
         panelAddRules.SetActive(true);
-
+        
+        Debug.Log("Calling rule manager to find and list rules.");
+        manager.ListRules();
     }
 
     public void ManageRulePanel ()
