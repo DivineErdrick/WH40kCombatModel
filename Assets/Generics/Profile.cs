@@ -7,6 +7,7 @@ using UnityEngine;
 
 [Serializable]
 public class Profile {
+    public int Version { get; set; }    
 
     public string Name { get; set; }
     public int DamageCharts { get; set; }
@@ -21,6 +22,8 @@ public class Profile {
     public int[] Save { get; set; }
 
     public Profile() {
+        Version = 0;
+
         Name = "";
         Move = new int[5];
         WeaponSkill = new int[5];
@@ -32,14 +35,4 @@ public class Profile {
         Leadership = new int[5];
         Save = new int[5];
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

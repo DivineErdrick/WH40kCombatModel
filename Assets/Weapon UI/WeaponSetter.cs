@@ -25,10 +25,13 @@ public class WeaponSetter : MonoBehaviour
     public int Shots { get; set; }
     public int VarShots { get; set; }
 
+    public List<string> WeaponRules;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Name = "";
+        WeaponRules = new List<string>();
     }
 
     // Update is called once per frame

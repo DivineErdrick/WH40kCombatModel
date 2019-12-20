@@ -12,6 +12,7 @@ public class WeaponUI : MonoBehaviour
     GameManager instance;
 
     public InputField InputName;
+    public Dropdown DropdownType;
 
     public GameObject PanelMelee;
     public GameObject PanelRange;
@@ -36,9 +37,11 @@ public class WeaponUI : MonoBehaviour
     public InputField InputShots;
     public Dropdown DropdownShots;
 
-    public GameObject panelRules;
+    public GameObject panelAddRules;
     public GameObject contentRules;
-    public GameObject buttonRule;
+    public GameObject buttonWeaponRule;
+    public GameObject panelRulesAdded;
+    public GameObject panelRemoveRule;
 
     public Button buttonSave;
     public GameObject panelNameCheck;
@@ -47,6 +50,7 @@ public class WeaponUI : MonoBehaviour
     public GameObject contentLoad;
     public GameObject buttonWeapon;
 
+    WeaponLoader loader;
     WeaponSetter setter;
 
     Color defaultColor;
@@ -66,16 +70,21 @@ public class WeaponUI : MonoBehaviour
         Assert.IsNotNull(DropdownRange, "The Range Dropdown has not been added to the Weapon UI.");
         Assert.IsNotNull(InputShots, "The Shots Input has not been added to the Weapon UI.");
         Assert.IsNotNull(DropdownShots, "The Shots Dropdown has not been added to the Weapon UI.");
-        Assert.IsNotNull(panelRules, "The Rules Panel has not been added to the Weapon UI.");
+        Assert.IsNotNull(panelAddRules, "The Rules Panel has not been added to the Weapon UI.");
         Assert.IsNotNull(contentRules, "The Rules Content ui object has not been added to the Weapon UI.");
-        Assert.IsNotNull(buttonRule, "The Rule Button has not been added to the Weapon UI.");
+        Assert.IsNotNull(buttonWeaponRule, "The Rule Button has not been added to the Weapon UI.");
+        Assert.IsNotNull(panelRulesAdded, "The Rules Added panel has not been added to the Weapon UI.");
+        Assert.IsNotNull(panelRemoveRule, "The Remove Rule panel has not been added to the Weapon UI.");
         Assert.IsNotNull(buttonSave, "The Save Button has not been added to the Weapon UI.");
         Assert.IsNotNull(panelNameCheck, "The Name Check Panel has not been added to the Weapon UI.");
         Assert.IsNotNull(buttonLoad, "The Load Button has not been added to the Weapon UI.");
         Assert.IsNotNull(panelLoad, "The Load Panel has not been added to the Weapon UI.");
         Assert.IsNotNull(contentLoad, "The Load Content ui object has not been added to the Weapon UI.");
-        instance = FindObjectOfType<GameManager>();
+        
+        instance = GameManager.instance;
         Assert.IsNotNull(instance, "The Weapon UI could not find the Game Manager.");
+        loader = gameObject.GetComponent<WeaponLoader>();
+        Assert.IsNotNull(loader, "The Weapon UI could not find the Weapon Loader.");
         setter = gameObject.GetComponent<WeaponSetter>();
         Assert.IsNotNull(setter, "The Weapon UI could not find the Weapon Setter.");
         defaultColor = InputRange.GetComponentInChildren<Text>().color;
@@ -301,6 +310,24 @@ public class WeaponUI : MonoBehaviour
         }
     }
 
+    public void AddRule ()
+    {
+        Debug.Log("Open Add rules panel.");
+        panelAddRules.SetActive(true);
+
+    }
+
+    public void ManageRulePanel ()
+    {
+        Debug.Log("Managing rule panel.");
+        Debug.Log("Checking number Weapon Setter for number of rules added to weapon.");
+    }
+
+    public void OpenNameCheck ()
+    {
+        panelNameCheck.SetActive(true);
+    }
+
     public void Close(bool overwrite)
     {
         if (!overwrite)
@@ -319,10 +346,20 @@ public class WeaponUI : MonoBehaviour
         else
         {
             panelNameCheck.SetActive(false);
+            panelRemoveRule.SetActive(false);
+            panelLoad.SetActive(false);
+            panelAddRules.SetActive(false);
         }
     }
 
-    public void Back()
+    public void Load ()
+    {
+        Debug.Log("Opening Load Panel");
+        panelLoad.SetActive(true);
+        loader.StartLoadPanel();
+    }
+
+    public void Back ()
     {
 
         SceneManager.LoadScene("Start");

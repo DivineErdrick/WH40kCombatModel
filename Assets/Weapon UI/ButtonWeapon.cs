@@ -25,7 +25,7 @@ public class ButtonWeapon : MonoBehaviour {
         ui = FindObjectOfType<WeaponUI>();
         Assert.IsNotNull(ui, "Can not find Rule UI.");
 
-        GetComponent<Button>().onClick.AddListener(LoadRule);
+        GetComponent<Button>().onClick.AddListener(LoadWeapon);
 	}
 	
 	// Update is called once per frame
@@ -33,7 +33,7 @@ public class ButtonWeapon : MonoBehaviour {
 		
 	}
 
-    void LoadRule () {
+    void LoadWeapon () {
 
         //Debug.Log("Clicked!");
         if (Weapon != null) {

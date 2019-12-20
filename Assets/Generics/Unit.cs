@@ -7,18 +7,14 @@ using UnityEngine;
 
 [Serializable]
 public class Unit {
+	public int Version { get; set; }
 
     public string Name { get; set; }
     public int Power { get; set; }
     public List<string> UnitLines { get; set; }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public Unit ()
+    {
+        Version = 0;
+    }
 }

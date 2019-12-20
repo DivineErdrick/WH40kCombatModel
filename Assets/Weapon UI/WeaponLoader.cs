@@ -10,46 +10,48 @@ public class WeaponLoader : MonoBehaviour
     WeaponUI ui;
     WeaponSetter setter;
 
-    public int WeaponToLoad { get; set; }
+    public Weapon WeaponToLoad { get; set; }
 
     public InputField searchField;
 
-    ButtonRule[] buttonRules;
+    ButtonWeapon[] buttonWeapons;
 
-    bool rulesLoaded;
+    bool weaponsLoaded;
 
     // Start is called before the first frame update
     void Start()
     {
         instance = GameManager.instance;
         Assert.IsNotNull(instance, "Could not find Game Manager.");
-        setter = FindObjectOfType<WeaponSetter>();
-        Assert.IsNotNull(setter, "Could not find Rule Setter.");
-        ui = FindObjectOfType<WeaponUI>();
-        Assert.IsNotNull(ui, "Could not find Rule UI.");
+        setter = gameObject.GetComponent<WeaponSetter>();
+        Assert.IsNotNull(setter, "Could not find Weapon Setter.");
+        ui = gameObject.GetComponent<WeaponUI>();
+        Assert.IsNotNull(ui, "Could not find Weapon UI.");
+
+        weaponsLoaded = instance.Weapons.Count > 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ui.panelLoad.activeInHierarchy && rulesLoaded) {
+        if (ui.panelLoad.activeInHierarchy && weaponsLoaded) {
 
             string searchTerm = searchField.GetComponent<InputField>().text;
 
-            for (int i = 0; i < buttonRules.Length; i++) {
-                buttonRules[i].gameObject.SetActive(true);
+            for (int i = 0; i < buttonWeapons.Length; i++) {
+                buttonWeapons[i].gameObject.SetActive(true);
             }
 
             if (searchTerm.Length > 0) {
 
                 for (int i = 0; i < searchTerm.Length; i++) {
 
-                    for (int n = 0; n < buttonRules.Length; n++) {
+                    for (int n = 0; n < buttonWeapons.Length; n++) {
 
-                        string sTemp = buttonRules[n].Rule.Name;
+                        string sTemp = buttonWeapons[n].Weapon.Name;
                         if (searchTerm[i] != sTemp[i]) {
 
-                            buttonRules[n].gameObject.SetActive(false);
+                            buttonWeapons[n].gameObject.SetActive(false);
                         }
                     }
                 }
@@ -59,38 +61,102 @@ public class WeaponLoader : MonoBehaviour
 
     public void StartLoadPanel() {
 
-        instance = GameManager.instance;
-        ui = FindObjectOfType<WeaponUI>();
-
-        if (instance.Rules.Count > 6) {
-            ui.contentLoad.GetComponent<RectTransform>().offsetMin = new Vector2(0, -48 * (instance.Rules.Count - 6));
+        if (instance.Weapons.Count > 6) {
+            ui.contentLoad.GetComponent<RectTransform>().offsetMin = new Vector2(0, -48 * (instance.Weapons.Count - 6));
         }
-        for (int i = 0; i < instance.Rules.Count; i++) {
-            string weaponName = instance.Rules[i].Name;
-            GameObject weaponButton = Instantiate(ui.buttonRule);
+        for (int i = 0; i < instance.Weapons.Count; i++) {
+            string weaponName = instance.Weapons[i].Name;
+            GameObject weaponButton = Instantiate(ui.buttonWeapon);
             weaponButton.transform.SetParent(ui.contentLoad.transform);
-            weaponButton.GetComponent<ButtonRule>().Rule = instance.Rules[i];
+            weaponButton.GetComponent<ButtonWeapon>().Weapon = instance.Weapons[i];
             weaponButton.GetComponent<RectTransform>().localScale = Vector3.one;
             weaponButton.GetComponentInChildren<Text>().text = weaponName;
         }
 
-        buttonRules = FindObjectsOfType<ButtonRule>();
+        buttonWeapons = FindObjectsOfType<ButtonWeapon>();
         //searchField = ui.panelLoad.GetComponentInChildren<InputField>();
-        rulesLoaded = true;
+        weaponsLoaded = true;
+    }
+
+    public void NameCheckLoad ()
+    {
+        //Called from the Name Check Panel.
+        //Find the weapon to load.
+
+        Debug.Log("Load the weapon found by NameCheck.");
+        ResetLoad(WeaponToLoad);
+        bool usuallyTrue = true;
+        ui.Close(usuallyTrue);
     }
 
     public void ResetLoad(Weapon weapon) {
 
         setter.Name = weapon.Name;
         ui.InputName.text = setter.Name;
-        Debug.Log("Rule name is " + setter.Name);
+        Debug.Log("Weapon name is " + setter.Name);
 
-        //Load weapon into setter and ui
+        setter.Type = (int)weapon.WeaponType;
 
+        ui.DropdownType.value = setter.Type;
+
+        setter.StrengthIsVar = weapon.StrengthIsVar;
+        if (setter.StrengthIsVar)
+        {
+            setter.VarStrength = (int)weapon.VarStrength;
+        }
+        else
+        {
+            setter.Strength = weapon.Strength;
+        }
+
+        setter.APIsVar = weapon.APIsVar;
+        if (setter.APIsVar)
+        {
+            setter.VarAP = (int)weapon.VarAP;
+        }
+        else
+        {
+            setter.AP = weapon.AP;
+        }
+
+        setter.DamageIsVar = weapon.DamageIsVar;
+        if (setter.DamageIsVar)
+        {
+            setter.VarDamage = (int)weapon.VarDamage;
+        }
+        else
+        {
+            setter.Damage = weapon.Damage;
+        }
+
+        if (setter.Type >= 2)
+        {
+            setter.RangeIsVar = weapon.RangeIsVar;
+            if (setter.RangeIsVar)
+            {
+                setter.VarRange = (int)weapon.VarRange;
+            }
+            else
+            {
+                setter.Range = weapon.Range;
+            }
+
+            setter.ShotsAreVar = weapon.ShotsAreVar;
+            if (setter.ShotsAreVar)
+            {
+                setter.VarShots = (int)weapon.VarShots;
+            }
+            else
+            {
+                setter.Shots = weapon.Shots;
+            }
+        }
+
+        ui.UpdateUI();
     }
 
-    public void LoadSavedRule() {
-        ResetLoad(instance.Weapons[WeaponToLoad]);
+    public void LoadSavedWeapon() {
+        ResetLoad(WeaponToLoad);
 
         //Close Panel
     }

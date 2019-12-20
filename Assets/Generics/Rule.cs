@@ -8,7 +8,7 @@ using UnityEngine;
 [Serializable]
 public class Rule {
 
-    public int Version = 0;
+    public int Version { get; set; }
 
     public enum Uses { Deployment, StartOfGame, YourTurn, OpponentsTurn, StartOfTurn, Move, Psychic, Shooting, Charge, Fight, Morale, EndOfTurn, EndOfGame }
 
@@ -124,6 +124,8 @@ public class Rule {
     //public bool MortalWounds { get; set; }
 
     public Rule() {
+
+        Version = 0;
 
         //public List<Uses> UseTimes { get; set; }
         UseTimes = new List<Uses>();
