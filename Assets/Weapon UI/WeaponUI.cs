@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -326,6 +327,18 @@ public class WeaponUI : MonoBehaviour
     {
         Debug.Log("Managing rule panel.");
         Debug.Log("Checking number Weapon Setter for number of rules added to weapon.");
+        if (setter.WeaponRules.Count == 0)
+        {
+            panelRulesAdded.SetActive(false);
+        }
+        else
+        {
+            panelRulesAdded.SetActive(true);
+            Debug.Log(setter.WeaponRules.Count);
+            int lines = 1 + (int)Math.Truncate(setter.WeaponRules.Count / (decimal)6.0);
+            Debug.Log("Rules Added Panel should have " + lines + "lines.");
+            panelRulesAdded.GetComponent<RectTransform>().anchorMin = new Vector2(0.01f, 0.73f - (0.05f * lines));
+        }
     }
 
     public void OpenNameCheck ()
@@ -338,22 +351,27 @@ public class WeaponUI : MonoBehaviour
         if (!overwrite)
         {
             Button[] buttons = contentLoad.GetComponentsInChildren<Button>();
+            Button[] ruleButtons = contentRules.GetComponentsInChildren<Button>();
             for (int i = 0; i < buttons.Length; i++)
             {
                 Destroy(buttons[i].gameObject);
+            }
+            for (int i = 0; i < ruleButtons.Length; i++)
+            {
+                Destroy(ruleButtons[i].gameObject);
             }
 
             buttonSave.interactable = true;
             buttonLoad.interactable = true;
             //searchField = null;
             panelLoad.SetActive(false);
+            panelAddRules.SetActive(false);
         }
         else
         {
             panelNameCheck.SetActive(false);
             panelRemoveRule.SetActive(false);
             panelLoad.SetActive(false);
-            panelAddRules.SetActive(false);
         }
     }
 

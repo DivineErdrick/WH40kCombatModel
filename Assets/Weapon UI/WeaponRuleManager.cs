@@ -10,6 +10,7 @@ public class WeaponRuleManager : MonoBehaviour
 
     public GameObject searchField;
 
+    WeaponSetter setter;
     WeaponUI ui;
 
     ButtonWeaponRule[] buttonRules;
@@ -22,6 +23,8 @@ public class WeaponRuleManager : MonoBehaviour
         instance = GameManager.instance;
         Assert.IsNotNull(instance, "Weapon Rule Manager could not find Game Manager.");
         Assert.IsNotNull(searchField, "Search Field has not been assigned to Weapon Rule Manager.");
+        setter = GetComponent<WeaponSetter>();
+        Assert.IsNotNull(setter, "Weapon Rule Manager could not find Weapon Setter.");
         ui = GetComponent<WeaponUI>();
         Assert.IsNotNull(ui, "Weapon Rule Manager could not find Weapon UI.");
     }
@@ -70,11 +73,20 @@ public class WeaponRuleManager : MonoBehaviour
         for (int i = 0; i < instance.Rules.Count; i++)
         {
             string ruleName = instance.Rules[i].Name;
-            GameObject ruleButton = Instantiate(ui.buttonWeaponRule);
-            ruleButton.transform.SetParent(ui.contentRules.transform);
-            ruleButton.GetComponent<ButtonWeaponRule>().Rule = instance.Rules[i];
-            ruleButton.GetComponent<RectTransform>().localScale = Vector3.one;
-            ruleButton.GetComponentInChildren<Text>().text = ruleName;
+            bool ruleNotAdded = true;
+            foreach (string weaponRule in setter.WeaponRules)
+            {
+                if (weaponRule == ruleName)
+                    ruleNotAdded = false;
+            }
+            if (ruleNotAdded)
+            {
+                GameObject ruleButton = Instantiate(ui.buttonWeaponRule);
+                ruleButton.transform.SetParent(ui.contentRules.transform);
+                ruleButton.GetComponent<ButtonWeaponRule>().Rule = instance.Rules[i];
+                ruleButton.GetComponent<RectTransform>().localScale = Vector3.one;
+                ruleButton.GetComponentInChildren<Text>().text = ruleName;
+            }
         }
 
         buttonRules = FindObjectsOfType<ButtonWeaponRule>();

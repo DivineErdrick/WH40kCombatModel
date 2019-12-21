@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
 
 public class ButtonWeaponRule : MonoBehaviour
 {
     public Rule Rule { get; set; }
+
+    WeaponSetter setter;
+    WeaponUI ui;
     
-    bool RuleAdded = false;
+    bool ruleAdded = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        setter = FindObjectOfType<WeaponSetter>();
+        Assert.IsNotNull(setter, "Weapon Rule Button can not locate Weapon Setter.");
+        ui = FindObjectOfType<WeaponUI>();
+        Assert.IsNotNull(ui, "Weapon Rule Button can not locate Weapon UI.");
+
         GetComponent<Button>().onClick.AddListener(AddRemoveRule);
     }
 
@@ -23,14 +32,22 @@ public class ButtonWeaponRule : MonoBehaviour
 
     public void AddRemoveRule ()
     {
-        if (RuleAdded)
+        if (ruleAdded)
         {
-            Debug.Log("Adding rule.");
-            Debug.Log("Calling Weapon UI to manage rule panel.");
+            Debug.Log("Open remove rule panel.");
+            setter.WeaponRules.Remove(Rule.Name);
+            setter.WeaponRules.TrimExcess();
+            ui.ManageRulePanel();
+            Destroy(gameObject);
         }
         else
         {
-            Debug.Log("Open remove rule panel.");
+            Debug.Log("Adding rule.");
+            setter.WeaponRules.Add(Rule.Name);            
+            transform.SetParent(ui.panelRulesAdded.transform);
+            Debug.Log("Calling Weapon UI to manage rule panel.");
+            ui.ManageRulePanel();
+            ruleAdded = true;
         }
     }
 }
