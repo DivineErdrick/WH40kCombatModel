@@ -10,6 +10,8 @@ public class WeaponRuleManager : MonoBehaviour
 
     public GameObject searchField;
 
+    public GameObject ButtonToRemove { get; set; }
+
     WeaponSetter setter;
     WeaponUI ui;
 
@@ -84,6 +86,7 @@ public class WeaponRuleManager : MonoBehaviour
                 GameObject ruleButton = Instantiate(ui.buttonWeaponRule);
                 ruleButton.transform.SetParent(ui.contentRules.transform);
                 ruleButton.GetComponent<ButtonWeaponRule>().Rule = instance.Rules[i];
+                ruleButton.GetComponent<ButtonWeaponRule>().RuleAdded = false;
                 ruleButton.GetComponent<RectTransform>().localScale = Vector3.one;
                 ruleButton.GetComponentInChildren<Text>().text = ruleName;
             }
@@ -94,9 +97,33 @@ public class WeaponRuleManager : MonoBehaviour
         rulesLoaded = true;
     }
 
-    public void RemoveRule (string rule)
+    public void RemoveRule ()
     {
         Debug.Log("Removing rule.");
+        int index = 0;
+        bool found = false;
+        for (int i = 0; i < setter.WeaponRules.Count; i++)
+        {
+            if (setter.WeaponRules[i] == ButtonToRemove.GetComponent<ButtonWeaponRule>().Rule.Name)
+            {
+                index = i;
+                found = true;
+            }
+        }
+        if (found)
+        {
+            setter.WeaponRules.RemoveAt(index);
+            setter.WeaponRules.TrimExcess();
+        } 
+        else
+        {
+            Debug.LogError("Could not find Weapon Rule in Weapon Setter.");
+            return;
+        }
+        Destroy(ButtonToRemove);
         Debug.Log("Calling Weapon UI to manage rule panel.");
+        ui.ManageRulePanel();
+        bool usuallyTrue = true;
+        ui.Close(usuallyTrue);
     }
 }

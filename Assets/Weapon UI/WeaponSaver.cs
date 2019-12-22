@@ -44,12 +44,12 @@ public class WeaponSaver : MonoBehaviour
 
             Debug.Log("Check to see if the weapon exists.");
             bool nameDoesntExist = true;
-            foreach (Weapon weaponToCheck in instance.Weapons)
+            for (int i = 0; i < instance.Weapons.Count; i++)
             {
-                if (weaponToCheck.Name == setter.Name)
+                if (instance.Weapons[i].Name == setter.Name)
                 {
                     Debug.Log("A weapon with that name already exists.");
-                    loader.WeaponToLoad = weaponToCheck;
+                    loader.WeaponToLoad = i;
                     nameDoesntExist = false;
                 }
             }
@@ -128,12 +128,27 @@ public class WeaponSaver : MonoBehaviour
                         Debug.Log("Weapon Shots saved as " + weapon.Shots);
                     }
                 }
+                weapon.Rules = new List<string>();
+                foreach(string weaponRule in setter.WeaponRules)
+                {
+                    weapon.Rules.Add(weaponRule);
+                    Debug.Log(weaponRule + " has been saved into Weapons.");
+                }
 
                 Debug.Log("Saving weapon.");
-                instance.Weapons.Add(weapon);
-                ui.buttonLoad.interactable = true;
-                bool usuallyTrue = true;
-                ui.Close(usuallyTrue);
+                if (overwriteSavedRule)
+                {
+                    Debug.Log("Overwriting rule.");
+                    instance.Weapons[loader.WeaponToLoad] = weapon;
+                    bool usuallyTrue = true;
+                    ui.Close(usuallyTrue);
+                }
+                else
+                {
+                    instance.Weapons.Add(weapon);
+                    ui.buttonLoad.interactable = true;
+                }
+                instance.SaveWeapons();
             }
             else
             {

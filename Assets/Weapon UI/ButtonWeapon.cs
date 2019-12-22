@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ButtonWeapon : MonoBehaviour {
 
     public Weapon Weapon { get; set; }
+    public int WeaponIndex { get; set; }
 
     GameManager instance;
     WeaponLoader loader;
@@ -39,7 +40,7 @@ public class ButtonWeapon : MonoBehaviour {
         if (Weapon != null) {
 
             setter.CurrentWeapon = Weapon;
-            loader.ResetLoad(Weapon);
+            loader.ResetLoad(WeaponIndex);
         }
     }
 }

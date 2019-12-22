@@ -92,12 +92,17 @@ public class WeaponUI : MonoBehaviour
         setter = gameObject.GetComponent<WeaponSetter>();
         Assert.IsNotNull(setter, "The Weapon UI could not find the Weapon Setter.");
         defaultColor = InputRange.GetComponentInChildren<Text>().color;
+
+        if (instance.Weapons.Count > 0)
+        {
+            buttonLoad.interactable = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void UpdateUI ()
@@ -338,6 +343,43 @@ public class WeaponUI : MonoBehaviour
             int lines = 1 + (int)Math.Truncate(setter.WeaponRules.Count / (decimal)6.0);
             Debug.Log("Rules Added Panel should have " + lines + "lines.");
             panelRulesAdded.GetComponent<RectTransform>().anchorMin = new Vector2(0.01f, 0.73f - (0.05f * lines));
+        }
+    }
+
+    public void ClearRulePanel ()
+    {
+        Debug.Log("Clearing rule panel.");
+        Button[] ruleButtons = panelRulesAdded.GetComponentsInChildren<Button>();
+        for (int i = 0; i < ruleButtons.Length; i++)
+        {
+            Destroy(ruleButtons[i].gameObject);
+        }
+    }
+
+    public void LoadRulesIntoRulePanel (Weapon weapon)
+    {
+        Debug.Log("Loading Weapon Rules into Rules Panel.");
+        setter.WeaponRules = new List<string>();
+        foreach(string weaponRule in weapon.Rules)
+        {
+            Rule ruleToLoad = new Rule { Name = "Missing Rule" };
+            foreach (Rule rule in instance.Rules)
+            {
+                if (rule.Name == weaponRule)
+                {
+                    ruleToLoad = rule;
+                    setter.WeaponRules.Add(rule.Name);
+                    Debug.Log("Loading " + rule.Name + " from Weapon.");
+                }
+            }
+
+            GameObject ruleButton = Instantiate(buttonWeaponRule);
+            ruleButton.transform.SetParent(panelRulesAdded.transform);
+            ruleButton.GetComponent<ButtonWeaponRule>().Rule = ruleToLoad;
+            ruleButton.GetComponent<ButtonWeaponRule>().RuleAdded = true;
+            ruleButton.GetComponent<RectTransform>().localScale = Vector3.one;
+            ruleButton.GetComponentInChildren<Text>().text = ruleToLoad.Name;
+            ManageRulePanel();
         }
     }
 

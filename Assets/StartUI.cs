@@ -9,11 +9,11 @@ public class StartUI : MonoBehaviour {
 
     GameManager instance;
 
-    [SerializeField]
-    Button model, unit, test;
+    [SerializeField] Button powers, model, unit, test;
 
     void Awake () {
 
+        Assert.IsNotNull(powers, "The Button Model object has not been assigned to the Start UI object.");
         Assert.IsNotNull(model, "The Button Model object has not been assigned to the Start UI object.");
         Assert.IsNotNull(unit, "The Button Unit object has not been assigned to the Start UI object.");
         Assert.IsNotNull(test, "The Button Test object has not been assigned to the Start UI object.");
@@ -24,6 +24,10 @@ public class StartUI : MonoBehaviour {
 
         instance = GameManager.instance;
 
+        if (instance.Rules.Count > 0)
+        {
+            powers.interactable = true;
+        }
         if (instance.Profiles.Count > 0) {
 
             model.interactable = true;

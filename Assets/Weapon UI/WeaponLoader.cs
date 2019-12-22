@@ -10,7 +10,8 @@ public class WeaponLoader : MonoBehaviour
     WeaponUI ui;
     WeaponSetter setter;
 
-    public Weapon WeaponToLoad { get; set; }
+    //public Weapon WeaponToLoad { get; set; }
+    public int WeaponToLoad { get; set; }
 
     public InputField searchField;
 
@@ -68,6 +69,7 @@ public class WeaponLoader : MonoBehaviour
             string weaponName = instance.Weapons[i].Name;
             GameObject weaponButton = Instantiate(ui.buttonWeapon);
             weaponButton.transform.SetParent(ui.contentLoad.transform);
+            weaponButton.GetComponent<ButtonWeapon>().WeaponIndex = i;
             weaponButton.GetComponent<ButtonWeapon>().Weapon = instance.Weapons[i];
             weaponButton.GetComponent<RectTransform>().localScale = Vector3.one;
             weaponButton.GetComponentInChildren<Text>().text = weaponName;
@@ -89,8 +91,9 @@ public class WeaponLoader : MonoBehaviour
         ui.Close(usuallyTrue);
     }
 
-    public void ResetLoad(Weapon weapon) {
+    public void ResetLoad(int weaponToLoad) {
 
+        Weapon weapon = instance.Weapons[weaponToLoad];
         setter.Name = weapon.Name;
         ui.InputName.text = setter.Name;
         Debug.Log("Weapon name is " + setter.Name);
@@ -152,7 +155,11 @@ public class WeaponLoader : MonoBehaviour
             }
         }
 
+        ui.ClearRulePanel();
+        ui.LoadRulesIntoRulePanel(weapon);
+
         ui.UpdateUI();
+        ui.ManageRulePanel();
     }
 
     public void LoadSavedWeapon() {

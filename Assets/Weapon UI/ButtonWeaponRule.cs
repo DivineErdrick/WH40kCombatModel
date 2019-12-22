@@ -7,15 +7,17 @@ using UnityEngine.Assertions;
 public class ButtonWeaponRule : MonoBehaviour
 {
     public Rule Rule { get; set; }
+    public bool RuleAdded { get; set; }
 
+    WeaponRuleManager manager;
     WeaponSetter setter;
     WeaponUI ui;
     
-    bool ruleAdded = false;
-
     // Start is called before the first frame update
     void Start()
     {
+        manager = FindObjectOfType<WeaponRuleManager>();
+        Assert.IsNotNull(manager, "Weapon Rule Button can not locate Weapon Rule Manager.");
         setter = FindObjectOfType<WeaponSetter>();
         Assert.IsNotNull(setter, "Weapon Rule Button can not locate Weapon Setter.");
         ui = FindObjectOfType<WeaponUI>();
@@ -32,13 +34,11 @@ public class ButtonWeaponRule : MonoBehaviour
 
     public void AddRemoveRule ()
     {
-        if (ruleAdded)
+        if (RuleAdded)
         {
             Debug.Log("Open remove rule panel.");
-            setter.WeaponRules.Remove(Rule.Name);
-            setter.WeaponRules.TrimExcess();
-            ui.ManageRulePanel();
-            Destroy(gameObject);
+            manager.ButtonToRemove = gameObject;
+            ui.panelRemoveRule.SetActive(true);
         }
         else
         {
@@ -47,7 +47,7 @@ public class ButtonWeaponRule : MonoBehaviour
             transform.SetParent(ui.panelRulesAdded.transform);
             Debug.Log("Calling Weapon UI to manage rule panel.");
             ui.ManageRulePanel();
-            ruleAdded = true;
+            RuleAdded = true;
         }
     }
 }
