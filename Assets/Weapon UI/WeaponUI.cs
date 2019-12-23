@@ -53,6 +53,7 @@ public class WeaponUI : MonoBehaviour
 
     WeaponLoader loader;
     WeaponRuleManager manager;
+    WeaponMessenger messenger;
     WeaponSetter setter;
 
     Color defaultColor;
@@ -89,6 +90,8 @@ public class WeaponUI : MonoBehaviour
         Assert.IsNotNull(loader, "The Weapon UI could not find the Weapon Loader.");
         manager = gameObject.GetComponent<WeaponRuleManager>();
         Assert.IsNotNull(manager, "The Weapon UI could not find the Weapon Rule Manager.");
+        messenger = FindObjectOfType<WeaponMessenger>();
+        Assert.IsNotNull(messenger, "The Weapon UI could not find the Weapon Messenger.");
         setter = gameObject.GetComponent<WeaponSetter>();
         Assert.IsNotNull(setter, "The Weapon UI could not find the Weapon Setter.");
         defaultColor = InputRange.GetComponentInChildren<Text>().color;
@@ -97,6 +100,8 @@ public class WeaponUI : MonoBehaviour
         {
             buttonLoad.interactable = true;
         }
+
+        StartCoroutine(messenger.DisplayMessage("Fill in the weapon's profile."));
     }
 
     // Update is called once per frame
@@ -275,6 +280,7 @@ public class WeaponUI : MonoBehaviour
             PanelMelee.SetActive(false);
             PanelRange.SetActive(false);
         }
+        messenger.UpdateMessage();
     }
     void CheckForErrors(int value, bool isPositive, Stats stat)
     {
@@ -408,12 +414,14 @@ public class WeaponUI : MonoBehaviour
             //searchField = null;
             panelLoad.SetActive(false);
             panelAddRules.SetActive(false);
+            messenger.UpdateMessage();
         }
         else
         {
             panelNameCheck.SetActive(false);
             panelRemoveRule.SetActive(false);
             panelLoad.SetActive(false);
+            messenger.UpdateMessage();
         }
     }
 

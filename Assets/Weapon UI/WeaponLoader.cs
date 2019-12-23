@@ -8,6 +8,7 @@ public class WeaponLoader : MonoBehaviour
 {
     GameManager instance;
     WeaponUI ui;
+    WeaponMessenger messenger;
     WeaponSetter setter;
 
     //public Weapon WeaponToLoad { get; set; }
@@ -23,11 +24,13 @@ public class WeaponLoader : MonoBehaviour
     void Start()
     {
         instance = GameManager.instance;
-        Assert.IsNotNull(instance, "Could not find Game Manager.");
+        Assert.IsNotNull(instance, "Weapon Loader could not find Game Manager.");
+        messenger = FindObjectOfType<WeaponMessenger>();
+        Assert.IsNotNull(messenger, "Weapon Loader could not find Weapon Messenger.");
         setter = gameObject.GetComponent<WeaponSetter>();
-        Assert.IsNotNull(setter, "Could not find Weapon Setter.");
+        Assert.IsNotNull(setter, "Weapon Loader could not find Weapon Setter.");
         ui = gameObject.GetComponent<WeaponUI>();
-        Assert.IsNotNull(ui, "Could not find Weapon UI.");
+        Assert.IsNotNull(ui, "Weapon Loader could not find Weapon UI.");
 
         weaponsLoaded = instance.Weapons.Count > 0;
     }
@@ -160,6 +163,8 @@ public class WeaponLoader : MonoBehaviour
 
         ui.UpdateUI();
         ui.ManageRulePanel();
+        messenger.DisplayMessage("Weapon loaded.");
+        
     }
 
     public void LoadSavedWeapon() {

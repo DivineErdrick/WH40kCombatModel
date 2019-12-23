@@ -8,6 +8,7 @@ public class WeaponSaver : MonoBehaviour
     GameManager instance;
 
     WeaponLoader loader;
+    WeaponMessenger messenger;
     WeaponSetter setter;
     WeaponUI ui;
 
@@ -16,13 +17,15 @@ public class WeaponSaver : MonoBehaviour
     {
         instance = GameManager.instance;
         loader = GetComponent<WeaponLoader>();
+        messenger = FindObjectOfType<WeaponMessenger>();
         setter = GetComponent<WeaponSetter>();
         ui = GetComponent<WeaponUI>();
 
-        Assert.IsNotNull(instance, "Could not locate Game Manager");
-        Assert.IsNotNull(loader, "Could not locate Weapon Loader.");
-        Assert.IsNotNull(setter, "Could not locate Weapon Setter.");
-        Assert.IsNotNull(ui, "Could not locate Weapon Ui.");
+        Assert.IsNotNull(instance, "Weapon Saver could not locate Game Manager");
+        Assert.IsNotNull(loader, "Weapon Saver could not locate Weapon Loader.");
+        Assert.IsNotNull(messenger, "Weapon Saver could not locate Weapon Messenger.");
+        Assert.IsNotNull(setter, "Weapon Saver could not locate Weapon Setter.");
+        Assert.IsNotNull(ui, "Weapon Saver could not locate Weapon Ui.");
     }
 
     // Update is called once per frame
@@ -165,37 +168,50 @@ public class WeaponSaver : MonoBehaviour
     bool DataCheck () 
     {
         if (setter.Name.Length == 0)
+        {
+            StartCoroutine(messenger.DisplayMessage("You must enter a Name for the weapon.", WeaponMessenger.MessageType.error));
             return false;
+        }
 
         if (setter.Type == 0)
+        {
+            StartCoroutine(messenger.DisplayMessage("You must select the weapon's type.", WeaponMessenger.MessageType.error));
             return false;
+        }
 
         if (!setter.StrengthIsVar)
         {
             if (setter.Strength <= 0)
+            {
+                StartCoroutine(messenger.DisplayMessage("Strength must be a positive number.", WeaponMessenger.MessageType.error));
                 return false;
+            }
         }
 
-        if (setter.APIsVar)
-        {
-            if (setter.VarAP == 0)
-                return false;
-        }
-        else
+        if (! setter.APIsVar)
         {
             if (setter.AP > 0)
+            {
+                StartCoroutine(messenger.DisplayMessage("AP cannot be a positive number.", WeaponMessenger.MessageType.error));
                 return false;
+            }
         }
 
         if (setter.DamageIsVar)
         {
             if (setter.VarDamage == 0)
+            {
+                StartCoroutine(messenger.DisplayMessage("You must select the weapon's Damage.", WeaponMessenger.MessageType.error));
                 return false;
+            }
         }
         else
         {
             if (setter.Damage <= 0)
+            {
+                StartCoroutine(messenger.DisplayMessage("Damage must be a positive number.", WeaponMessenger.MessageType.error));
                 return false;
+            }
         }
 
         if (setter.Type >= 2)
@@ -203,18 +219,27 @@ public class WeaponSaver : MonoBehaviour
             if (setter.RangeIsVar)
             {
                 if (setter.VarRange == 0)
+                {
+                    StartCoroutine(messenger.DisplayMessage("You must select the weapon's Range.", WeaponMessenger.MessageType.error));
                     return false;
+                }
             }
             else
             {
                 if (setter.Range <= 0)
+                {
+                    StartCoroutine(messenger.DisplayMessage("Range must be a positive number.", WeaponMessenger.MessageType.error));
                     return false;
+                }
             }
 
             if (!setter.ShotsAreVar)
             {
                 if (setter.Shots <= 0)
+                {
+                    StartCoroutine(messenger.DisplayMessage("Shots must be a positive number.", WeaponMessenger.MessageType.error));
                     return false;
+                }
             }
         }
 
