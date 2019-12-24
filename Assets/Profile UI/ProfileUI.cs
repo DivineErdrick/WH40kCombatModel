@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ProfileUI : MonoBehaviour {
 
     public enum CloseType { basic, loadPanelClose, loadPanelLoad, nameCheckLoad, nameCheckSave }
+    public enum NavigationType { next, previous, up, down, left, right }
 
     public Text textMessage;
     public GameObject[] unitCard;
@@ -95,9 +97,91 @@ public class ProfileUI : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void Update () 
+    {
+        GameObject uiObject = EventSystem.current.currentSelectedGameObject;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                Debug.Log("Checking if a UI Object is selected.");
+                if (uiObject)
+                {
+                    KeyboardNavigation(uiObject, NavigationType.previous);
+                }
+                else
+                {
+                    Debug.Log("No game object is selected.");
+                    SelectUIElement(NavigationType.previous);
+                }
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            Debug.Log("Checking if a UI Object is selected.");
+            if (uiObject)
+            {
+                KeyboardNavigation(uiObject, NavigationType.next);
+            }
+            else
+            {
+                Debug.Log("No game object is selected.");
+                SelectUIElement(NavigationType.next);
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            Debug.Log("Checking if a UI Object is selected.");
+            if (uiObject)
+            {
+                KeyboardNavigation(uiObject, NavigationType.left);
+            }
+            else
+            {
+                Debug.Log("No game object is selected.");
+                SelectUIElement(NavigationType.left);
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            Debug.Log("Checking if a UI Object is selected.");
+            if (uiObject)
+            {
+                KeyboardNavigation(uiObject, NavigationType.right);
+            }
+            else
+            {
+                Debug.Log("No game object is selected.");
+                SelectUIElement(NavigationType.right);
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            Debug.Log("Checking if a UI Object is selected.");
+            if (uiObject)
+            {
+                KeyboardNavigation(uiObject, NavigationType.up);
+            }
+            else
+            {
+                Debug.Log("No game object is selected.");
+                SelectUIElement(NavigationType.up);
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            Debug.Log("Checking if a UI Object is selected.");
+            if (uiObject)
+            {
+                KeyboardNavigation(uiObject, NavigationType.down);
+            }
+            else
+            {
+                Debug.Log("No game object is selected.");
+                SelectUIElement(NavigationType.down);
+            }
+        }
+    }
 
     public void CreateDamageProfiles () {
 
@@ -799,6 +883,16 @@ public class ProfileUI : MonoBehaviour {
     //        Debug.Log("Chart Line " + i + " - M: " + M[i] + " WS: " + WS[i] + " BS: " + BS[i] + " S: " + S[i] + " T: " + W[i] + " W: " + A[i] + " Ld: " + Ld[i] + " Sv: " + Sv[i]);
     //    }
     //}
+    
+    public void SelectUIElement (NavigationType navigate = NavigationType.next)
+    {
+        Debug.Log("Selecting the UIElement.");
+        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+    }
+    public void KeyboardNavigation (GameObject currentObject, NavigationType navigate = NavigationType.next)
+    {
+        Debug.Log("Attempting to navigate " + navigate +  " from keyboard.");
+    }
 
     public void OpenNameCheckPanel () {
 

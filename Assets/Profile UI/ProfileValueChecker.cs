@@ -17,6 +17,8 @@ public class ProfileValueChecker : MonoBehaviour {
 		
         setter = GetComponent<ProfileSetter>();
         Assert.IsNotNull(setter, "Profile Value Checker can not find Profile Setter.");
+
+        profileName = "";
     }
 	
 	// Update is called once per frame
