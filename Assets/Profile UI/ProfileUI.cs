@@ -886,12 +886,158 @@ public class ProfileUI : MonoBehaviour {
     
     public void SelectUIElement (NavigationType navigate = NavigationType.next)
     {
+        GameObject lastCell;
         Debug.Log("Selecting the UIElement.");
-        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+        if (navigate == NavigationType.previous)
+        {
+            if (unitCard[4].activeInHierarchy)
+            {
+                lastCell = unitCard[4].transform.GetChild(8).gameObject;
+                Debug.Log("Select UI Element found " + lastCell.name);
+                EventSystem.current.SetSelectedGameObject(lastCell);
+            }
+            else if (unitCard[3].activeInHierarchy)
+            {
+                lastCell = unitCard[3].transform.GetChild(8).gameObject;
+                Debug.Log("Select UI Element found " + lastCell.name);
+                EventSystem.current.SetSelectedGameObject(lastCell);
+            }
+            else if (unitCard[2].activeInHierarchy)
+            {
+                lastCell = unitCard[2].transform.GetChild(8).gameObject;
+                Debug.Log("Select UI Element found " + lastCell.name);
+                EventSystem.current.SetSelectedGameObject(lastCell);
+            }
+            else if (unitCard[1].activeInHierarchy)
+            {
+                lastCell = unitCard[1].transform.GetChild(8).gameObject;
+                Debug.Log("Select UI Element found " + lastCell.name);
+                EventSystem.current.SetSelectedGameObject(lastCell);
+            }
+            else
+            {
+                lastCell = unitCard[0].transform.GetChild(19).gameObject;
+                Debug.Log("Select UI Element found " + lastCell.name);
+                EventSystem.current.SetSelectedGameObject(lastCell);
+            }
+        }
+        else
+        {
+            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+        }
     }
     public void KeyboardNavigation (GameObject currentObject, NavigationType navigate = NavigationType.next)
     {
-        Debug.Log("Attempting to navigate " + navigate +  " from keyboard.");
+        int childIndex = currentObject.transform.GetSiblingIndex();
+        Debug.Log("Attempting to navigate " + navigate + " from keyboard.");
+        if (currentObject == dropdownDamage)
+        {
+            switch (navigate) 
+            {
+                case NavigationType.previous:
+                case NavigationType.up:
+                case NavigationType.left:
+                    SelectUIElement(NavigationType.previous);
+                    break;
+                default:
+                    EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(0).gameObject);
+                    break;
+            }
+        }
+        else if (currentObject.transform.parent.gameObject == unitCard[0])
+        {
+            Debug.Log("Navigating from Unit Card Panel.");
+            switch (navigate)
+            {
+                case NavigationType.next:
+                case NavigationType.right:
+                case NavigationType.previous:
+                case NavigationType.left:
+                case NavigationType.up:
+                case NavigationType.down:
+                    Debug.Log("Current child index is " + childIndex);
+                    break;
+                default:
+                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    break;
+            }
+        }
+        else if (currentObject.transform.parent.gameObject == unitCard[1])
+        {
+            Debug.Log("Navigating from Unit Card Panel.");
+            switch (navigate)
+            {
+                case NavigationType.next:
+                case NavigationType.right:
+                case NavigationType.previous:
+                case NavigationType.left:
+                case NavigationType.up:
+                case NavigationType.down:
+                    Debug.Log("Current child index is " + childIndex);
+                    break;
+                default:
+                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    break;
+            }
+        }
+        else if (currentObject.transform.parent.gameObject == unitCard[2])
+        {
+            Debug.Log("Navigating from Unit Card Panel.");
+            switch (navigate)
+            {
+                case NavigationType.next:
+                case NavigationType.right:
+                case NavigationType.previous:
+                case NavigationType.left:
+                case NavigationType.up:
+                case NavigationType.down:
+                    Debug.Log("Current child index is " + childIndex);
+                    break;
+                default:
+                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    break;
+            }
+        }
+        else if (currentObject.transform.parent.gameObject == unitCard[3])
+        {
+            Debug.Log("Navigating from Unit Card Panel.");
+            switch (navigate)
+            {
+                case NavigationType.next:
+                case NavigationType.right:
+                case NavigationType.previous:
+                case NavigationType.left:
+                case NavigationType.up:
+                case NavigationType.down:
+                    Debug.Log("Current child index is " + childIndex);
+                    break;
+                default:
+                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    break;
+            }
+        }
+        else if (currentObject.transform.parent.gameObject == unitCard[4])
+        {
+            Debug.Log("Navigating from Unit Card Panel.");
+            switch (navigate)
+            {
+                case NavigationType.next:
+                case NavigationType.right:
+                case NavigationType.previous:
+                case NavigationType.left:
+                case NavigationType.up:
+                case NavigationType.down:
+                    Debug.Log("Current child index is " + childIndex);
+                    break;
+                default:
+                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    break;
+            }
+        }
+        else
+        {
+            SelectUIElement();
+        }
     }
 
     public void OpenNameCheckPanel () {
