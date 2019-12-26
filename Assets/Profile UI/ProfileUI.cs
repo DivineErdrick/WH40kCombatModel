@@ -940,7 +940,7 @@ public class ProfileUI : MonoBehaviour {
                     SelectUIElement(NavigationType.previous);
                     break;
                 default:
-                    EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(0).gameObject);
+                    EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(1).gameObject);
                     break;
             }
         }
@@ -951,9 +951,33 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
+                    if (childIndex >= 18)
+                    {
+                        if (unitCard[1].activeInHierarchy)
+                        {
+                            EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(0).gameObject);
+                        }
+                        else
+                        {
+                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(childIndex + 2).gameObject);
+                    }
+                    break;
                 case NavigationType.previous:
                 case NavigationType.left:
-                case NavigationType.up:
+                    if (childIndex <= 1)
+                    {
+                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(childIndex - 2).gameObject);
+                    }
+                    break;
                 case NavigationType.down:
                     Debug.Log("Current child index is " + childIndex);
                     break;

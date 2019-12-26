@@ -7,14 +7,16 @@ public class ProfileValueChecker : MonoBehaviour {
 
     enum StatType { basic, dice, wounds }
 
-    ProfileSetter setter; 
+    ProfileSetter setter;
 
     GameObject input;
     string profileName;
 
     // Use this for initialization
     void Start () {
-		
+
+        setter = GetComponent<ProfileSetter>();
+        Assert.IsNotNull(setter, "Profile Value Checker can not find Profile Setter.");
         setter = GetComponent<ProfileSetter>();
         Assert.IsNotNull(setter, "Profile Value Checker can not find Profile Setter.");
 
