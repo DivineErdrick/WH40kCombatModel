@@ -53,7 +53,7 @@ public class ProfileUI : MonoBehaviour {
         Assert.IsNotNull(textMessage, "The Message text has not been assigned to the UI manager.");
         Assert.IsTrue(unitCard.Length > 0, "Unit card panels have not been assigned to the UI Manager.");
         Assert.IsNotNull(textDamage, "Text Damage has not been assigned to the UI Manager.");
-        Assert.IsNotNull(dropdownDamage, "Dropdown Damage has not bee assinged to the UI Manager.");
+        Assert.IsNotNull(dropdownDamage, "Dropdown Damage has not been assinged to the UI Manager.");
         Assert.IsNotNull(buttonLoad, "Load Button has not been assigned to the UI Manager.");
         Assert.IsNotNull(panelLoad, "Load Panel has not been assigned to the UI Manager.");
         Assert.IsNotNull(contentLoad, "Load Content object has not been assigned to the UI Manager.");
@@ -930,7 +930,7 @@ public class ProfileUI : MonoBehaviour {
     {
         int childIndex = currentObject.transform.GetSiblingIndex();
         Debug.Log("Attempting to navigate " + navigate + " from keyboard.");
-        if (currentObject == dropdownDamage)
+        if (currentObject == dropdownDamage || currentObject.transform.IsChildOf(dropdownDamage.transform))
         {
             switch (navigate) 
             {
