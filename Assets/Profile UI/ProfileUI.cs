@@ -155,7 +155,7 @@ public class ProfileUI : MonoBehaviour {
                 SelectUIElement(NavigationType.right);
             }
         }
-        else if (Input.GetKeyUp(KeyCode.UpArrow))
+        else if (Input.GetKeyUp(KeyCode.UpArrow) && ! uiObject.transform.IsChildOf(dropdownDamage.transform))
         {
             Debug.Log("Checking if a UI Object is selected.");
             if (uiObject)
@@ -168,7 +168,7 @@ public class ProfileUI : MonoBehaviour {
                 SelectUIElement(NavigationType.up);
             }
         }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        else if (Input.GetKeyUp(KeyCode.DownArrow) && !uiObject.transform.IsChildOf(dropdownDamage.transform))
         {
             Debug.Log("Checking if a UI Object is selected.");
             if (uiObject)
@@ -979,7 +979,15 @@ public class ProfileUI : MonoBehaviour {
                     }
                     break;
                 case NavigationType.down:
-                    Debug.Log("Current child index is " + childIndex);
+                    if (unitCard[1].activeInHierarchy)
+                    {
+                        childIndex = Mathf.Clamp(Mathf.RoundToInt(childIndex / 2 - 1), 0, 8);
+                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    }
                     break;
                 default:
                     EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
