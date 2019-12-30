@@ -940,6 +940,7 @@ public class ProfileUI : MonoBehaviour {
                     SelectUIElement(NavigationType.previous);
                     break;
                 default:
+                    dropdownDamage.Hide();
                     EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(1).gameObject);
                     break;
             }
@@ -1001,11 +1002,45 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
+                    if (childIndex >= 8)
+                    {
+                        if (unitCard[2].activeInHierarchy)
+                        {
+                            EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(0).gameObject);
+                        }
+                        else
+                        {
+                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex + 1).gameObject);
+                    }
+                    break;
                 case NavigationType.previous:
                 case NavigationType.left:
+                    if (childIndex <= 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(19).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex - 1).gameObject);
+                    }
+                    break;
                 case NavigationType.up:
+                    EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(childIndex * 2 + 3).gameObject);
+                    break;
                 case NavigationType.down:
-                    Debug.Log("Current child index is " + childIndex);
+                    if (unitCard[2].activeInHierarchy)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    }
                     break;
                 default:
                     EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
@@ -1019,11 +1054,45 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
+                    if (childIndex >= 8)
+                    {
+                        if (unitCard[3].activeInHierarchy)
+                        {
+                            EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(0).gameObject);
+                        }
+                        else
+                        {
+                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex + 1).gameObject);
+                    }
+                    break;
                 case NavigationType.previous:
                 case NavigationType.left:
+                    if (childIndex <= 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(8).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex - 1).gameObject);
+                    }
+                    break;
                 case NavigationType.up:
+                    EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex).gameObject);
+                    break;
                 case NavigationType.down:
-                    Debug.Log("Current child index is " + childIndex);
+                    if (unitCard[3].activeInHierarchy)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    }
                     break;
                 default:
                     EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
@@ -1037,11 +1106,45 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
+                    if (childIndex >= 8)
+                    {
+                        if (unitCard[4].activeInHierarchy)
+                        {
+                            EventSystem.current.SetSelectedGameObject(unitCard[4].transform.GetChild(0).gameObject);
+                        }
+                        else
+                        {
+                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex + 1).gameObject);
+                    }
+                    break;
                 case NavigationType.previous:
                 case NavigationType.left:
+                    if (childIndex <= 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(8).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex - 1).gameObject);
+                    }
+                    break;
                 case NavigationType.up:
+                    EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex).gameObject);
+                    break;
                 case NavigationType.down:
-                    Debug.Log("Current child index is " + childIndex);
+                    if (unitCard[4].activeInHierarchy)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[4].transform.GetChild(childIndex).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    }
                     break;
                 default:
                     EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
@@ -1055,11 +1158,80 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
+                    if (childIndex >= 8)
+                    {
+                        if (unitCard[3].activeInHierarchy)
+                        {
+                            EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(0).gameObject);
+                        }
+                        else
+                        {
+                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex + 1).gameObject);
+                    }
+                    break;
                 case NavigationType.previous:
                 case NavigationType.left:
+                    if (childIndex <= 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(8).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex - 1).gameObject);
+                    }
+                    break;
                 case NavigationType.up:
+                    EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex).gameObject);
+                    break;
                 case NavigationType.down:
-                    Debug.Log("Current child index is " + childIndex);
+                    if (unitCard[3].activeInHierarchy)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    }
+                    break;
+                default:
+                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    break;
+            }
+        }
+        else if (currentObject.transform.parent.gameObject == unitCard[3])
+        {
+            Debug.Log("Navigating from Unit Card Panel.");
+            switch (navigate)
+            {
+                case NavigationType.next:
+                case NavigationType.right:
+                    if (childIndex >= 8)
+                    {
+                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[4].transform.GetChild(childIndex + 1).gameObject);
+                    }
+                    break;
+                case NavigationType.previous:
+                case NavigationType.left:
+                    if (childIndex <= 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(8).gameObject);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[4].transform.GetChild(childIndex - 1).gameObject);
+                    }
+                    break;
+                case NavigationType.up:
+                    EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex).gameObject);
                     break;
                 default:
                     EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
