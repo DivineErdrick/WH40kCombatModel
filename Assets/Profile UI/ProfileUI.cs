@@ -937,6 +937,7 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.previous:
                 case NavigationType.up:
                 case NavigationType.left:
+                    dropdownDamage.Hide();
                     SelectUIElement(NavigationType.previous);
                     break;
                 default:
@@ -960,7 +961,7 @@ public class ProfileUI : MonoBehaviour {
                         }
                         else
                         {
-                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                            OpenDropdownDamage();
                         }
                     }
                     else
@@ -972,7 +973,7 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.left:
                     if (childIndex <= 1)
                     {
-                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        OpenDropdownDamage();
                     }
                     else
                     {
@@ -987,11 +988,11 @@ public class ProfileUI : MonoBehaviour {
                     }
                     else
                     {
-                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        OpenDropdownDamage();
                     }
                     break;
                 default:
-                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    OpenDropdownDamage();
                     break;
             }
         }
@@ -1010,7 +1011,7 @@ public class ProfileUI : MonoBehaviour {
                         }
                         else
                         {
-                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                            OpenDropdownDamage();
                         }
                     }
                     else
@@ -1039,11 +1040,11 @@ public class ProfileUI : MonoBehaviour {
                     }
                     else
                     {
-                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        OpenDropdownDamage();
                     }
                     break;
                 default:
-                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    OpenDropdownDamage();
                     break;
             }
         }
@@ -1062,7 +1063,7 @@ public class ProfileUI : MonoBehaviour {
                         }
                         else
                         {
-                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                            OpenDropdownDamage();
                         }
                     }
                     else
@@ -1091,11 +1092,11 @@ public class ProfileUI : MonoBehaviour {
                     }
                     else
                     {
-                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        OpenDropdownDamage();
                     }
                     break;
                 default:
-                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    OpenDropdownDamage();
                     break;
             }
         }
@@ -1114,7 +1115,7 @@ public class ProfileUI : MonoBehaviour {
                         }
                         else
                         {
-                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                            OpenDropdownDamage();
                         }
                     }
                     else
@@ -1143,11 +1144,11 @@ public class ProfileUI : MonoBehaviour {
                     }
                     else
                     {
-                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        OpenDropdownDamage();
                     }
                     break;
                 default:
-                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    OpenDropdownDamage();
                     break;
             }
         }
@@ -1166,7 +1167,7 @@ public class ProfileUI : MonoBehaviour {
                         }
                         else
                         {
-                            EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                            OpenDropdownDamage();
                         }
                     }
                     else
@@ -1195,11 +1196,11 @@ public class ProfileUI : MonoBehaviour {
                     }
                     else
                     {
-                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        OpenDropdownDamage();
                     }
                     break;
                 default:
-                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    OpenDropdownDamage();
                     break;
             }
         }
@@ -1212,7 +1213,7 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.right:
                     if (childIndex >= 8)
                     {
-                        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                        OpenDropdownDamage();
                     }
                     else
                     {
@@ -1234,7 +1235,7 @@ public class ProfileUI : MonoBehaviour {
                     EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex).gameObject);
                     break;
                 default:
-                    EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+                    OpenDropdownDamage();
                     break;
             }
         }
@@ -1242,6 +1243,12 @@ public class ProfileUI : MonoBehaviour {
         {
             SelectUIElement();
         }
+    }
+
+    void OpenDropdownDamage ()
+    {
+        EventSystem.current.SetSelectedGameObject(dropdownDamage.gameObject);
+        dropdownDamage.Show();
     }
 
     public void OpenNameCheckPanel () {
