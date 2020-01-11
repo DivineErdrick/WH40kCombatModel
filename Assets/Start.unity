@@ -1549,10 +1549,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe8fd04f0924b6c41abf96558e60189c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profile: {fileID: 869135333}
+  rule: {fileID: 1854776260}
+  weapon: {fileID: 1857656890}
   powers: {fileID: 206850115}
   model: {fileID: 386211201}
   unit: {fileID: 1419361977}
   test: {fileID: 437364790}
+  exit: {fileID: 814613418}
 --- !u!4 &1640677334
 Transform:
   m_ObjectHideFlags: 0

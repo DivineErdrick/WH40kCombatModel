@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WeaponUI : MonoBehaviour
 {
+    public enum NavigationType { next, previous, up, down, left, right }
     enum Stats { Strength, AP, Damage, Range, Shots }
 
     GameManager instance;
@@ -107,7 +109,108 @@ public class WeaponUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GameObject uiObject = EventSystem.current.currentSelectedGameObject;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                Debug.Log("Checking if a UI Object is selected.");
+                if (uiObject)
+                {
+                    KeyboardNavigation(uiObject, NavigationType.previous);
+                }
+                else
+                {
+                    Debug.Log("No game object is selected.");
+                    SelectUIElement(NavigationType.previous);
+                }
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            Debug.Log("Checking if a UI Object is selected.");
+            if (uiObject)
+            {
+                KeyboardNavigation(uiObject, NavigationType.next);
+            }
+            else
+            {
+                Debug.Log("No game object is selected.");
+                SelectUIElement(NavigationType.next);
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            Debug.Log("Checking if a UI Object is selected.");
+            if (uiObject)
+            {
+                KeyboardNavigation(uiObject, NavigationType.left);
+            }
+            else
+            {
+                Debug.Log("No game object is selected.");
+                SelectUIElement(NavigationType.left);
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            Debug.Log("Checking if a UI Object is selected.");
+            if (uiObject)
+            {
+                KeyboardNavigation(uiObject, NavigationType.right);
+            }
+            else
+            {
+                Debug.Log("No game object is selected.");
+                SelectUIElement(NavigationType.right);
+            }
+        }
+        //else if (Input.GetKeyUp(KeyCode.UpArrow))
+        //{
+        //    Debug.Log("Checking if a UI Object is selected.");
+        //    if (uiObject)
+        //    {
+        //        KeyboardNavigation(uiObject, NavigationType.up);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("No game object is selected.");
+        //        SelectUIElement(NavigationType.up);
+        //    }
+        //}
+        //else if (Input.GetKeyUp(KeyCode.DownArrow))
+        //{
+        //    Debug.Log("Checking if a UI Object is selected.");
+        //    if (uiObject)
+        //    {
+        //        KeyboardNavigation(uiObject, NavigationType.down);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("No game object is selected.");
+        //        SelectUIElement(NavigationType.down);
+        //    }
+        //}
+    }
+
+    void SelectUIElement(NavigationType navigate = NavigationType.next)
+    {
+        Debug.Log("No selected object. Selecting an object using keyboard navigation.");
+        switch (navigate)
+        {
+            case NavigationType.previous:
+            case NavigationType.left:
+                break;
+            case NavigationType.next:
+            case NavigationType.right:
+            default:
+                break;
+        }
+    }
+
+    void KeyboardNavigation(GameObject uiObject, NavigationType navigate = NavigationType.next)
+    {
+        Debug.Log("Keyboard navigating from a selected object.");
     }
 
     public void UpdateUI ()
