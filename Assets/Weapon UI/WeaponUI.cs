@@ -200,12 +200,39 @@ public class WeaponUI : MonoBehaviour
         {
             case NavigationType.previous:
             case NavigationType.left:
+                if (InputDamage[0].gameObject.activeInHierarchy)
+                {
+                    EventSystem.current.SetSelectedGameObject(InputDamage[0].gameObject);
+                }
+                else if (InputDamage[1].gameObject.activeInHierarchy)
+                {
+                    EventSystem.current.SetSelectedGameObject(InputDamage[1].gameObject);
+                }
+                else if (DropdownDamage[0].gameObject.activeInHierarchy)
+                {
+                    OpenDropdown(DropdownDamage[0]);
+                }
+                else if (DropdownDamage[1].gameObject.activeInHierarchy)
+                {
+                    OpenDropdown(DropdownDamage[1]);
+                }
+                else
+                {
+                    OpenDropdown(DropdownType);
+                }
                 break;
             case NavigationType.next:
             case NavigationType.right:
             default:
+                EventSystem.current.SetSelectedGameObject(InputName.gameObject);
                 break;
         }
+    }
+
+    void OpenDropdown (Dropdown dropdown)
+    {
+        EventSystem.current.SetSelectedGameObject(dropdown.gameObject);
+        dropdown.Show();
     }
 
     void KeyboardNavigation(GameObject uiObject, NavigationType navigate = NavigationType.next)
