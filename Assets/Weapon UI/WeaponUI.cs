@@ -229,15 +229,270 @@ public class WeaponUI : MonoBehaviour
         }
     }
 
-    void OpenDropdown (Dropdown dropdown)
-    {
-        EventSystem.current.SetSelectedGameObject(dropdown.gameObject);
-        dropdown.Show();
-    }
-
     void KeyboardNavigation(GameObject uiObject, NavigationType navigate = NavigationType.next)
     {
         Debug.Log("Keyboard navigating from a selected object.");
+        if (uiObject == InputName.gameObject)
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    EventSystem.current.SetSelectedGameObject(null);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    OpenDropdown(DropdownType);
+                    break;
+            }
+        }
+        else if (uiObject == DropdownType.gameObject || uiObject.transform.IsChildOf(DropdownType.transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    DropdownType.Hide();
+                    EventSystem.current.SetSelectedGameObject(InputName.gameObject);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    DropdownType.Hide();
+                    if (InputStrength[0].gameObject.activeInHierarchy)
+                    {
+                        EventSystem.current.SetSelectedGameObject(InputStrength[0].gameObject);
+                    }
+                    else if (DropdownStrength[0].gameObject.activeInHierarchy)
+                    {
+                        OpenDropdown(DropdownStrength[0]);
+                    }
+                    else if (InputRange.gameObject.activeInHierarchy)
+                    {
+                        EventSystem.current.SetSelectedGameObject(InputRange.gameObject);
+                    }
+                    else if (DropdownRange.gameObject.activeInHierarchy)
+                    {
+                        OpenDropdown(DropdownRange);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(null);
+                    }
+                    break;
+            }
+        }
+        else if (uiObject == InputRange.gameObject ||
+                 uiObject == DropdownRange.gameObject ||
+                 uiObject.transform.IsChildOf(DropdownRange.transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    if (uiObject == DropdownRange.gameObject || uiObject.transform.IsChildOf(DropdownRange.transform))
+                        DropdownRange.Hide();
+                    OpenDropdown(DropdownType);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    if (uiObject == DropdownRange.gameObject || uiObject.transform.IsChildOf(DropdownRange.transform))
+                        DropdownRange.Hide();
+                    if (InputShots.gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputShots.gameObject);
+                    else if (DropdownShots.gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownShots);
+                    break;
+            }
+        }
+        else if (uiObject == InputShots.gameObject ||
+                 uiObject == DropdownShots.gameObject ||
+                 uiObject.transform.IsChildOf(DropdownShots.transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    if (uiObject == DropdownShots.gameObject || uiObject.transform.IsChildOf(DropdownShots.transform))
+                        DropdownShots.Hide();
+                    if (InputRange.gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputRange.gameObject);
+                    else if (DropdownRange.gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownRange);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    if (uiObject == DropdownShots.gameObject || uiObject.transform.IsChildOf(DropdownShots.transform))
+                        DropdownShots.Hide();
+                    if (InputStrength[1].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputStrength[1].gameObject);
+                    else if (DropdownStrength[1].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownStrength[1]);
+                    break;
+            }
+        }
+        else if (uiObject == InputStrength[0].gameObject ||
+                 uiObject == DropdownStrength[0].gameObject ||
+                 uiObject.transform.IsChildOf(DropdownStrength[0].transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    if (uiObject == DropdownStrength[0].gameObject || uiObject.transform.IsChildOf(DropdownStrength[0].transform))
+                        DropdownStrength[0].Hide();
+                    OpenDropdown(DropdownType);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    if (uiObject == DropdownStrength[0].gameObject || uiObject.transform.IsChildOf(DropdownStrength[0].transform))
+                        DropdownStrength[0].Hide();
+                    if (InputAP[0].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputAP[0].gameObject);
+                    else if (DropdownAP[0].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownAP[0]);
+                    break;
+            }
+        }
+        else if (uiObject == InputStrength[1].gameObject ||
+                 uiObject == DropdownStrength[1].gameObject ||
+                 uiObject.transform.IsChildOf(DropdownStrength[1].transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    if (uiObject == DropdownStrength[1].gameObject || uiObject.transform.IsChildOf(DropdownStrength[1].transform))
+                        DropdownStrength[1].Hide();
+                    if (InputShots.gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputShots.gameObject);
+                    else if (DropdownShots.gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownShots);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    if (uiObject == DropdownStrength[1].gameObject || uiObject.transform.IsChildOf(DropdownStrength[1].transform))
+                        DropdownStrength[1].Hide();
+                    if (InputAP[1].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputAP[1].gameObject);
+                    else if (DropdownAP[1].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownAP[1]);
+                    break;
+            }
+        }
+        else if (uiObject == InputAP[0].gameObject ||
+                 uiObject == DropdownAP[0].gameObject ||
+                 uiObject.transform.IsChildOf(DropdownAP[0].transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    if (uiObject == DropdownAP[0].gameObject || uiObject.transform.IsChildOf(DropdownAP[0].transform))
+                        DropdownAP[0].Hide();
+                    if (InputStrength[0].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputStrength[0].gameObject);
+                    else if (DropdownStrength[0].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownStrength[0]);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    if (uiObject == DropdownAP[0].gameObject || uiObject.transform.IsChildOf(DropdownAP[0].transform))
+                        DropdownAP[0].Hide();
+                    if (InputDamage[0].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputDamage[0].gameObject);
+                    else if (DropdownDamage[0].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownDamage[0]);
+                    break;
+            }
+        }
+        else if (uiObject == InputAP[1].gameObject ||
+                 uiObject == DropdownAP[1].gameObject ||
+                 uiObject.transform.IsChildOf(DropdownAP[1].transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    if (uiObject == DropdownAP[1].gameObject || uiObject.transform.IsChildOf(DropdownAP[1].transform))
+                        DropdownAP[1].Hide();
+                    if (InputStrength[1].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputStrength[1].gameObject);
+                    else if (DropdownStrength[1].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownStrength[1]);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    if (uiObject == DropdownAP[1].gameObject || uiObject.transform.IsChildOf(DropdownAP[1].transform))
+                        DropdownAP[1].Hide();
+                    if (InputDamage[1].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputDamage[1].gameObject);
+                    else if (DropdownDamage[1].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownDamage[1]);
+                    break;
+            }
+        }
+        else if (uiObject == InputDamage[0].gameObject ||
+                 uiObject == DropdownDamage[0].gameObject ||
+                 uiObject.transform.IsChildOf(DropdownDamage[0].transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    if (uiObject == DropdownDamage[0].gameObject || uiObject.transform.IsChildOf(DropdownDamage[0].transform))
+                        DropdownDamage[0].Hide();
+                    if (InputAP[0].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputAP[0].gameObject);
+                    else if (DropdownAP[0].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownAP[0]);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    if (uiObject == DropdownDamage[0].gameObject || uiObject.transform.IsChildOf(DropdownDamage[0].transform))
+                        DropdownDamage[0].Hide();
+                    EventSystem.current.SetSelectedGameObject(null);
+                    break;
+            }
+        }
+        else if (uiObject == InputDamage[1].gameObject ||
+                 uiObject == DropdownDamage[1].gameObject ||
+                 uiObject.transform.IsChildOf(DropdownDamage[1].transform))
+        {
+            switch (navigate)
+            {
+                case NavigationType.left:
+                case NavigationType.previous:
+                    if (uiObject == DropdownDamage[1].gameObject || uiObject.transform.IsChildOf(DropdownDamage[1].transform))
+                        DropdownDamage[1].Hide();
+                    if (InputAP[1].gameObject.activeInHierarchy)
+                        EventSystem.current.SetSelectedGameObject(InputAP[1].gameObject);
+                    else if (DropdownAP[1].gameObject.activeInHierarchy)
+                        OpenDropdown(DropdownAP[1]);
+                    break;
+                case NavigationType.right:
+                case NavigationType.next:
+                default:
+                    if (uiObject == DropdownDamage[1].gameObject || uiObject.transform.IsChildOf(DropdownDamage[1].transform))
+                        DropdownDamage[1].Hide();
+                    EventSystem.current.SetSelectedGameObject(null);
+                    break;
+            }
+        }
+    }
+
+    void OpenDropdown(Dropdown dropdown)
+    {
+        EventSystem.current.SetSelectedGameObject(dropdown.gameObject);
+        dropdown.Show();
     }
 
     public void UpdateUI ()
