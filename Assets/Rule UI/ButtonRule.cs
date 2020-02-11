@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ButtonRule : MonoBehaviour {
 
-    public Rule Rule { get; set; }
+    public RuleV20200106 Rule { get; set; }
 
     GameManager instance;
     RuleLoader loader;

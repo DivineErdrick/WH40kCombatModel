@@ -64,6 +64,11 @@ public class ProfileValueChecker : MonoBehaviour {
 
             Debug.Log("Profile Value Checker is checking a numeric Profile: " + profileName);
             switch (profileName) {
+                case "MinM0":
+                case "MinM1":
+                case "MinM2":
+                case "MinM3":
+                case "MinM4":
                 case "M0":
                 case "M1":
                 case "M2":
@@ -151,6 +156,33 @@ public class ProfileValueChecker : MonoBehaviour {
             int[] copiedStats;
 
             switch (profileName) {
+
+                case "MinM0":
+                case "MinM1":
+                case "MinM2":
+                case "MinM3":
+                case "MinM4":
+
+                    Debug.Log("Profile Value Checker is checking Move for warnings.");
+                    copiedStats = CopiedStats(profile.MinMove, profile.DamageCharts);
+                    if (CheckValueSeriesWarning(copiedStats, StatType.basic))
+                    {
+
+                        Debug.Log("Calling a warning.");
+
+                        message.MinMWarning = true;
+                        message.SetWarning();
+
+                    }
+                    else
+                    {
+
+                        Debug.Log("Updating warnings.");
+
+                        message.MinMWarning = false;
+                        message.ReturnToCurrentState();
+                    }
+                    break;
 
                 case "M0":
                 case "M1":
@@ -398,6 +430,25 @@ public class ProfileValueChecker : MonoBehaviour {
             return false;
         }
         //nTemp = 100;
+        for (int i = 0; i <= profile.DamageCharts; i++)
+        {
+            Debug.Log("Current Move is " + profile.MinMove[i]);
+            if (profile.MinMove[i] < 0)
+            {
+                profileUI.OutputProfileError("Input MinM" + i, i);
+                Debug.Log("Value of MinM" + i + " is not legal.");
+                message.DisplayMessage("The profile may not have a negative Minimum Move.", true);
+                return false;
+            }
+            if (profile.MinMove[i] > profile.Move[i])
+            {
+                profileUI.OutputProfileError("Input MinM" + i, i);
+                Debug.Log("Value of MinM" + i + " is not legal.");
+                message.DisplayMessage("The profile may not have a negative Minimum Move greater than its Move.", true);
+                return false;
+            }
+        }
+        CheckForWarnings(profile, "MinM0");
         for (int i = 0; i <= profile.DamageCharts; i++) {
             Debug.Log("Current Move is " + profile.Move[i]);
             if (profile.Move[i] < 0) {

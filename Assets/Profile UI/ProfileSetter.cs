@@ -108,6 +108,13 @@ public class ProfileSetter : MonoBehaviour {
                     CurrentProfile.Save[profileIndex] = value;
                     break;
             }
+        } 
+        else if (inputName.Length == 5)
+        {
+            int profileIndex = valueChecker.ReadIntString(inputName[4].ToString());
+            Debug.Log("Profile Index is " + profileIndex);
+
+            CurrentProfile.MinMove[profileIndex] = value;
         }
 
         /* The names of the input objects have been formatted so that

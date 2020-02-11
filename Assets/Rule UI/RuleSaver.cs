@@ -8,7 +8,7 @@ public class RuleSaver : MonoBehaviour
 {
     GameManager instance;
 
-    Rule rule;
+    RuleV20200106 rule;
     RuleLoader loader;
     RuleMessenger messenger;
     RuleSetter setter;
@@ -41,7 +41,7 @@ public class RuleSaver : MonoBehaviour
     public void Save(bool overwrite) {
 
         Debug.Log("Attempting to save Rule.");
-        rule = new Rule();
+        rule = new RuleV20200106();
         bool datacheckPassed = true;
 
         datacheckPassed = Datacheck();
@@ -96,20 +96,20 @@ public class RuleSaver : MonoBehaviour
         }
 
         //Uses
-        rule.UseTimes = new List<Rule.Uses>();
-        if (setter.UseDeployment) { rule.UseTimes.Add(Rule.Uses.Deployment); Debug.Log("Rule can be used in deployment."); }
-        if (setter.UseStartOfGame) { rule.UseTimes.Add(Rule.Uses.StartOfGame); Debug.Log("Rule can be used at the start of the game."); }
-        if (setter.UseYourTurn) { rule.UseTimes.Add(Rule.Uses.YourTurn); Debug.Log("Rule can be used on your turn."); }
-        if (setter.UseOpponentsTurn) { rule.UseTimes.Add(Rule.Uses.OpponentsTurn); Debug.Log("Rule can be used during the opponents turn."); }
-        if (setter.UseStartOfTurn) { rule.UseTimes.Add(Rule.Uses.StartOfTurn); Debug.Log("Rule can be used at the start of the turn."); }
-        if (setter.UseMove) { rule.UseTimes.Add(Rule.Uses.Move); Debug.Log("Rule can be used in the move phase."); }
-        if (setter.UsePsychic) { rule.UseTimes.Add(Rule.Uses.Psychic); Debug.Log("Rule can be used in the psychic phase."); }
-        if (setter.UseShooting) { rule.UseTimes.Add(Rule.Uses.Shooting); Debug.Log("Rule can be used in the shooting phase."); }
-        if (setter.UseCharge) { rule.UseTimes.Add(Rule.Uses.Charge); Debug.Log("Rule can be used in the charge phase."); }
-        if (setter.UseFight) { rule.UseTimes.Add(Rule.Uses.Fight); Debug.Log("Rule can be used in the fight phase."); }
-        if (setter.UseMorale) { rule.UseTimes.Add(Rule.Uses.Morale); Debug.Log("Rule can be used in the morale phase."); }
-        if (setter.UseEndOfTurn) { rule.UseTimes.Add(Rule.Uses.EndOfTurn); Debug.Log("Rule can be used at the end of the turn."); }
-        if (setter.UseEndOfGame) { rule.UseTimes.Add(Rule.Uses.EndOfGame); Debug.Log("Rule can be used at the end of the game."); }
+        rule.UseTimes = new List<RuleV20200106.Uses>();
+        if (setter.UseDeployment) { rule.UseTimes.Add(RuleV20200106.Uses.Deployment); Debug.Log("Rule can be used in deployment."); }
+        if (setter.UseStartOfGame) { rule.UseTimes.Add(RuleV20200106.Uses.StartOfGame); Debug.Log("Rule can be used at the start of the game."); }
+        if (setter.UseYourTurn) { rule.UseTimes.Add(RuleV20200106.Uses.YourTurn); Debug.Log("Rule can be used on your turn."); }
+        if (setter.UseOpponentsTurn) { rule.UseTimes.Add(RuleV20200106.Uses.OpponentsTurn); Debug.Log("Rule can be used during the opponents turn."); }
+        if (setter.UseStartOfTurn) { rule.UseTimes.Add(RuleV20200106.Uses.StartOfTurn); Debug.Log("Rule can be used at the start of the turn."); }
+        if (setter.UseMove) { rule.UseTimes.Add(RuleV20200106.Uses.Move); Debug.Log("Rule can be used in the move phase."); }
+        if (setter.UsePsychic) { rule.UseTimes.Add(RuleV20200106.Uses.Psychic); Debug.Log("Rule can be used in the psychic phase."); }
+        if (setter.UseShooting) { rule.UseTimes.Add(RuleV20200106.Uses.Shooting); Debug.Log("Rule can be used in the shooting phase."); }
+        if (setter.UseCharge) { rule.UseTimes.Add(RuleV20200106.Uses.Charge); Debug.Log("Rule can be used in the charge phase."); }
+        if (setter.UseFight) { rule.UseTimes.Add(RuleV20200106.Uses.Fight); Debug.Log("Rule can be used in the fight phase."); }
+        if (setter.UseMorale) { rule.UseTimes.Add(RuleV20200106.Uses.Morale); Debug.Log("Rule can be used in the morale phase."); }
+        if (setter.UseEndOfTurn) { rule.UseTimes.Add(RuleV20200106.Uses.EndOfTurn); Debug.Log("Rule can be used at the end of the turn."); }
+        if (setter.UseEndOfGame) { rule.UseTimes.Add(RuleV20200106.Uses.EndOfGame); Debug.Log("Rule can be used at the end of the game."); }
 
         //Activation
         if (setter.ActivationType == 0) {
@@ -118,14 +118,14 @@ public class RuleSaver : MonoBehaviour
             StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoActivation));
             return dataPassed;
         }
-        rule.ActivationType = (Rule.ActivationTypes)setter.ActivationType;
+        rule.ActivationType = (RuleV20200106.ActivationTypes)setter.ActivationType;
         Debug.Log("Rule has an activation type of " + rule.ActivationType);
 
         //Triggers
         if (setter.ActivationType == 3) {
             if (setter.UseMove) {
-                rule.MoveTrigger = new Rule.MoveTriggers();
-                rule.MoveTrigger = (Rule.MoveTriggers)setter.MoveTriggers;
+                rule.MoveTrigger = new RuleV20200106.MoveTriggers();
+                rule.MoveTrigger = (RuleV20200106.MoveTriggers)setter.MoveTriggers;
                 Debug.Log("Rule is triggered during the move phase on " + rule.MoveTrigger);
                 if (setter.MoveTriggers == 3) {
                     if (setter.RollTrigger != 0) {
@@ -140,12 +140,12 @@ public class RuleSaver : MonoBehaviour
                 }
             }
             if (setter.UsePsychic) {
-                rule.PsychicTrigger = new Rule.PsychicTriggers();
-                rule.PsychicTrigger = (Rule.PsychicTriggers)setter.PsychicTriggers;
+                rule.PsychicTrigger = new RuleV20200106.PsychicTriggers();
+                rule.PsychicTrigger = (RuleV20200106.PsychicTriggers)setter.PsychicTriggers;
                 Debug.Log("Rule is triggered during the psychic phase on" + rule.PsychicTrigger);
                 if (setter.PsychicTriggers == 1) {
-                    rule.PowerTrigger = new Rule.PowerTriggers();
-                    rule.PowerTrigger = (Rule.PowerTriggers)setter.PowerTriggers;
+                    rule.PowerTrigger = new RuleV20200106.PowerTriggers();
+                    rule.PowerTrigger = (RuleV20200106.PowerTriggers)setter.PowerTriggers;
                     Debug.Log("Rule is triggered when a player uses a power on " + rule.PowerTrigger);
                     if (setter.PowerTriggers == 3) {
                         if (setter.RollTrigger != 0) {
@@ -160,8 +160,8 @@ public class RuleSaver : MonoBehaviour
                     }
                 }
                 if (setter.PsychicTriggers == 2) {
-                    rule.DenyTrigger = new Rule.DenyTriggers();
-                    rule.DenyTrigger = (Rule.DenyTriggers)setter.DenyTriggers;
+                    rule.DenyTrigger = new RuleV20200106.DenyTriggers();
+                    rule.DenyTrigger = (RuleV20200106.DenyTriggers)setter.DenyTriggers;
                     Debug.Log("Rule is triggered when a player tries to deny a power on " + rule.DenyTrigger);
                     if (setter.DenyTriggers == 1) {
                         if (setter.RollTrigger != 0) {
@@ -177,12 +177,12 @@ public class RuleSaver : MonoBehaviour
                 }
             }
             if (setter.UseShooting) {
-                rule.ShootingTrigger = new Rule.ShootingTriggers();
-                rule.ShootingTrigger = (Rule.ShootingTriggers)setter.ShootingTriggers;
+                rule.ShootingTrigger = new RuleV20200106.ShootingTriggers();
+                rule.ShootingTrigger = (RuleV20200106.ShootingTriggers)setter.ShootingTriggers;
                 Debug.Log("Rule is triggered during the shooting phase on " + rule.ShootingTrigger);
                 if (setter.ShootingTriggers == 1) {
-                    rule.AttackTrigger = new Rule.AttackTriggers();
-                    rule.AttackTrigger = (Rule.AttackTriggers)setter.AttackTriggers;
+                    rule.AttackTrigger = new RuleV20200106.AttackTriggers();
+                    rule.AttackTrigger = (RuleV20200106.AttackTriggers)setter.AttackTriggers;
                     Debug.Log("Rule is triggered when a player shoots on " + rule.AttackTrigger);
                     if (setter.AttackTriggers == 2) {
                         if (setter.RollTrigger != 0) {
@@ -197,8 +197,8 @@ public class RuleSaver : MonoBehaviour
                     }
                 }
                 if (setter.ShootingTriggers == 2) {
-                    rule.WoundTrigger = new Rule.WoundTriggers();
-                    rule.WoundTrigger = (Rule.WoundTriggers)setter.WoundTriggers;
+                    rule.WoundTrigger = new RuleV20200106.WoundTriggers();
+                    rule.WoundTrigger = (RuleV20200106.WoundTriggers)setter.WoundTriggers;
                     Debug.Log("Rule is triggered when a player hits on " + rule.WoundTrigger);
                     if (setter.WoundTriggers == 1) {
                         if (setter.RollTrigger != 0) {
@@ -214,12 +214,12 @@ public class RuleSaver : MonoBehaviour
                 }
             }
             if (setter.UseCharge) {
-                rule.ChargeTrigger = new Rule.ChargeTriggers();
-                rule.ChargeTrigger = (Rule.ChargeTriggers)setter.ChargeTriggers;
+                rule.ChargeTrigger = new RuleV20200106.ChargeTriggers();
+                rule.ChargeTrigger = (RuleV20200106.ChargeTriggers)setter.ChargeTriggers;
                 Debug.Log("Rule is triggered during the charge phase on " + rule.ChargeTrigger);
                 if (setter.ChargeTriggers == 1) {
-                    rule.SpecificChargeTrigger = new Rule.SpecificChargeTriggers();
-                    rule.SpecificChargeTrigger = (Rule.SpecificChargeTriggers)setter.SpecificChargeTriggers;
+                    rule.SpecificChargeTrigger = new RuleV20200106.SpecificChargeTriggers();
+                    rule.SpecificChargeTrigger = (RuleV20200106.SpecificChargeTriggers)setter.SpecificChargeTriggers;
                     Debug.Log("Rule is triggered when a charges on " + rule.SpecificChargeTrigger);
                     if (setter.SpecificChargeTriggers == 3) {
                         if (setter.RollTrigger != 0) {
@@ -234,8 +234,8 @@ public class RuleSaver : MonoBehaviour
                     }
                 }
                 if (setter.ChargeTriggers == 2) {
-                    rule.AttackTrigger = new Rule.AttackTriggers();
-                    rule.AttackTrigger = (Rule.AttackTriggers)setter.AttackTriggers;
+                    rule.AttackTrigger = new RuleV20200106.AttackTriggers();
+                    rule.AttackTrigger = (RuleV20200106.AttackTriggers)setter.AttackTriggers;
                     Debug.Log("Rule is triggered when a player can overwatch on " + rule.AttackTrigger);
                     if (setter.AttackTriggers == 2) {
                         if (setter.RollTrigger != 0) {
@@ -250,8 +250,8 @@ public class RuleSaver : MonoBehaviour
                     }
                 }
                 if (setter.ChargeTriggers == 3) {
-                    rule.WoundTrigger = new Rule.WoundTriggers();
-                    rule.WoundTrigger = (Rule.WoundTriggers)setter.WoundTriggers;
+                    rule.WoundTrigger = new RuleV20200106.WoundTriggers();
+                    rule.WoundTrigger = (RuleV20200106.WoundTriggers)setter.WoundTriggers;
                     Debug.Log("Rule is triggered when a player hits on " + rule.WoundTrigger);
                     if (setter.WoundTriggers == 1) {
                         if (setter.RollTrigger != 0) {
@@ -267,17 +267,17 @@ public class RuleSaver : MonoBehaviour
                 }
             }
             if (setter.UseFight) {
-                rule.FightTrigger = new Rule.FightTriggers();
-                rule.FightTrigger = (Rule.FightTriggers)setter.FightTriggers;
+                rule.FightTrigger = new RuleV20200106.FightTriggers();
+                rule.FightTrigger = (RuleV20200106.FightTriggers)setter.FightTriggers;
                 Debug.Log("Rule is triggered during the fight phase " + rule.FightTrigger);
                 if (setter.FightTriggers == 1 || setter.FightTriggers == 2 || setter.FightTriggers == 3) {
-                    rule.SpecificFightsTrigger = new Rule.SpecificFightsTriggers();
-                    rule.SpecificFightsTrigger = (Rule.SpecificFightsTriggers)setter.SpecificFightsTriggers;
+                    rule.SpecificFightsTrigger = new RuleV20200106.SpecificFightsTriggers();
+                    rule.SpecificFightsTrigger = (RuleV20200106.SpecificFightsTriggers)setter.SpecificFightsTriggers;
                     Debug.Log("Rule is triggered during fights on " + rule.SpecificFightsTrigger);
                 }
                 if (setter.FightTriggers == 4) {
-                    rule.AttackTrigger = new Rule.AttackTriggers();
-                    rule.AttackTrigger = (Rule.AttackTriggers)setter.AttackTriggers;
+                    rule.AttackTrigger = new RuleV20200106.AttackTriggers();
+                    rule.AttackTrigger = (RuleV20200106.AttackTriggers)setter.AttackTriggers;
                     Debug.Log("Rule is triggered when a player attacks on " + rule.AttackTrigger);
                     if (setter.AttackTriggers == 2) {
                         if (setter.RollTrigger != 0) {
@@ -292,8 +292,8 @@ public class RuleSaver : MonoBehaviour
                     }
                 }
                 if (setter.FightTriggers == 5) {
-                    rule.WoundTrigger = new Rule.WoundTriggers();
-                    rule.WoundTrigger = (Rule.WoundTriggers)setter.WoundTriggers;
+                    rule.WoundTrigger = new RuleV20200106.WoundTriggers();
+                    rule.WoundTrigger = (RuleV20200106.WoundTriggers)setter.WoundTriggers;
                     Debug.Log("Rule is triggered when a player hits on " + rule.WoundTrigger);
                     if (setter.WoundTriggers == 1) {
                         if (setter.RollTrigger != 0) {
@@ -309,8 +309,8 @@ public class RuleSaver : MonoBehaviour
                 }
             }
             if (setter.UseMorale) {
-                rule.MoraleTrigger = new Rule.MoraleTriggers();
-                rule.MoraleTrigger = (Rule.MoraleTriggers)setter.MoraleTriggers;
+                rule.MoraleTrigger = new RuleV20200106.MoraleTriggers();
+                rule.MoraleTrigger = (RuleV20200106.MoraleTriggers)setter.MoraleTriggers;
                 Debug.Log("Rule is triggered during the morale " + rule.MoraleTrigger);
                 if (setter.MoraleTriggers == 3) {
                     if (setter.RollTrigger != 0) {
@@ -332,7 +332,7 @@ public class RuleSaver : MonoBehaviour
             StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoTarget));
             return dataPassed;
         } else {
-            rule.Target = (Rule.Targets)setter.RuleTarget;
+            rule.Target = (RuleV20200106.Targets)setter.RuleTarget;
             Debug.Log("The rule targets " + rule.Target);
             if (setter.RuleTarget == 11 && setter.InputKeyword.Length == 0) {
                 Debug.Log("Enter the keyword your rule targets.");
@@ -342,7 +342,7 @@ public class RuleSaver : MonoBehaviour
             } else {
                 rule.Keyword = setter.InputKeyword;
                 Debug.Log("The rule targets the keyword " + rule.Keyword);
-                rule.KeywordTarget = (Rule.KeywordTargets)setter.KeywordTarget;
+                rule.KeywordTarget = (RuleV20200106.KeywordTargets)setter.KeywordTarget;
             }
         }
 
@@ -352,7 +352,7 @@ public class RuleSaver : MonoBehaviour
             StartCoroutine(messenger.ErrorMessage(RuleMessenger.Message.NoRuleType));
             return dataPassed;
         } else {
-            rule.RuleType = (Rule.RuleTypes)setter.RuleType;
+            rule.RuleType = (RuleV20200106.RuleTypes)setter.RuleType;
             Debug.Log("The rule is a " + rule.RuleType);
             if ((setter.RuleTarget != 9 && setter.RuleTarget != 10) || setter.RuleType == 1) {
                 rule.Range = setter.Range;
@@ -364,8 +364,8 @@ public class RuleSaver : MonoBehaviour
                         rule.Damage = setter.Damage;
                         Debug.Log("Rule Damage is " + rule.Damage);
                     } else {
-                        rule.DamageDice = new Rule.Dice();
-                        rule.DamageDice = (Rule.Dice)(setter.Damage - 7);
+                        rule.DamageDice = new RuleV20200106.Dice();
+                        rule.DamageDice = (RuleV20200106.Dice)(setter.Damage - 7);
                         Debug.Log("Rule Damage is " + rule.DamageDice);
                     }
                 } else {
@@ -404,19 +404,19 @@ public class RuleSaver : MonoBehaviour
                 }
             }
             if (setter.RuleType == 4) {
-                rule.StatProfile = new Rule.StatProfiles();
-                rule.StatProfile = (Rule.StatProfiles)setter.StatProfile;
+                rule.StatProfile = new RuleV20200106.StatProfiles();
+                rule.StatProfile = (RuleV20200106.StatProfiles)setter.StatProfile;
                 Debug.Log("Rule changes the following profile " + rule.StatProfile);
-                rule.Modify = new Rule.Modifiers();
-                rule.Modify = (Rule.Modifiers)setter.Modifier;
+                rule.Modify = new RuleV20200106.Modifiers();
+                rule.Modify = (RuleV20200106.Modifiers)setter.Modifier;
                 Debug.Log("Profile changed by " + rule.Modify);
                 if (setter.Change != 0) {
                     if (setter.Change < 7) {
                         rule.ProfileChange = setter.Change;
                         Debug.Log("And modified by " + rule.ProfileChange);
                     } else {
-                        rule.ChangeDice = new Rule.Dice();
-                        rule.ChangeDice = (Rule.Dice)(setter.Change - 7);
+                        rule.ChangeDice = new RuleV20200106.Dice();
+                        rule.ChangeDice = (RuleV20200106.Dice)(setter.Change - 7);
                         Debug.Log("And modified by " + rule.ChangeDice);
                     }
                 } else {
@@ -427,11 +427,11 @@ public class RuleSaver : MonoBehaviour
                 }
             }
             if (setter.RuleType == 5) {
-                rule.RollModified = new Rule.Rolls();
-                rule.RollModified = (Rule.Rolls)setter.RollModified;
+                rule.RollModified = new RuleV20200106.Rolls();
+                rule.RollModified = (RuleV20200106.Rolls)setter.RollModified;
                 Debug.Log("Rule modifies " + rule.RollModified + " rolls.");
-                rule.RollModifiedBy = new Rule.RollModifiers();
-                rule.RollModifiedBy = (Rule.RollModifiers)setter.ModifiedBy;
+                rule.RollModifiedBy = new RuleV20200106.RollModifiers();
+                rule.RollModifiedBy = (RuleV20200106.RollModifiers)setter.ModifiedBy;
                 Debug.Log("Roll is modified by " + rule.RollModifiedBy);
                 if (setter.ModifiedBy > 0 && setter.RollModifier == 0) {
                     Debug.Log("Select the amount the roll is modified by.");
@@ -446,7 +446,7 @@ public class RuleSaver : MonoBehaviour
                 }
                 else
                 {
-                    rule.RerollType = (Rule.RerollTypes)setter.RerollType;
+                    rule.RerollType = (RuleV20200106.RerollTypes)setter.RerollType;
                     Debug.Log("Reroll type is " + rule.RerollType);
                     rule.RerollTypeOrLower = setter.RerollTypeOrLower;
                     Debug.Log("Reroll on lower is " + rule.RerollTypeOrLower);
@@ -456,8 +456,8 @@ public class RuleSaver : MonoBehaviour
                 
             }
             if (setter.RuleType == 6) {
-                rule.IgnoreProfile = new Rule.IgnoreProfiles();
-                rule.IgnoreProfile = (Rule.IgnoreProfiles)setter.PenaltyIgnored;
+                rule.IgnoreProfile = new RuleV20200106.IgnoreProfiles();
+                rule.IgnoreProfile = (RuleV20200106.IgnoreProfiles)setter.PenaltyIgnored;
                 Debug.Log("Penalties are ignored for " + rule.IgnoreProfile);
             }
             if (setter.RuleType == 9) {

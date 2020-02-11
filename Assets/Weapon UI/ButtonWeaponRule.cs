@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 public class ButtonWeaponRule : MonoBehaviour
 {
-    public Rule Rule { get; set; }
+    public RuleV20200106 Rule { get; set; }
     public bool RuleAdded { get; set; }
 
     WeaponRuleManager manager;

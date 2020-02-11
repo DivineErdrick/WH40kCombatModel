@@ -753,8 +753,8 @@ public class WeaponUI : MonoBehaviour
         setter.WeaponRules = new List<string>();
         foreach(string weaponRule in weapon.Rules)
         {
-            Rule ruleToLoad = new Rule { Name = "Missing Rule" };
-            foreach (Rule rule in instance.Rules)
+            RuleV20200106 ruleToLoad = new RuleV20200106 { Name = "Missing Rule" };
+            foreach (RuleV20200106 rule in instance.Rules)
             {
                 if (rule.Name == weaponRule)
                 {

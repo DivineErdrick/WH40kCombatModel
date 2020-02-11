@@ -79,7 +79,7 @@ public class RuleLoader : MonoBehaviour
         rulesLoaded = true;
     }
 
-    public void ResetLoad(Rule rule) {
+    public void ResetLoad(RuleV20200106 rule) {
 
         setter.InputName = rule.Name;
         ui.inputName.text = setter.InputName;
@@ -89,67 +89,67 @@ public class RuleLoader : MonoBehaviour
         ui.SwitchUseToggles(false);
 
         for (int i = 0; i < rule.UseTimes.Count; i++) {
-            if (rule.UseTimes[i] == Rule.Uses.Deployment) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.Deployment) {
                 setter.UseDeployment = true;
                 Debug.Log("Rule can be used during deployment.");
                 ui.useToggles[0].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.StartOfGame) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.StartOfGame) {
                 setter.UseStartOfGame = true;
                 Debug.Log("Rule can be used at the start of the game.");
                 ui.useToggles[1].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.YourTurn) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.YourTurn) {
                 setter.UseYourTurn = true;
                 Debug.Log("Rule can be used during your turn.");
                 ui.useToggles[2].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.OpponentsTurn) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.OpponentsTurn) {
                 setter.UseOpponentsTurn = true;
                 Debug.Log("Rule can be used during your opponents turn.");
                 ui.useToggles[3].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.StartOfTurn) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.StartOfTurn) {
                 setter.UseStartOfTurn = true;
                 Debug.Log("Rule can be used at the start of the turn.");
                 ui.useToggles[4].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.Move) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.Move) {
                 setter.UseMove = true;
                 Debug.Log("Rule can be used during the movement phase.");
                 ui.useToggles[5].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.Psychic) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.Psychic) {
                 setter.UsePsychic = true;
                 Debug.Log("Rule can be used during the psychic phase.");
                 ui.useToggles[6].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.Shooting) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.Shooting) {
                 setter.UseShooting = true;
                 Debug.Log("Rule can be used during the shooting phase.");
                 ui.useToggles[7].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.Charge) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.Charge) {
                 setter.UseCharge = true;
                 Debug.Log("Rule can be used during the charge phase.");
                 ui.useToggles[8].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.Fight) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.Fight) {
                 setter.UseFight = true;
                 Debug.Log("Rule can be used during the fight phase.");
                 ui.useToggles[9].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.Morale) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.Morale) {
                 setter.UseMorale = true;
                 Debug.Log("Rule can be used during the morale phase.");
                 ui.useToggles[10].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.EndOfTurn) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.EndOfTurn) {
                 setter.UseEndOfTurn = true;
                 Debug.Log("Rule can be used at the end of the turn.");
                 ui.useToggles[11].isOn = true;
             }
-            if (rule.UseTimes[i] == Rule.Uses.EndOfGame) {
+            if (rule.UseTimes[i] == RuleV20200106.Uses.EndOfGame) {
                 setter.UseEndOfGame = true;
                 Debug.Log("Rule can be used at the end of the game.");
                 ui.useToggles[12].isOn = true;
@@ -159,76 +159,76 @@ public class RuleLoader : MonoBehaviour
         ui.ToggleActivationPanel();
         setter.ActivationType = (int)rule.ActivationType;
         ui.panelActivation.GetComponentInChildren<Dropdown>().value = setter.ActivationType;
-        Debug.Log("Rule has an activation type of " + (Rule.ActivationTypes)setter.ActivationType);
+        Debug.Log("Rule has an activation type of " + (RuleV20200106.ActivationTypes)setter.ActivationType);
 
         if (setter.ActivationType == 3) {
             if (rule.MoveTrigger != 0) {
                 setter.MoveTriggers = (int)rule.MoveTrigger;
                 ui.dropdownMove.value = setter.MoveTriggers;
-                Debug.Log("Rule has a movement trigger of ." + (Rule.MoveTriggers)setter.MoveTriggers);
+                Debug.Log("Rule has a movement trigger of ." + (RuleV20200106.MoveTriggers)setter.MoveTriggers);
             }
             if (rule.PsychicTrigger != 0) {
                 setter.PsychicTriggers = (int)rule.PsychicTrigger;
                 ui.dropdownPsychic.value = setter.PsychicTriggers;
-                Debug.Log("Rule has a psychic trigger of ." + (Rule.PsychicTriggers)setter.PsychicTriggers);
+                Debug.Log("Rule has a psychic trigger of ." + (RuleV20200106.PsychicTriggers)setter.PsychicTriggers);
             }
             if (rule.ShootingTrigger != 0) {
                 setter.ShootingTriggers = (int)rule.ShootingTrigger;
                 ui.dropdownShooting.value = setter.ShootingTriggers;
-                Debug.Log("Rule has a shooting trigger of ." + (Rule.ShootingTriggers)setter.ShootingTriggers);
+                Debug.Log("Rule has a shooting trigger of ." + (RuleV20200106.ShootingTriggers)setter.ShootingTriggers);
             }
             if (rule.ChargeTrigger != 0) {
                 setter.ChargeTriggers = (int)rule.ChargeTrigger;
                 ui.dropdownCharge.value = setter.ChargeTriggers;
-                Debug.Log("Rule has a charge trigger of ." + (Rule.ChargeTriggers)setter.ChargeTriggers);
+                Debug.Log("Rule has a charge trigger of ." + (RuleV20200106.ChargeTriggers)setter.ChargeTriggers);
             }
             if (rule.FightTrigger != 0) {
                 setter.FightTriggers = (int)rule.FightTrigger;
                 ui.dropdownFightsTriggers.value = setter.FightTriggers;
-                Debug.Log("Rule has a fight trigger of ." + (Rule.FightTriggers)setter.FightTriggers);
+                Debug.Log("Rule has a fight trigger of ." + (RuleV20200106.FightTriggers)setter.FightTriggers);
             }
             if (rule.MoraleTrigger != 0) {
                 setter.MoraleTriggers = (int)rule.MoraleTrigger;
                 ui.dropdownMorale.value = setter.MoraleTriggers;
-                Debug.Log("Rule has a morale trigger of ." + (Rule.MoraleTriggers)setter.MoraleTriggers);
+                Debug.Log("Rule has a morale trigger of ." + (RuleV20200106.MoraleTriggers)setter.MoraleTriggers);
             }
             ui.ToggleSpecificTriggers();
             if (rule.AttackTrigger != 0) {
                 setter.AttackTriggers = (int)rule.AttackTrigger;
                 ui.dropdownAttackTriggers.value = setter.AttackTriggers;
-                Debug.Log("Rule has a movement attack of ." + (Rule.AttackTriggers)setter.AttackTriggers);
+                Debug.Log("Rule has a movement attack of ." + (RuleV20200106.AttackTriggers)setter.AttackTriggers);
             }
             if (rule.WoundTrigger != 0) {
                 setter.WoundTriggers = (int)rule.WoundTrigger;
                 ui.dropdownWoundTriggers.value = setter.WoundTriggers;
-                Debug.Log("Rule has a wound trigger of ." + (Rule.WoundTriggers)setter.WoundTriggers);
+                Debug.Log("Rule has a wound trigger of ." + (RuleV20200106.WoundTriggers)setter.WoundTriggers);
             }
             if (rule.PowerTrigger != 0) {
                 setter.PowerTriggers = (int)rule.PowerTrigger;
                 ui.dropdownPowerTriggers.value = setter.PowerTriggers;
-                Debug.Log("Rule has a power trigger of ." + (Rule.PowerTriggers)setter.PowerTriggers);
+                Debug.Log("Rule has a power trigger of ." + (RuleV20200106.PowerTriggers)setter.PowerTriggers);
             }
             if (rule.DenyTrigger != 0) {
                 setter.DenyTriggers = (int)rule.DenyTrigger;
                 ui.dropdownDenyTriggers.value = setter.DenyTriggers;
-                Debug.Log("Rule has a Deny the Witch trigger of ." + (Rule.DenyTriggers)setter.DenyTriggers);
+                Debug.Log("Rule has a Deny the Witch trigger of ." + (RuleV20200106.DenyTriggers)setter.DenyTriggers);
             }
             if (rule.ChargeTrigger != 0) {
                 setter.SpecificChargeTriggers = (int)rule.SpecificChargeTrigger;
                 ui.dropdownChargeTriggers.value = setter.SpecificChargeTriggers;
-                Debug.Log("Rule has a specific charge trigger of ." + (Rule.SpecificChargeTriggers)setter.SpecificChargeTriggers);
+                Debug.Log("Rule has a specific charge trigger of ." + (RuleV20200106.SpecificChargeTriggers)setter.SpecificChargeTriggers);
             }
             if (rule.SpecificFightsTrigger != 0) {
                 setter.SpecificFightsTriggers = (int)rule.SpecificFightsTrigger;
                 ui.dropdownFightsTriggers.value = setter.SpecificFightsTriggers;
-                Debug.Log("Rule has a specific fight trigger of ." + (Rule.SpecificFightsTriggers)setter.SpecificFightsTriggers);
+                Debug.Log("Rule has a specific fight trigger of ." + (RuleV20200106.SpecificFightsTriggers)setter.SpecificFightsTriggers);
             }
         }
 
         ui.ToggleRuleTarget();
         setter.RuleTarget = (int)rule.Target;
         ui.dropdownTarget.value = setter.RuleTarget;
-        Debug.Log("Rule has a target of " + (Rule.Targets)setter.RuleTarget);
+        Debug.Log("Rule has a target of " + (RuleV20200106.Targets)setter.RuleTarget);
         if (setter.RuleTarget != 9 &&
             setter.RuleTarget != 10) {
 
@@ -242,14 +242,14 @@ public class RuleLoader : MonoBehaviour
                 ui.inputKeyword.text = setter.InputKeyword;
                 setter.KeywordTarget = (int)rule.KeywordTarget;
                 ui.dropdownKeywordTarget.value = setter.KeywordTarget;
-                Debug.Log("Rule has the '" + setter.InputKeyword + "' keyword and targets " + (Rule.KeywordTargets)setter.KeywordTarget);
+                Debug.Log("Rule has the '" + setter.InputKeyword + "' keyword and targets " + (RuleV20200106.KeywordTargets)setter.KeywordTarget);
             }
         }
 
         ui.ToggleRuleType();
         setter.RuleType = (int)rule.RuleType;
         ui.panelRuleType.GetComponentInChildren<Dropdown>().value = setter.RuleType;
-        Debug.Log("Rule type is " + (Rule.RuleTypes)setter.RuleType);
+        Debug.Log("Rule type is " + (RuleV20200106.RuleTypes)setter.RuleType);
         ui.ToggleProperties();
         ui.ToggleRuleProperties(-1);
         switch (setter.RuleType) {
@@ -277,7 +277,7 @@ public class RuleLoader : MonoBehaviour
                     if (rule.Damage == 0)
                     {
                         setter.Damage = (int)rule.DamageDice + 7;
-                        Debug.Log("Rule deals " + (Rule.Dice)(setter.Damage - 7) + " damage.");
+                        Debug.Log("Rule deals " + (RuleV20200106.Dice)(setter.Damage - 7) + " damage.");
                     } else Debug.Log("Rule deals " + setter.Damage + " damage.");
                     ui.dropdownDamage.value = setter.Damage;
                     setter.Roll = rule.Roll;
@@ -297,10 +297,10 @@ public class RuleLoader : MonoBehaviour
                 Debug.Log("Rule effects " + setter.StatProfile);
                 setter.Modifier = (int)rule.Modify;
                 ui.dropdownProfileModifier.value = setter.Modifier;
-                Debug.Log("Profile modifier " + (Rule.Modifiers)setter.Modifier);
+                Debug.Log("Profile modifier " + (RuleV20200106.Modifiers)setter.Modifier);
                 if (rule.ProfileChange == 0) {
                     setter.Change = (int)rule.ChangeDice + 7;
-                    Debug.Log("Modify by " + (Rule.Dice)(setter.Change-7));
+                    Debug.Log("Modify by " + (RuleV20200106.Dice)(setter.Change-7));
                 } else {
                     setter.Change = rule.ProfileChange;
                     Debug.Log("Modify by " + setter.Change);
@@ -328,29 +328,29 @@ public class RuleLoader : MonoBehaviour
                 {
                     if (setter.RerollTypeOrLower)
                     {
-                        Debug.Log("Rule allows rerolls for " + (Rule.Rolls)setter.RollModified +
+                        Debug.Log("Rule allows rerolls for " + (RuleV20200106.Rolls)setter.RollModified +
                                   " on rolls of " + setter.RerollType + " or lower.");
                     } else if (setter.RerollTypeOrHigher)
                     {
-                        Debug.Log("Rule allows rerolls for " + (Rule.Rolls)setter.RollModified +
+                        Debug.Log("Rule allows rerolls for " + (RuleV20200106.Rolls)setter.RollModified +
                                   " on rolls of " + setter.RerollType + " or higher.");
                     } else
                     {
-                        Debug.Log("Rule allows rerolls for " + (Rule.Rolls)setter.RollModified +
+                        Debug.Log("Rule allows rerolls for " + (RuleV20200106.Rolls)setter.RollModified +
                                   " on rolls of " + setter.RerollType);
                     }
                 }
                 else
                 {
-                    Debug.Log("Rule modifies " + (Rule.Rolls)setter.RollModified +
+                    Debug.Log("Rule modifies " + (RuleV20200106.Rolls)setter.RollModified +
                               " rolls with a " + setter.RollModifier +
-                              " " + (Rule.RollModifiers)setter.ModifiedBy);
+                              " " + (RuleV20200106.RollModifiers)setter.ModifiedBy);
                 }
                 break;
             case 6:
                 setter.PenaltyIgnored = (int)rule.IgnoreProfile;
                 ui.panelIgnore.GetComponentInChildren<Dropdown>().value = setter.PenaltyIgnored;
-                Debug.Log("Rule ignores penalty for " + (Rule.IgnoreProfiles)setter.PenaltyIgnored);
+                Debug.Log("Rule ignores penalty for " + (RuleV20200106.IgnoreProfiles)setter.PenaltyIgnored);
                 break;
             case 9:
                 setter.OnlyAdditionalAttack = rule.AdditionalAttackOnly;
@@ -364,7 +364,7 @@ public class RuleLoader : MonoBehaviour
                 if (rule.Damage == 0)
                 {
                     setter.Damage = (int)rule.DamageDice + 7;
-                    Debug.Log("The rule deals " + (Rule.Dice)(setter.Damage - 7) + " damage.");
+                    Debug.Log("The rule deals " + (RuleV20200106.Dice)(setter.Damage - 7) + " damage.");
                 } else Debug.Log("The rule deals " + setter.Damage + " damage.");
                 ui.dropdownDamage.value = setter.Damage;
                 setter.Roll = rule.Roll;

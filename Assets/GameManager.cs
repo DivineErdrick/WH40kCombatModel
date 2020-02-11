@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
     public List<Profile> Profiles { get; set; }
-    public List<Rule> Rules { get; set; }
+    public List<RuleV20200106> Rules { get; set; }
     public List<Weapon> Weapons { get; set; }
     public List<Power> Powers { get; set; }
     public List<Model> Models { get; set; }
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
     ProfileUI profileUI;
 
     public Profile ActiveProfile { get; set; }
-    public Rule ActiveRule { get; set; }
+    public RuleV20200106 ActiveRule { get; set; }
     public Weapon ActiveWeapon { get; set; }
     public Power ActivePower { get; set; }
     public Model ActiveModel { get; set; }
@@ -270,7 +270,7 @@ public class GameManager : MonoBehaviour {
         }
 
         Profiles = new List<Profile>();
-        Rules = new List<Rule>();
+        Rules = new List<RuleV20200106>();
         Weapons = new List<Weapon>();
         Powers = new List<Power>();
         Models = new List<Model>();
@@ -362,15 +362,15 @@ public class GameManager : MonoBehaviour {
         Debug.Log("Attempting to save rules to file.");
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/WH40KRules.dat");
+        FileStream file = File.Create(Application.persistentDataPath + "/WH40KRulesV20200106.dat");
 
         if (file != null)
         {
-            Debug.Log("WH40KRules.dat created.");
+            Debug.Log("WH40KRulesV20200106.dat created.");
         }
 
         TesterData data = new TesterData();
-        data.Rules = Rules;
+        data.RulesV20200106 = Rules;
         //data.FileData.Add("This");
         //data.FileData.Add(" is ");
         //data.FileData.Add("data.");
@@ -430,24 +430,33 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log("Attempting to load data.");
 
-        if (File.Exists(Application.persistentDataPath + "/WH40KRules.dat"))
+        if (File.Exists(Application.persistentDataPath + "/WH40KRulesV20200106.dat"))
         {
 
+            Debug.Log("WH40KRulesV20200106.dat exists.");
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/WH40KRulesV20200106.dat", FileMode.Open);
+            TesterData data = (TesterData)bf.Deserialize(file);
+
+            Rules = data.RulesV20200106;
+
+            if (Rules[0] != null) Debug.Log("Rules have been loaded.");
+
+            file.Close();
+        }
+
+        if (File.Exists(Application.persistentDataPath + "/WH40KRules.dat"))
+        {
             Debug.Log("WH40KRules.dat exists.");
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/WH40KRules.dat", FileMode.Open);
             TesterData data = (TesterData)bf.Deserialize(file);
 
-            switch (data.Rules[0].Version)
+            foreach (Rule rule in data.Rules)
             {
-                default:
-                    Rules = data.Rules;
-                    break;
-            }            
-
-            if (Rules[0] != null) Debug.Log("Rules have been loaded.");
-
-            file.Close();
+                //Check if the rule's name exists in Rules
+                //If it doesn't convert and add the rule
+            }
         }
     }
 
@@ -463,12 +472,7 @@ public class GameManager : MonoBehaviour {
             FileStream file = File.Open(Application.persistentDataPath + "/WH40KWeapons.dat", FileMode.Open);
             TesterData data = (TesterData)bf.Deserialize(file);
 
-            switch (data.Weapons[0].Version)
-            {
-                default:
-                    Weapons = data.Weapons;
-                    break;
-            }
+            Weapons = data.Weapons;
 
             if (Weapons[0] != null) Debug.Log("Rules have been loaded.");
 
@@ -488,6 +492,7 @@ class TesterData {
     //desired save data
     public List<Profile> Profiles { get; set; }
     public List<Rule> Rules { get; set; }
+    public List<RuleV20200106> RulesV20200106 { get; set; }
     public List<Weapon> Weapons { get; set; }
     public List<Power> Powers { get; set; }
     public List<Model> Models { get; set; }
@@ -496,6 +501,7 @@ class TesterData {
     public TesterData (){
         Profiles = new List<Profile>();
         Rules = new List<Rule>();
+        RulesV20200106 = new List<RuleV20200106>();
         Weapons = new List<Weapon>();
         Powers = new List<Power>();
         Models = new List<Model>();

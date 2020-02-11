@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RuleSetter : MonoBehaviour
 {
-    public Rule CurrentRule { get; set; }
+    public RuleV20200106 CurrentRule { get; set; }
 
     public string InputName { get; set; }
 
@@ -88,7 +88,7 @@ public class RuleSetter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CurrentRule = new Rule();
+        CurrentRule = new RuleV20200106();
         InputName = "";
     }
 

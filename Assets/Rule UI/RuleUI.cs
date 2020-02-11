@@ -187,7 +187,7 @@ public class RuleUI : MonoBehaviour {
     RuleSetter setter;
     RuleLoader loader;
 
-    Rule rule;
+    RuleV20200106 rule;
     //bool triggersSet = false;
     Color defaultColor;
     Color panelColor1;

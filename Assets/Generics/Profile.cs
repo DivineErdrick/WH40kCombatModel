@@ -11,6 +11,7 @@ public class Profile {
 
     public string Name { get; set; }
     public int DamageCharts { get; set; }
+    public int[] MinMove { get; set; }
     public int[] Move { get; set; }
     public int[] WeaponSkill { get; set; }
     public int[] BallisticSkill { get; set; }
@@ -25,6 +26,7 @@ public class Profile {
         Version = 0;
 
         Name = "";
+        MinMove = new int[5];
         Move = new int[5];
         WeaponSkill = new int[5];
         BallisticSkill = new int[5];

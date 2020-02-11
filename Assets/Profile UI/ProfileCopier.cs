@@ -29,6 +29,7 @@ public class ProfileCopier : MonoBehaviour
 
         for (int i = 0; i <= profileCopy.DamageCharts; i++) {
 
+            profileCopy.MinMove[i] = currentProfile.MinMove[i];
             profileCopy.Move[i] = currentProfile.Move[i];
             profileCopy.WeaponSkill[i] = currentProfile.WeaponSkill[i];
             profileCopy.BallisticSkill[i] = currentProfile.BallisticSkill[i];

@@ -10,6 +10,7 @@ public class ProfileMessager : MonoBehaviour
     public Color defaultColor;
     public State CurrentState { get; set; }
 
+    public bool MinMWarning { get; set; }
     public bool MWarning { get; set; }
     public bool WSWarning { get; set; }
     public bool BSWarning { get; set; }
@@ -68,9 +69,10 @@ public class ProfileMessager : MonoBehaviour
                 break;
 
             case State.warning:
-                if (MWarning || WSWarning || BSWarning || SWarning || AWarning || LdWarning || SvWarning) {
+                if (MinMWarning || MWarning || WSWarning || BSWarning || SWarning || AWarning || LdWarning || SvWarning) {
 
                     string warningMessage = "Warning. The Profile has unusual stats:";
+                    if (MinMWarning) warningMessage += " Min Move ";
                     if (MWarning) warningMessage += " Move ";
                     if (WSWarning) warningMessage += " Weapon Skill ";
                     if (BSWarning) warningMessage += " Ballistic Skill ";

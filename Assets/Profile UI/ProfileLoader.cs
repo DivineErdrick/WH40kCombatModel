@@ -27,7 +27,8 @@ public class ProfileLoader : MonoBehaviour
         Debug.Log("Loading profile named " + profile.Name + ".");
 
         for (int i = 0; i <= setter.CurrentProfile.DamageCharts; i++) {
-            Debug.Log("M" + i + ": " + setter.CurrentProfile.Move[i] +
+            Debug.Log("MinM" + i + ": " + setter.CurrentProfile.MinMove[i] +
+                     " M" + i + ": " + setter.CurrentProfile.Move[i] +
                      " WS" + i + ": " + setter.CurrentProfile.WeaponSkill[i] +
                      " BS" + i + ": " + setter.CurrentProfile.BallisticSkill[i] +
                      " S" + i + ": " + setter.CurrentProfile.Strength[i] +

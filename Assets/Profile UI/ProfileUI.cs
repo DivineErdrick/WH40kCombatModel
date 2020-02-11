@@ -270,6 +270,26 @@ public class ProfileUI : MonoBehaviour {
                                 Debug.Log("Setting Input Name in " + input.gameObject.name + ".");
                                 input.text = setter.CurrentProfile.Name;
                                 break;
+                            case "Input MinM0":
+                                Debug.Log("Setting MinMove[0] in " + input.gameObject.name + ".");
+                                input.text = setter.CurrentProfile.MinMove[0].ToString();
+                                break;
+                            case "Input MinM1":
+                                Debug.Log("Setting MinMove[1] in " + input.gameObject.name + ".");
+                                input.text = setter.CurrentProfile.MinMove[1].ToString();
+                                break;
+                            case "Input MinM2":
+                                Debug.Log("Setting MinMove[2] in " + input.gameObject.name + ".");
+                                input.text = setter.CurrentProfile.MinMove[2].ToString();
+                                break;
+                            case "Input MinM3":
+                                Debug.Log("Setting MinMove[3] in " + input.gameObject.name + ".");
+                                input.text = setter.CurrentProfile.MinMove[3].ToString();
+                                break;
+                            case "Input MinM4":
+                                Debug.Log("Setting MinMove[4] in " + input.gameObject.name + ".");
+                                input.text = setter.CurrentProfile.MinMove[4].ToString();
+                                break;
                             case "Input M0":
                                 Debug.Log("Setting Move[0] in " + input.gameObject.name + ".");
                                 input.text = setter.CurrentProfile.Move[0].ToString();
@@ -892,31 +912,31 @@ public class ProfileUI : MonoBehaviour {
         {
             if (unitCard[4].activeInHierarchy)
             {
-                lastCell = unitCard[4].transform.GetChild(8).gameObject;
+                lastCell = unitCard[4].transform.GetChild(10).gameObject;
                 Debug.Log("Select UI Element found " + lastCell.name);
                 EventSystem.current.SetSelectedGameObject(lastCell);
             }
             else if (unitCard[3].activeInHierarchy)
             {
-                lastCell = unitCard[3].transform.GetChild(8).gameObject;
+                lastCell = unitCard[3].transform.GetChild(10).gameObject;
                 Debug.Log("Select UI Element found " + lastCell.name);
                 EventSystem.current.SetSelectedGameObject(lastCell);
             }
             else if (unitCard[2].activeInHierarchy)
             {
-                lastCell = unitCard[2].transform.GetChild(8).gameObject;
+                lastCell = unitCard[2].transform.GetChild(10).gameObject;
                 Debug.Log("Select UI Element found " + lastCell.name);
                 EventSystem.current.SetSelectedGameObject(lastCell);
             }
             else if (unitCard[1].activeInHierarchy)
             {
-                lastCell = unitCard[1].transform.GetChild(8).gameObject;
+                lastCell = unitCard[1].transform.GetChild(10).gameObject;
                 Debug.Log("Select UI Element found " + lastCell.name);
                 EventSystem.current.SetSelectedGameObject(lastCell);
             }
             else
             {
-                lastCell = unitCard[0].transform.GetChild(19).gameObject;
+                lastCell = unitCard[0].transform.GetChild(21).gameObject;
                 Debug.Log("Select UI Element found " + lastCell.name);
                 EventSystem.current.SetSelectedGameObject(lastCell);
             }
@@ -953,7 +973,7 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
-                    if (childIndex >= 18)
+                    if (childIndex >= 21)
                     {
                         if (unitCard[1].activeInHierarchy)
                         {
@@ -983,8 +1003,15 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.down:
                     if (unitCard[1].activeInHierarchy)
                     {
-                        childIndex = Mathf.Clamp(Mathf.RoundToInt(childIndex / 2 - 1), 0, 8);
-                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex).gameObject);
+                        if (childIndex <= 3)
+                        {
+                            EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(0).gameObject);
+                        }
+                        else
+                        {
+                            childIndex = Mathf.Clamp(Mathf.RoundToInt(childIndex / 2), 0, 10);
+                            EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex).gameObject);
+                        }
                     }
                     else
                     {
@@ -1003,7 +1030,7 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
-                    if (childIndex >= 8)
+                    if (childIndex >= 10)
                     {
                         if (unitCard[2].activeInHierarchy)
                         {
@@ -1014,6 +1041,10 @@ public class ProfileUI : MonoBehaviour {
                             OpenDropdownDamage();
                         }
                     }
+                    else if (childIndex == 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(2).gameObject);
+                    }
                     else
                     {
                         EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex + 1).gameObject);
@@ -1023,7 +1054,11 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.left:
                     if (childIndex <= 0)
                     {
-                        EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(19).gameObject);
+                        EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(21).gameObject);
+                    }
+                    else if (childIndex <= 2)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(0).gameObject);
                     }
                     else
                     {
@@ -1031,7 +1066,11 @@ public class ProfileUI : MonoBehaviour {
                     }
                     break;
                 case NavigationType.up:
-                    EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(childIndex * 2 + 3).gameObject);
+                    if (childIndex <= 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(3).gameObject);
+                    }
+                    EventSystem.current.SetSelectedGameObject(unitCard[0].transform.GetChild(childIndex * 2 + 1).gameObject);
                     break;
                 case NavigationType.down:
                     if (unitCard[2].activeInHierarchy)
@@ -1055,7 +1094,7 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
-                    if (childIndex >= 8)
+                    if (childIndex >= 10)
                     {
                         if (unitCard[3].activeInHierarchy)
                         {
@@ -1066,6 +1105,10 @@ public class ProfileUI : MonoBehaviour {
                             OpenDropdownDamage();
                         }
                     }
+                    else if (childIndex == 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(2).gameObject);
+                    }
                     else
                     {
                         EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex + 1).gameObject);
@@ -1075,7 +1118,11 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.left:
                     if (childIndex <= 0)
                     {
-                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(8).gameObject);
+                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(10).gameObject);
+                    }
+                    else if (childIndex <= 2)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(0).gameObject);
                     }
                     else
                     {
@@ -1107,7 +1154,7 @@ public class ProfileUI : MonoBehaviour {
             {
                 case NavigationType.next:
                 case NavigationType.right:
-                    if (childIndex >= 8)
+                    if (childIndex >= 10)
                     {
                         if (unitCard[4].activeInHierarchy)
                         {
@@ -1118,6 +1165,10 @@ public class ProfileUI : MonoBehaviour {
                             OpenDropdownDamage();
                         }
                     }
+                    else if (childIndex == 0)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(2).gameObject);
+                    }
                     else
                     {
                         EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex + 1).gameObject);
@@ -1127,7 +1178,11 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.left:
                     if (childIndex <= 0)
                     {
-                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(8).gameObject);
+                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(10).gameObject);
+                    }
+                    else if (childIndex <= 2)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(0).gameObject);
                     }
                     else
                     {
@@ -1170,50 +1225,9 @@ public class ProfileUI : MonoBehaviour {
                             OpenDropdownDamage();
                         }
                     }
-                    else
+                    else if (childIndex == 0)
                     {
-                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex + 1).gameObject);
-                    }
-                    break;
-                case NavigationType.previous:
-                case NavigationType.left:
-                    if (childIndex <= 0)
-                    {
-                        EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(8).gameObject);
-                    }
-                    else
-                    {
-                        EventSystem.current.SetSelectedGameObject(unitCard[2].transform.GetChild(childIndex - 1).gameObject);
-                    }
-                    break;
-                case NavigationType.up:
-                    EventSystem.current.SetSelectedGameObject(unitCard[1].transform.GetChild(childIndex).gameObject);
-                    break;
-                case NavigationType.down:
-                    if (unitCard[3].activeInHierarchy)
-                    {
-                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex).gameObject);
-                    }
-                    else
-                    {
-                        OpenDropdownDamage();
-                    }
-                    break;
-                default:
-                    OpenDropdownDamage();
-                    break;
-            }
-        }
-        else if (currentObject.transform.parent.gameObject == unitCard[3])
-        {
-            Debug.Log("Navigating from Unit Card Panel.");
-            switch (navigate)
-            {
-                case NavigationType.next:
-                case NavigationType.right:
-                    if (childIndex >= 8)
-                    {
-                        OpenDropdownDamage();
+                        EventSystem.current.SetSelectedGameObject(unitCard[4].transform.GetChild(2).gameObject);
                     }
                     else
                     {
@@ -1224,7 +1238,11 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.left:
                     if (childIndex <= 0)
                     {
-                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(8).gameObject);
+                        EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(10).gameObject);
+                    }
+                    else if (childIndex <= 2)
+                    {
+                        EventSystem.current.SetSelectedGameObject(unitCard[4].transform.GetChild(0).gameObject);
                     }
                     else
                     {
@@ -1234,6 +1252,7 @@ public class ProfileUI : MonoBehaviour {
                 case NavigationType.up:
                     EventSystem.current.SetSelectedGameObject(unitCard[3].transform.GetChild(childIndex).gameObject);
                     break;
+                case NavigationType.down:
                 default:
                     OpenDropdownDamage();
                     break;
